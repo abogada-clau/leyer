@@ -7,10 +7,19 @@ export async function updateSession(request: NextRequest) {
     request,
   });
 
-  // If the env vars are not set, skip proxy check. You can remove this
-  // once you setup the project.
+  // Marketing, the design-system preview and Auth routes are public and must
+  // render even when the local Supabase services are not running.
+  const pathname = request.nextUrl.pathname;
+  const requiresAuth = ["/admin", "/protected"].some(
+    (prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`),
+  );
+  if (!requiresAuth) return supabaseResponse;
+
+  // Fail closed for private routes when Auth has not been configured yet.
   if (!hasEnvVars) {
-    return supabaseResponse;
+    const url = request.nextUrl.clone();
+    url.pathname = "/auth/login";
+    return NextResponse.redirect(url);
   }
 
   // With Fluid compute, don't put this client in a global environment
@@ -47,15 +56,11 @@ export async function updateSession(request: NextRequest) {
   const { data } = await supabase.auth.getClaims();
   const user = data?.claims;
 
-  if (
-    request.nextUrl.pathname !== "/" &&
-    !user &&
-    !request.nextUrl.pathname.startsWith("/login") &&
-    !request.nextUrl.pathname.startsWith("/auth")
-  ) {
+  if (!user) {
     // no user, potentially respond by redirecting the user to the login page
     const url = request.nextUrl.clone();
     url.pathname = "/auth/login";
+    url.searchParams.set("next", pathname);
     return NextResponse.redirect(url);
   }
 
