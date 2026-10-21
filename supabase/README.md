@@ -13,6 +13,10 @@ estudios reales ni privilegios administrativos automáticamente.
 | `20261021000300_cms_workflows.sql` | Guardado con control de concurrencia, revisión, publicación, redirecciones, inmutabilidad y procesamiento de publicaciones programadas. |
 | `20261021000400_cms_access_and_storage.sql` | Permisos explícitos, políticas RLS, proyección pública y almacenamiento. |
 | `20261021000500_optimized_media_uploads.sql` | Carga de imágenes mediante el optimizador del servidor, WebP obligatorio y contexto autorizado por sitio. |
+| `20261021000600_admin_panel.sql` | Contexto y permisos del panel, métricas, snapshots, guardado atómico, roles por membresía, redirecciones y preferencias. |
+| `20261021000700_site_creation_visibility.sql` | Visibilidad del sitio recién creado para `INSERT … RETURNING`, sin consultar su fila desde un snapshot anterior. |
+
+La migración `20261021000800_empty_draft_metrics.sql` incluye en los borradores los contenidos todavía sin primera revisión.
 
 `super_admin` se asigna globalmente mediante `platform_role_assignments`. `admin`
 y `lawyer` se asignan por estudio mediante `membership_roles`. Las claves foráneas
@@ -42,7 +46,10 @@ para trabajar con la aplicación. Los puertos locales usan el rango `5732x` para
 convivir con otros proyectos. No se necesita una conexión al proyecto remoto.
 
 Los tests pgTAP crean dos estudios y distintas cuentas dentro de una transacción
-que se revierte. Comprueban RLS, autoasignación de roles, aislamiento entre
+que se revierte. La suite de bootstrap aísla temporalmente las filas de identidad
+y estudios con TRUNCATE dentro de esa misma transacción; ROLLBACK restaura todos
+los datos y el contador de superadministradores, incluso si hay datos locales.
+Ejecutar estas pruebas sin otros procesos de pruebas escribiendo simultáneamente. Comprueban RLS, autoasignación de roles, aislamiento entre
 estudios, snapshots, URLs, publicación y archivos. `db:reset` elimina únicamente
 los datos del entorno local de Leyer, nunca los de un proyecto remoto.
 
@@ -202,16 +209,29 @@ Para eliminar uno que nunca fue publicado, borrar primero el objeto por Storage
 API y después su registro; las claves foráneas impiden eliminar recursos aún
 referenciados. No manipular `storage.objects` directamente desde la aplicación.
 
-## Trabajos pendientes de integración en la aplicación
+## Panel y workers
 
-- Un worker con `service_role` debe invocar periódicamente
-  `process_scheduled_publications(25)`. Revalida los permisos actuales del usuario
-  que programó cada publicación; una revocación o suspensión impide ejecutarla.
-- Otro worker debe consumir `publication_events`, invalidar las rutas/etiquetas
-  de caché de Next.js y marcar `processed_at` al terminar. No exponer la clave de
-  servicio en el navegador. Los workers y el cron no se despliegan aquí.
-- El panel productivo debe conectar formularios de edición y biblioteca a sus
-  sitios reales. La galería pública mantiene sus datos de ejemplo.
+El panel productivo está en `/admin`, con lecturas de servidor y mutaciones
+que comprueban sesión, perfil activo, estudio, sitio y permiso. La galería
+`/design-system` conserva sus demostraciones públicas. Ver [guía del panel](../docs/admin.md).
+
+- `POST /api/media/files` recibe PDF sin alterar sus bytes y con el mismo contexto
+  `media.manage`. La biblioteca permite crear una nueva copia pública de un
+  recurso privado, con confirmación y sin mover el original.
+- `POST /api/workers/publications` exige `Authorization: Bearer WORKER_SECRET`.
+  Invoca `process_scheduled_publications(25)`, invalida las rutas y etiquetas de
+  los eventos pendientes y solo entonces marca `processed_at`. Los fallos
+  conservan los eventos pendientes para reintentar.
+- `npm run worker` ejecuta un proceso independiente cada 30 segundos;
+  `npm run worker -- --once` ejecuta una pasada. No depende de una página abierta.
+  En producción configurar cron autenticado o mantener este proceso supervisado.
+- El renderizador público utiliza `published_content`, snapshots públicos y las
+  etiquetas `cms-site:<id>` / `cms-entry:<id>`. Comparte bloques con la
+  previsualización privada autorizada. El worker consume también los cambios
+  de configuración, menús y catálogos de `site_cache_events`.
+- Las migraciones 009–016 incorporan sitios públicos y consultas privadas con RLS,
+  límites distribuidos y consentimiento versionado. Ver [guía pública](../docs/public-site.md)
+  para dominios, sitios locales, operación y formularios.
 
 El gestor documental se implementará en una etapa posterior con expedientes,
 miembros del expediente, versiones y permisos explícitos. Los permisos

@@ -54,8 +54,8 @@ el preview, no una recomendación de texto pequeño para la home real.
 | `Dialog`                               | Diálogo modal nativo con foco contenido, Escape y restauración del foco.                                                  |
 | `DataTable`                            | Tabla semántica con título, cabeceras y desplazamiento horizontal.                                                        |
 | `Card`                                 | Superficie, borde y separación compartidos.                                                                               |
-| `MediaImage` / `ImagePlaceholder`       | Imagen con espacio reservado, carga, vacío, error y reintento. Admite WebP público, URL firmada y vista previa local.        |
-| `ImageUploader`                        | Archivo, arrastre o importación HTTPS; optimización WebP sin pérdida, progreso, cancelación, reintento y resultado.          |
+| `MediaImage` / `ImagePlaceholder`      | Imagen con espacio reservado, carga, vacío, error y reintento. Admite WebP público, URL firmada y vista previa local.     |
+| `ImageUploader`                        | Archivo, arrastre o importación HTTPS; optimización WebP sin pérdida, progreso, cancelación, reintento y resultado.       |
 | `Brand` / `LegalIllustration`          | Marca e ilustración vectorial, sin dependencias de imágenes externas.                                                     |
 
 ```tsx
@@ -164,3 +164,12 @@ proyecto, pero no lo almacena en Supabase. Recargar restaura los ejemplos.
 El panel productivo deberá conectar estos componentes a las funciones y políticas
 de Supabase, con autorización en el servidor y en la base de datos. La galería
 no cambia ni sustituye esos controles.
+
+## Panel productivo
+
+`/admin` usa `AdminShell` con `production`, enlaces `href` por sección,
+`workspaceControls`, `userControls` y breadcrumbs. Los props originales de la
+galería siguen disponibles para las demostraciones. Los tamaños del panel real
+se definen en `app/admin/panel.css`; no se trasladan los tamaños reducidos del
+preview a las pantallas productivas. La biblioteca y el editor reutilizan
+`MediaImage`, `ImageUploader`, tablas, diálogos y formularios compartidos.

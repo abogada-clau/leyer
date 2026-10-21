@@ -1,0 +1,86 @@
+import { NextResponse, type NextRequest } from "next/server";
+import { resolveContext } from "./context";
+import { publicEntry, publicRedirect, sectionAvailable } from "./data";
+import { publicClient, result } from "./db";
+import { publicHref, sitePath } from "./paths";
+import { publicMissing } from "./missing";
+/** Resolve status before rendering, so a streamed metadata boundary cannot turn a 404 into HTTP 200. */
+export async function publicRouteRedirect(request: NextRequest) {
+  const path = request.nextUrl.pathname;
+  if (path === "/site-unavailable") return publicMissing();
+  if (
+    /^\/(admin|auth|api|protected|design-system|_next)(\/|$)/i.test(path) ||
+    /^\/(sitemap\.xml|robots\.txt|icon\.svg)$/.test(path) ||
+    /^\/sitios\/[^/]+\/[^/]+\/sitemap\.xml$/.test(path) ||
+    path === "/images/design-system-sample.webp"
+  )
+    return null;
+  try {
+    const c = await resolveContext(request.headers.get("host") || "", path);
+    if (!c) return publicMissing(c);
+    const redirect = await publicRedirect(c);
+    if (redirect) {
+      const destination = new URL(publicHref(c, redirect.path), c.origin);
+      destination.search = request.nextUrl.search;
+      return NextResponse.redirect(destination, { status: redirect.status });
+    }
+    const canonical = publicHref(c, c.path);
+    if (new URL(canonical, c.origin).pathname !== path) {
+      const url = new URL(canonical, c.origin);
+      url.search = request.nextUrl.search;
+      return NextResponse.redirect(url, { status: 308 });
+    }
+    if (await publicEntry(c)) return null;
+    if (!(await sectionAvailable(c))) return publicMissing(c);
+    if (
+      [
+        sitePath(c.site, "blog_path", "/articulos"),
+        sitePath(c.site, "services_path", "/servicios"),
+        sitePath(c.site, "team_path", "/equipo"),
+      ].includes(c.path)
+    )
+      return null;
+    if (
+      c.path === sitePath(c.site, "contact_path", "/contacto") &&
+      c.site.settings.contact_enabled === true
+    )
+      return null;
+    const parts = c.path.split("/");
+    if (parts[1] === "autores" && parts.length === 3) {
+      const row = result(
+        await publicClient()
+          .from("authors")
+          .select("id")
+          .eq("site_id", c.site.id)
+          .eq("slug", parts[2])
+          .maybeSingle(),
+      );
+      return row ? null : publicMissing(c);
+    }
+    if (parts[1] === "taxonomias" && parts.length === 4) {
+      const tx = result(
+        await publicClient()
+          .from("taxonomies")
+          .select("id")
+          .eq("site_id", c.site.id)
+          .eq("code", parts[2])
+          .maybeSingle(),
+      );
+      const term = tx
+        ? result(
+            await publicClient()
+              .from("terms")
+              .select("id")
+              .eq("site_id", c.site.id)
+              .eq("taxonomy_id", tx.id)
+              .eq("slug", parts[3])
+              .maybeSingle(),
+          )
+        : null;
+      return term ? null : publicMissing(c);
+    }
+    return publicMissing(c);
+  } catch {
+    return null;
+  }
+}

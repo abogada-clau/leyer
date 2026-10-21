@@ -1,0 +1,328 @@
+.admin-production {
+  min-height: 100dvh;
+  grid-template-columns: 260px minmax(0, 1fr);
+  font-size: 14px;
+}
+.admin-production .admin-sidebar {
+  padding: 30px 18px 20px;
+  position: sticky;
+  top: 0;
+  height: 100dvh;
+  overflow: auto;
+}
+.admin-production .admin-sidebar nav a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  border-radius: 8px;
+  color: hsl(var(--muted-foreground));
+  margin-bottom: 4px;
+  font-size: 14px;
+}
+.admin-production .admin-sidebar nav a:hover {
+  background: hsl(var(--muted));
+  color: hsl(var(--foreground));
+}
+.admin-production .admin-sidebar nav a.is-active {
+  background: hsl(var(--accent));
+  color: hsl(var(--primary));
+  font-weight: 500;
+}
+.admin-production .admin-nav-label {
+  font-size: 10px;
+  margin: 24px 12px 12px;
+}
+.admin-production .admin-sidebar-bottom {
+  font-size: 12px;
+}
+.admin-production .admin-workspace {
+  min-width: 0;
+}
+.admin-production .admin-topbar {
+  min-height: 76px;
+  height: auto;
+  padding: 16px 32px;
+}
+.admin-production .admin-page {
+  padding: 36px 32px 70px;
+  max-width: 1600px;
+  margin: auto;
+}
+.workspace-selectors {
+  display: grid;
+  gap: 8px;
+  margin: 28px 0 0;
+}
+.workspace-selectors label {
+  font-size: 12px;
+  color: hsl(var(--muted-foreground));
+}
+.panel-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-bottom: 28px;
+}
+.panel-heading h1 {
+  font-size: 32px;
+  letter-spacing: -0.035em;
+  line-height: 1.15;
+  font-weight: 500;
+}
+.panel-heading p {
+  margin-top: 10px;
+  max-width: 650px;
+  color: hsl(var(--muted-foreground));
+  line-height: 1.6;
+}
+.panel-card {
+  background: hsl(var(--card));
+  border: 1px solid hsl(var(--border));
+  border-radius: 16px;
+  padding: 24px;
+}
+.panel-card h2 {
+  font-weight: 600;
+  font-size: 17px;
+  margin-bottom: 20px;
+}
+.panel-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+}
+.panel-fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+.panel-field {
+  display: grid;
+  gap: 8px;
+  align-content: start;
+}
+.panel-field.wide {
+  grid-column: 1/-1;
+}
+.panel-field small {
+  color: hsl(var(--muted-foreground));
+  font-size: 12px;
+}
+.panel-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: end;
+  margin-bottom: 24px;
+}
+.panel-filters > div {
+  flex: 1;
+  min-width: 145px;
+}
+.panel-filters > div:first-child {
+  flex: 2;
+}
+.admin-production .data-table th {
+  font-size: 12px;
+  padding: 16px;
+}
+.admin-production .data-table td {
+  font-size: 14px;
+  padding: 18px 16px;
+}
+.admin-production .data-table a {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.panel-stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+  margin-bottom: 28px;
+}
+.panel-stat {
+  padding: 22px;
+  border: 1px solid hsl(var(--border));
+  border-radius: 14px;
+  background: hsl(var(--card));
+}
+.panel-stat strong {
+  font-size: 38px;
+  display: block;
+  margin: 16px 0 2px;
+  letter-spacing: -0.05em;
+  font-weight: 500;
+}
+.panel-stat span {
+  color: hsl(var(--muted-foreground));
+  font-size: 13px;
+}
+.panel-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 20px;
+  font-size: 13px;
+  color: hsl(var(--muted-foreground));
+}
+.panel-pagination > div {
+  display: flex;
+  gap: 8px;
+}
+.editor-columns {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 300px;
+  gap: 24px;
+  align-items: start;
+}
+.editor-columns > * {
+  min-width: 0;
+}
+.editor-block {
+  padding: 20px;
+  margin-top: 18px;
+  border: 1px solid hsl(var(--border));
+  border-radius: 12px;
+  background: hsl(var(--card));
+}
+.editor-block summary {
+  cursor: pointer;
+  font-weight: 500;
+}
+.editor-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.editor-sticky {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  padding: 14px;
+  margin-bottom: 24px;
+  border: 1px solid hsl(var(--border));
+  border-radius: 12px;
+  background: hsl(var(--background) / 0.95);
+  backdrop-filter: blur(12px);
+}
+@media (max-width: 1100px) {
+  .admin-production {
+    grid-template-columns: 220px minmax(0, 1fr);
+  }
+  .admin-production .admin-page {
+    padding: 24px;
+  }
+  .editor-columns {
+    grid-template-columns: 1fr;
+  }
+  .panel-grid {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 767px) {
+  .admin-production {
+    display: block;
+  }
+  .admin-production .admin-sidebar {
+    position: static;
+    height: auto;
+    padding: 16px;
+    overflow: visible;
+  }
+  .admin-production .admin-sidebar > .leyer-brand {
+    display: inline-flex;
+  }
+  .admin-production .workspace-selectors {
+    margin-top: 20px;
+    grid-template-columns: 70px minmax(0, 1fr);
+    align-items: center;
+  }
+  .admin-production .admin-sidebar nav {
+    display: flex;
+    overflow: auto;
+    margin-top: 16px;
+    gap: 6px;
+  }
+  .admin-production .admin-sidebar nav a {
+    white-space: nowrap;
+    font-size: 13px;
+    padding: 10px;
+    margin: 0;
+  }
+  .admin-production .admin-topbar {
+    padding: 14px 16px;
+    flex-wrap: wrap;
+  }
+  .admin-production .admin-topbar > div {
+    margin-left: auto;
+  }
+  .admin-production .admin-page {
+    padding: 24px 16px 50px;
+  }
+  .panel-heading h1 {
+    font-size: 28px;
+  }
+  .panel-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .panel-fields {
+    grid-template-columns: 1fr;
+  }
+  .panel-card {
+    padding: 18px;
+  }
+  .editor-sticky {
+    position: static;
+  }
+}
+.panel-grid > *,
+.panel-stats > *,
+.panel-fields > * {
+  min-width: 0;
+}
+.admin-production .data-table-scroll {
+  max-width: 100%;
+}
+.admin-production .admin-topbar > div {
+  max-width: 100%;
+  flex-wrap: wrap;
+}
+.rich-text-body p {
+  margin-bottom: 0.75rem;
+}
+.rich-text-body h2 {
+  font-size: 1.75rem;
+  font-weight: 600;
+  margin: 1rem 0;
+}
+.rich-text-body h3 {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin: 1rem 0;
+}
+.rich-text-body h4 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  margin: 1rem 0;
+}
+.rich-text-body ul {
+  list-style: disc;
+  padding-left: 1.5rem;
+}
+.rich-text-body ol {
+  list-style: decimal;
+  padding-left: 1.5rem;
+}
+.rich-text-body blockquote {
+  border-left: 2px solid hsl(var(--primary));
+  padding-left: 1rem;
+  margin: 1rem 0;
+}
+.rich-text-body a {
+  text-decoration: underline;
+  color: hsl(var(--primary));
+}

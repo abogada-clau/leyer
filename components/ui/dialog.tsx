@@ -30,7 +30,7 @@ export function Dialog({
       ref={ref}
       aria-labelledby={`${id}-title`}
       aria-describedby={description ? `${id}-description` : undefined}
-      className="w-[calc(100%-2rem)] max-w-lg rounded-2xl border bg-card p-0 text-card-foreground shadow-floating backdrop:bg-black/40 backdrop:backdrop-blur-sm"
+      className="w-[calc(100%-2rem)] max-h-[90dvh] overflow-y-auto max-w-2xl rounded-2xl border bg-card p-0 text-card-foreground shadow-floating backdrop:bg-black/40 backdrop:backdrop-blur-sm"
       onCancel={(event) => {
         event.preventDefault();
         onOpenChange(false);

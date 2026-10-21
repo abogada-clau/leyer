@@ -1,4 +1,9 @@
 begin;
+-- This suite asserts platform-wide totals and bootstrap behavior. Isolate its
+-- fixtures transactionally, including when local development data already exists.
+-- ROLLBACK restores every existing row and the guard counter before returning.
+truncate auth.users, public.organizations cascade;
+update private.platform_admin_guard set active_count = 0;
 create extension if not exists pgtap with schema extensions;
 set local search_path = public, extensions;
 select no_plan();

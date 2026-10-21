@@ -61,6 +61,7 @@ export type MediaImageProps = {
   fit?: "cover" | "contain";
   loading?: "eager" | "lazy";
   style?: CSSProperties;
+  imageStyle?: CSSProperties;
 };
 
 /** Reserves layout space and keeps loading/error states consistent across the site and admin. */
@@ -78,6 +79,7 @@ function ImageContent({
   fit = "cover",
   loading = "lazy",
   style,
+  imageStyle,
 }: MediaImageProps) {
   const [state, setState] = useState<"loading" | "ready" | "error">("loading");
   const [attempt, setAttempt] = useState(0);
@@ -116,6 +118,7 @@ function ImageContent({
           height={height}
           loading={loading}
           decoding="async"
+          style={imageStyle}
           className={cn(
             "absolute inset-0 h-full w-full",
             fit === "contain" ? "object-contain" : "object-cover",

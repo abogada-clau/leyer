@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Suspense } from "react";
 
@@ -11,12 +12,11 @@ async function ErrorContent({
   return (
     <>
       {params?.error ? (
-        <p className="text-sm text-muted-foreground">
-          Code error: {params.error}
-        </p>
+        <p className="text-sm text-muted-foreground">Detalle: {params.error}</p>
       ) : (
         <p className="text-sm text-muted-foreground">
-          An unspecified error occurred.
+          No se pudo completar el acceso. Solicita un enlace nuevo o vuelve a
+          iniciar sesión.
         </p>
       )}
     </>
@@ -35,13 +35,19 @@ export default function Page({
           <Card>
             <CardHeader>
               <CardTitle className="text-2xl">
-                Sorry, something went wrong.
+                No se pudo completar el acceso.
               </CardTitle>
             </CardHeader>
             <CardContent>
               <Suspense>
                 <ErrorContent searchParams={searchParams} />
               </Suspense>
+              <Link
+                href="/auth/login"
+                className="mt-5 inline-block text-sm underline"
+              >
+                Volver a iniciar sesión
+              </Link>
             </CardContent>
           </Card>
         </div>
