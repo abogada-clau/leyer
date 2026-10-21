@@ -71,6 +71,7 @@ export const navigation = [
       { id: "buttons", label: "Botones y acciones", icon: "buttons" },
       { id: "forms", label: "Formularios", icon: "forms" },
       { id: "feedback", label: "Estados y mensajes", icon: "feedback" },
+      { id: "images", label: "Imágenes y carga", icon: "images" },
     ],
   },
   {

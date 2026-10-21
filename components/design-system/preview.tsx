@@ -40,10 +40,12 @@ import {
   Loader2,
   Ruler,
   Shapes,
+  ImageIcon,
   type LucideIcon,
 } from "lucide-react";
 import { Brand } from "@/components/design-system/brand";
 import { ContextPreviews } from "@/components/design-system/context-previews";
+import { ImagePreview } from "@/components/design-system/image-preview";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
@@ -71,6 +73,7 @@ const navIcons: Record<string, LucideIcon> = {
   buttons: MousePointer2,
   forms: FileText,
   feedback: CircleHelp,
+  images: ImageIcon,
   patterns: LayoutDashboard,
   guidelines: BookOpen,
 };
@@ -950,8 +953,16 @@ export function DesignSystemPreview() {
           </div>
         </Section>
         <Section
-          id="patterns"
+          id="images"
           number="08"
+          title="Imágenes que siempre responden."
+          description="Desde un archivo o un enlace. Una misma experiencia para cargar, optimizar y mostrar cada imagen."
+        >
+          <ImagePreview />
+        </Section>
+        <Section
+          id="patterns"
+          number="09"
           title="La misma esencia. Distintos mundos."
           description="Así conviven los componentes: expresivos en el sitio, precisos en la administración."
           aside={<Badge variant="outline">Ejemplos interactivos</Badge>}

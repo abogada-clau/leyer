@@ -1,19 +1,17 @@
 "use client";
 
-import { useRef, useState, type FormEvent } from "react";
+import { useState, type FormEvent } from "react";
 import {
   ArrowLeft,
   ArrowRight,
   ArrowUpRight,
   BookOpen,
   Check,
-  ChevronRight,
   CircleHelp,
   Clock3,
   FileText,
   FolderOpen,
   HeartHandshake,
-  ImageIcon,
   LayoutDashboard,
   MoreHorizontal,
   Plus,
@@ -21,7 +19,6 @@ import {
   ShieldCheck,
   UsersRound,
   Scale,
-  Upload,
   CalendarDays,
   Eye,
   Trash2,
@@ -43,6 +40,7 @@ import { Select } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Dialog } from "@/components/ui/dialog";
 import { SegmentedControl } from "@/components/ui/segmented-control";
+import { ImageUploader } from "@/components/ui/image-uploader";
 import { DataTable, type TableColumn } from "@/components/ui/data-table";
 import {
   DropdownMenu,
@@ -496,8 +494,6 @@ function AdministrationPreview({
   const [createOpen, setCreateOpen] = useState(false);
   const [viewRow, setViewRow] = useState<ContentRow | null>(null);
   const [deleteRow, setDeleteRow] = useState<ContentRow | null>(null);
-  const [fileName, setFileName] = useState("");
-  const fileInput = useRef<HTMLInputElement>(null);
   const visibleRows = rows.filter(
     (row) =>
       row.title
@@ -835,36 +831,9 @@ function AdministrationPreview({
                 <span>Imágenes y archivos para contar tu historia.</span>
               </div>
             </div>
-            <input
-              type="file"
-              accept="image/*,.pdf"
-              className="sr-only"
-              ref={fileInput}
-              onChange={(event) => {
-                const file = event.target.files?.[0];
-                if (file) {
-                  setFileName(file.name);
-                  notify(
-                    "Archivo seleccionado localmente. No se ha subido a ningún servicio.",
-                  );
-                }
-              }}
-            />
-            <EmptyState
-              icon={ImageIcon}
-              title={fileName || "Un espacio para tus recursos"}
-              description={
-                fileName
-                  ? "Archivo seleccionado para esta demostración. No se ha almacenado en la nube."
-                  : "Agrega imágenes y documentos para usarlos en tu contenido."
-              }
-              action={
-                <Button onClick={() => fileInput.current?.click()}>
-                  <Upload />
-                  {fileName ? "Elegir otro archivo" : "Elegir un archivo"}
-                </Button>
-              }
-            />
+            <div className="rounded-xl border border-border bg-card p-5">
+              <ImageUploader label="Agregar una imagen a la biblioteca" />
+            </div>
           </>
         )}
         {section === "team" && (

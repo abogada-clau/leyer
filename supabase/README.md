@@ -12,6 +12,7 @@ estudios reales ni privilegios administrativos automáticamente.
 | `20261021000200_cms_schema.sql` | Sitios, contenidos, revisiones, bloques, archivos, autores, taxonomías, navegación, programación y eventos de publicación. |
 | `20261021000300_cms_workflows.sql` | Guardado con control de concurrencia, revisión, publicación, redirecciones, inmutabilidad y procesamiento de publicaciones programadas. |
 | `20261021000400_cms_access_and_storage.sql` | Permisos explícitos, políticas RLS, proyección pública y almacenamiento. |
+| `20261021000500_optimized_media_uploads.sql` | Carga de imágenes mediante el optimizador del servidor, WebP obligatorio y contexto autorizado por sitio. |
 
 `super_admin` se asigna globalmente mediante `platform_role_assignments`. `admin`
 y `lawyer` se asignan por estudio mediante `membership_roles`. Las claves foráneas
@@ -169,8 +170,22 @@ actualizan esos datos compartidos en las páginas que los usan.
 
 ## Archivos
 
-Registrar primero `media_assets` y luego subir el archivo mediante Storage API.
-La ruta debe tener la forma `organization_id/site_id/asset_id/nombre.ext`.
+Para imágenes, usar `ImageUploader` con un destino o el cliente compartido
+`lib/media/client.ts`. `POST /api/media/images` verifica sesión y `media.manage`,
+descarga o recibe la imagen, la convierte a WebP sin pérdida y registra primero
+`media_assets` antes de guardar por Storage API. La ruta tiene la forma
+`organization_id/site_id/asset_id/nombre.webp`.
+
+Configurar `SUPABASE_SERVICE_ROLE_KEY` únicamente en el servidor, además de las
+dos variables públicas de `.env.example`. La migración 005 retira INSERT directo
+del navegador y restringe ambos buckets a `image/webp` y `application/pdf`.
+Los PDF conservan su formato para la futura gestión documental. Los recursos
+existentes no se convierten ni se alteran; nuevos archivos de imagen requieren
+la marca del optimizador, tamaño original, dimensiones y checksum.
+
+`POST /api/media/prepare` alimenta el preview público: devuelve el WebP para
+descarga sin insertar recursos ni objetos. Ver `docs/design-system.md` para los
+límites, estados y contrato de los componentes.
 
 - `cms-private`: archivos de borrador, accesibles solo al CMS autorizado.
 - `cms-public`: archivos destinados expresamente a difusión pública. Cualquier
@@ -195,8 +210,8 @@ referenciados. No manipular `storage.objects` directamente desde la aplicación.
 - Otro worker debe consumir `publication_events`, invalidar las rutas/etiquetas
   de caché de Next.js y marcar `processed_at` al terminar. No exponer la clave de
   servicio en el navegador. Los workers y el cron no se despliegan aquí.
-- La protección de rutas del starter todavía necesita limitarse al panel y las
-  áreas privadas para permitir visitar las futuras páginas públicas.
+- El panel productivo debe conectar formularios de edición y biblioteca a sus
+  sitios reales. La galería pública mantiene sus datos de ejemplo.
 
 El gestor documental se implementará en una etapa posterior con expedientes,
 miembros del expediente, versiones y permisos explícitos. Los permisos

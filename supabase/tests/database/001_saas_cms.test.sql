@@ -63,13 +63,17 @@ insert into public.taxonomies(id, organization_id, site_id, code, name) values
 insert into public.terms(id, organization_id, site_id, taxonomy_id, name, slug) values
   ('81000000-0000-0000-0000-000000000001', '20000000-0000-0000-0000-000000000001', '30000000-0000-0000-0000-000000000001',
     '80000000-0000-0000-0000-000000000001', 'Familia', 'familia');
-insert into public.media_assets(id, organization_id, site_id, bucket_id, storage_path, filename, mime_type, byte_size) values
+insert into public.media_assets(id, organization_id, site_id, bucket_id, storage_path, filename, mime_type, byte_size,
+  width, height, original_byte_size, checksum_sha256, optimization) values
   ('60000000-0000-0000-0000-000000000001', '20000000-0000-0000-0000-000000000001', '30000000-0000-0000-0000-000000000001', 'cms-public',
-    '20000000-0000-0000-0000-000000000001/30000000-0000-0000-0000-000000000001/60000000-0000-0000-0000-000000000001/hero.jpg', 'hero.jpg', 'image/jpeg', 1024),
+    '20000000-0000-0000-0000-000000000001/30000000-0000-0000-0000-000000000001/60000000-0000-0000-0000-000000000001/hero.webp', 'hero.webp', 'image/webp', 1024,
+    800, 600, 2048, repeat('a', 64), 'webp-lossless-v1'),
   ('60000000-0000-0000-0000-000000000002', '20000000-0000-0000-0000-000000000002', '30000000-0000-0000-0000-000000000002', 'cms-public',
-    '20000000-0000-0000-0000-000000000002/30000000-0000-0000-0000-000000000002/60000000-0000-0000-0000-000000000002/hero.jpg', 'hero.jpg', 'image/jpeg', 1024),
+    '20000000-0000-0000-0000-000000000002/30000000-0000-0000-0000-000000000002/60000000-0000-0000-0000-000000000002/hero.webp', 'hero.webp', 'image/webp', 1024,
+    800, 600, 2048, repeat('a', 64), 'webp-lossless-v1'),
   ('60000000-0000-0000-0000-000000000003', '20000000-0000-0000-0000-000000000001', '30000000-0000-0000-0000-000000000001', 'cms-private',
-    '20000000-0000-0000-0000-000000000001/30000000-0000-0000-0000-000000000001/60000000-0000-0000-0000-000000000003/draft.jpg', 'draft.jpg', 'image/jpeg', 1024);
+    '20000000-0000-0000-0000-000000000001/30000000-0000-0000-0000-000000000001/60000000-0000-0000-0000-000000000003/draft.webp', 'draft.webp', 'image/webp', 1024,
+    800, 600, 2048, repeat('a', 64), 'webp-lossless-v1');
 insert into storage.objects(bucket_id, name) select bucket_id, storage_path from public.media_assets;
 
 create temporary table test_values(key text primary key, id uuid);
@@ -161,11 +165,11 @@ select is((select count(*) from public.content_revisions), 2::bigint, 'Admin see
 select is((select count(*) from public.get_cms_revisions('50000000-0000-0000-0000-000000000001')),
   2::bigint, 'Authorized CMS RPC returns internal revision history');
 select ok(not private.can_write_storage_object('cms-public',
-  '20000000-0000-0000-0000-000000000001/30000000-0000-0000-0000-000000000001/60000000-0000-0000-0000-000000000001/hero.jpg'),
+  '20000000-0000-0000-0000-000000000001/30000000-0000-0000-0000-000000000001/60000000-0000-0000-0000-000000000001/hero.webp'),
   'Published binary cannot be deleted or overwritten');
 select ok(not private.can_read_storage_object('cms-private', 'malformed/path'), 'Malformed Storage paths fail closed');
 select ok(not private.can_read_storage_object('cms-public',
-  '20000000-0000-0000-0000-000000000002/30000000-0000-0000-0000-000000000002/60000000-0000-0000-0000-000000000002/hero.jpg'),
+  '20000000-0000-0000-0000-000000000002/30000000-0000-0000-0000-000000000002/60000000-0000-0000-0000-000000000002/hero.webp'),
   'Storage authorization is scoped to the study');
 
 select set_config('request.jwt.claims', '{"sub":"10000000-0000-0000-0000-000000000005","role":"authenticated"}', true);
@@ -195,10 +199,10 @@ select throws_ok($$update public.content_revisions set title='Mutado' where id=(
 select throws_ok($$delete from public.content_blocks where revision_id=(select id from test_values where key='v1')$$,
   '23514', null, 'Published associations cannot be deleted');
 select throws_ok($$update storage.objects set metadata='{"size":999}' where bucket_id='cms-public' and name=
-  '20000000-0000-0000-0000-000000000001/30000000-0000-0000-0000-000000000001/60000000-0000-0000-0000-000000000001/hero.jpg'$$,
+  '20000000-0000-0000-0000-000000000001/30000000-0000-0000-0000-000000000001/60000000-0000-0000-0000-000000000001/hero.webp'$$,
   '23514', null, 'Storage mutation guard protects historical published binaries');
 select lives_ok($$update storage.objects set last_accessed_at=now() where bucket_id='cms-public' and name=
-  '20000000-0000-0000-0000-000000000001/30000000-0000-0000-0000-000000000001/60000000-0000-0000-0000-000000000001/hero.jpg'$$,
+  '20000000-0000-0000-0000-000000000001/30000000-0000-0000-0000-000000000001/60000000-0000-0000-0000-000000000001/hero.webp'$$,
   'Storage access bookkeeping remains possible');
 
 set local role authenticated;

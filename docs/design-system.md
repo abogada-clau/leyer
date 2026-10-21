@@ -54,6 +54,8 @@ el preview, no una recomendación de texto pequeño para la home real.
 | `Dialog`                               | Diálogo modal nativo con foco contenido, Escape y restauración del foco.                                                  |
 | `DataTable`                            | Tabla semántica con título, cabeceras y desplazamiento horizontal.                                                        |
 | `Card`                                 | Superficie, borde y separación compartidos.                                                                               |
+| `MediaImage` / `ImagePlaceholder`       | Imagen con espacio reservado, carga, vacío, error y reintento. Admite WebP público, URL firmada y vista previa local.        |
+| `ImageUploader`                        | Archivo, arrastre o importación HTTPS; optimización WebP sin pérdida, progreso, cancelación, reintento y resultado.          |
 | `Brand` / `LegalIllustration`          | Marca e ilustración vectorial, sin dependencias de imágenes externas.                                                     |
 
 ```tsx
@@ -80,6 +82,67 @@ Las tablas reciben columnas tipadas y celdas como funciones, sin atarlas a un
 modelo de datos concreto. Las preguntas frecuentes usan `details/summary` nativos.
 Los bloques del futuro renderizador del CMS pueden componerse con estos patrones.
 
+## Imágenes y almacenamiento
+
+Preview público e interactivo: `/design-system#images`. La biblioteca del panel de
+ejemplo reutiliza el mismo componente.
+
+```tsx
+<MediaImage src={imageUrl} alt="Entrada del estudio" width={1600} height={900} />
+
+// Conversión pública y descarga, sin persistencia.
+<ImageUploader />
+
+// Guardado real: requiere sesión, media.manage y configuración del servidor.
+<ImageUploader
+  target={{ siteId, bucket: "cms-private" }}
+  onChange={(image) => setCoverAssetId(image?.assetId ?? null)}
+/>
+```
+
+- `POST /api/media/prepare` devuelve el WebP optimizado sin guardarlo. El preview
+  permite descargarlo y libera las URL temporales al cambiar de imagen o salir.
+- `POST /api/media/images` registra y guarda el archivo optimizado en `cms-public`
+  o `cms-private`. Comprueba la sesión y el permiso del sitio con el cliente del
+  usuario antes de usar `SUPABASE_SERVICE_ROLE_KEY`, exclusiva del servidor.
+- Configurar las tres variables de `.env.example` y ejecutar el stack de Supabase
+  para probar persistencia. El preview público funciona sin estas credenciales.
+- Ambos destinos usan `lib/media/client.ts` y el mismo optimizador del servidor.
+  Los nuevos componentes que carguen imágenes deben usar esta entrada. No llamar
+  directamente a `storage.upload` desde el navegador.
+- La migración `20261021000500_optimized_media_uploads.sql` limita nuevas imágenes
+  a WebP y retira la carga directa del cliente. Exige dimensiones, tamaño original,
+  versión del optimizador y SHA-256. Los recursos existentes conservan su formato;
+  los recursos publicados siguen protegidos contra sobrescritura y eliminación.
+- La conversión usa Sharp con `lossless: true`, `effort: 6` y `exact: true`.
+  Conserva dimensiones, transparencia y perfil de color, aplica orientación EXIF
+  y elimina EXIF/GPS. No reduce resolución ni vuelve a codificar con pérdida.
+  Un JPEG ya comprimido puede producir un WebP mayor; se informa el tamaño real.
+- Admite JPG, PNG, WebP, AVIF y GIF estáticos de 8 bits, hasta 25 MiB y 24 MP.
+  Rechaza archivos dañados, SVG y animaciones en lugar de descartar contenido.
+  Los PDF conservan su formato; este componente está destinado a imágenes.
+- Las importaciones requieren un enlace HTTPS directo y público. Cada redirección
+  valida DNS y direcciones IP; la conexión se fija a la IP validada. No se envían
+  cookies, credenciales ni cabeceras de autenticación al servidor remoto.
+- Hay límites de cuerpo, píxeles, tiempo y concurrencia, además de 20 solicitudes
+  por minuto por instancia. En despliegues con varias instancias, complementar
+  con límites compartidos en el proxy de entrada.
+- Los estados de envío muestran el porcentaje transferido. La descarga,
+  conversión y persistencia muestran progreso indeterminado hasta recibir la
+  respuesta; no se simulan porcentajes de procesamiento.
+- Eliminar la selección solo desvincula la imagen del formulario. La eliminación
+  de un recurso almacenado debe pasar por las políticas de la biblioteca. Las
+  vistas privadas usan enlaces firmados de una hora, que deberán renovarse al
+  abrir nuevamente el editor.
+
+`MediaImage` sirve los WebP ya preparados sin recomprimirlos, reserva espacio con
+sus dimensiones y ofrece reintento si la carga falla. Proporcionar `alt=""` solo
+para imágenes decorativas. El texto alternativo se introduce antes de subir y se
+guarda como metadato del recurso.
+
+Validación: `npm run test:media`, `npm run db:test`, `npm run db:lint`,
+`npm run lint` y `npm run build`.
+
 ## Accesibilidad y adaptación
 
 - Contraste semántico en los dos temas. Estado acompañado de texto/icono.
@@ -95,7 +158,8 @@ Los bloques del futuro renderizador del CMS pueden componerse con estos patrones
 Los ejemplos de home, landing, blog y administración son públicos y usan datos
 ilustrativos en memoria. Buscar, filtrar, crear, cambiar estados o eliminar dentro
 del preview no modifica Supabase ni roles reales. Los formularios no transmiten
-datos y el selector de archivos no sube documentos. Recargar restaura los ejemplos.
+datos. La demostración de imágenes sí envía el archivo al optimizador de este
+proyecto, pero no lo almacena en Supabase. Recargar restaura los ejemplos.
 
 El panel productivo deberá conectar estos componentes a las funciones y políticas
 de Supabase, con autorización en el servidor y en la base de datos. La galería
