@@ -1,0 +1,38 @@
+[
+  {
+    "key": "claudia-perfil",
+    "url": "https://albar-abogados.b-cdn.net/2026/08/c3099ff0-d7a7-46bb-8188-93a254cfa427.jpg",
+    "alt": "Claudia Albiña Aros, abogada y fundadora de ALBAR Abogados.",
+    "filename": "claudia-perfil.webp",
+    "width": 640,
+    "height": 640,
+    "byte_size": 122962,
+    "original_byte_size": 108133,
+    "checksum_sha256": "a8a44d1bc87409510053269b9104d24ba98a292939428b96668ba5b705452668",
+    "optimization": "webp-lossless-v1"
+  },
+  {
+    "key": "claudia-hero",
+    "url": "https://albar-abogados.b-cdn.net/2026/08/8e10d3b4-53ab-465b-a968-cbfdf9cbd1c3.png",
+    "alt": "Claudia Albiña Aros en la imagen de presentación de ALBAR Abogados.",
+    "filename": "claudia-hero.webp",
+    "width": 1774,
+    "height": 887,
+    "byte_size": 920282,
+    "original_byte_size": 1290783,
+    "checksum_sha256": "e2e0a1cbf619fb13d343f4e9c734f973be058ee959aad12ac44245a4d8eb9288",
+    "optimization": "webp-lossless-v1"
+  },
+  {
+    "key": "logo",
+    "url": "https://albar-abogados.b-cdn.net/2026/08/Logo%20web.png",
+    "alt": "ALBAR Abogados.",
+    "filename": "logo.webp",
+    "width": 400,
+    "height": 90,
+    "byte_size": 22476,
+    "original_byte_size": 33409,
+    "checksum_sha256": "3ce0773743e110dba278236add1ecd268666f4ffbf2114625a362929d1b391e9",
+    "optimization": "webp-lossless-v1"
+  }
+]
