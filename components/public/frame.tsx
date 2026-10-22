@@ -9,6 +9,7 @@ import {
   sitePath,
 } from "@/lib/public/paths";
 import { PublicNavigation, type NavNode } from "./navigation";
+import { PublicExperience } from "./experience";
 import type { PublicContext, MenuItem } from "@/lib/public/types";
 export async function PublicFrame({
   context: c,
@@ -67,8 +68,16 @@ export async function PublicFrame({
   const contactReady =
     c.site.settings.contact_enabled === true &&
     (await sectionAvailable(c, contact));
+  // Only reuse a WhatsApp destination already published in this site's menu.
+  const whatsapp = nav.items.map((item) => contentLink(c, item.external_url)).find((href) => {
+    if (!href) return false;
+    try {
+      const url = new URL(href);
+      return url.protocol === "https:" && url.hostname === "wa.me" && /^\/\d{8,15}$/.test(url.pathname);
+    } catch { return false; }
+  });
   return (
-    <div className="public-site">
+    <div className={`public-site${contactReady ? " has-contact-dock" : ""}`}>
       <a className="public-skip" href="#contenido-principal">
         Saltar al contenido
       </a>
@@ -129,16 +138,18 @@ export async function PublicFrame({
                 className="public-header-contact"
                 href={publicHref(c, contact)}
               >
-                Conversemos
+                Consultar mi caso
                 <ArrowUpRight aria-hidden size={16} />
               </Link>
             )}
           </div>
         </div>
       </header>
-      <main id="contenido-principal" tabIndex={-1} lang={c.locale}>
-        {children}
-      </main>
+      <PublicExperience contactHref={contactReady ? publicHref(c, contact) : undefined} whatsappHref={whatsapp || undefined}>
+        <main id="contenido-principal" tabIndex={-1} lang={c.locale}>
+          {children}
+        </main>
+      </PublicExperience>
       <footer className="public-footer">
         <div className="public-container">
           <div className="public-footer-top">

@@ -12,8 +12,8 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ["var(--font-geist-sans)", "sans-serif"],
-        editorial: ["var(--font-editorial)", "Georgia", "serif"],
+        sans: ["var(--font-google-sans)", "sans-serif"],
+        editorial: ["var(--font-google-sans)", "sans-serif"],
       },
       colors: {
         paper: "hsl(var(--paper))",
@@ -76,9 +76,13 @@ export default {
         },
       },
       borderRadius: {
+        DEFAULT: "var(--radius)",
         lg: "var(--radius)",
-        md: "calc(var(--radius) - 2px)",
-        sm: "calc(var(--radius) - 4px)",
+        md: "var(--radius)",
+        sm: "var(--radius)",
+        xl: "var(--radius)",
+        "2xl": "var(--radius)",
+        "3xl": "var(--radius)",
       },
       boxShadow: {
         soft: "0 2px 8px hsl(var(--foreground) / .035)",

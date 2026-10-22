@@ -3,8 +3,8 @@ import { MediaImage } from "@/components/ui/media-image";
 import { ContentBlocks } from "./content-blocks";
 import { EntryCards } from "./entry-cards";
 import { Team } from "./team";
-import { publicHref, contentLink } from "@/lib/public/paths";
-import { authorData, listEntries } from "@/lib/public/data";
+import { publicHref, contentLink, sitePath } from "@/lib/public/paths";
+import { authorData, listEntries, sectionAvailable } from "@/lib/public/data";
 import type { PublicContext, RenderData } from "@/lib/public/types";
 export async function PublicDocumentView({
   data,
@@ -28,7 +28,7 @@ export async function PublicDocumentView({
     ].includes(doc.template_key) && doc.template_version === 1;
   const heroTitle =
     knownTemplate &&
-    ["home", "service-landing"].includes(doc.template_key) &&
+    ["home", "service-landing", "default"].includes(doc.template_key) &&
     doc.blocks[0]?.type === "hero" &&
     doc.blocks[0].schema_version === 1;
   const sources = new Set(
@@ -59,6 +59,9 @@ export async function PublicDocumentView({
     : [];
   const asset = (id: string) => data.assets.find((a) => a.id === id);
   const cover = asset(doc.cover_asset_id || "");
+  const contactPath = sitePath(c.site, "contact_path", "/contacto");
+  const contactHref = c.site.settings.contact_enabled === true && await sectionAvailable(c, contactPath)
+    ? publicHref(c, contactPath) : undefined;
   return (
     <article
       className={`public-document template-${knownTemplate ? doc.template_key : "default"}`}
@@ -133,6 +136,7 @@ export async function PublicDocumentView({
       <ContentBlocks
         blocks={doc.blocks}
         firstHeroAsTitle={heroTitle}
+        contactHref={contactHref}
         link={(href) => contentLink(c, href)}
         image={(id, alt, focal) => {
           const a = asset(id);

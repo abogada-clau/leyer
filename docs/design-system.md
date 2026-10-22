@@ -6,9 +6,31 @@ El panel real mantiene sus rutas `/admin` y `/protected` con autenticación.
 
 ## Dirección visual
 
-La identidad combina pino, marfil, arena, salvia y terracota. Una tipografía
-editorial expresa cercanía; la tipografía de interfaz mantiene la precisión y
-la legibilidad del trabajo diario. Los ejemplos del sitio y el panel comparten
+La interfaz combina una base blanca con contraste pino, texto oscuro y superficies
+salvia. El pino identifica la portada y la navegación; la terracota destaca las
+acciones de contacto y el cierre del recorrido. Arena acompaña la orientación y
+las lecturas; marfil enmarca la presentación del estudio y el pie de página.
+Los beneficios usan una superficie salvia y los pasos tienen
+marcadores sólidos, conservando la mayor parte de la página en blanco.
+El estilo es minimalista con contraste: pocos recursos visuales, con presencia
+suficiente para distinguir contenido, navegación y acciones. Hover y foco dan
+una respuesta visible; los textos secundarios conservan contraste legible.
+Las superficies arena y salvia se derivan de los tokens de marca, con menor
+intensidad en oscuro. El terracota usa su pareja semántica de texto en ambos
+temas; no se comunica una diferencia de servicio o un estado solo con color.
+La home abre con una superficie pino y una acción principal en alto contraste.
+El encabezado permanece accesible al desplazarse. En móvil, una barra de contacto
+lleva al formulario del sitio y, si está publicado en su menú, a su WhatsApp.
+La barra se oculta al entrar al formulario o abrir el menú para no tapar controles.
+Después del primer grupo de servicios se ofrece ayuda para elegir el siguiente
+paso. Estas salidas solo aparecen cuando el sitio tiene contacto habilitado.
+Las entradas al desplazarse duran menos de medio segundo, se ejecutan una sola
+vez por sección y respetan movimiento reducido. El contenido permanece visible
+sin JavaScript. Los enlaces y tarjetas responden a hover y foco sin animaciones
+continuas, carruseles automáticos ni mensajes de urgencia.
+Una misma familia
+sans serif mantiene la claridad de los títulos y la legibilidad del trabajo
+diario. Los ejemplos del sitio y el panel comparten
 los mismos componentes, colores semánticos y estados.
 
 ## Fuentes de verdad
@@ -30,16 +52,29 @@ al tema. Los colores de marca no son estados de error o éxito.
 
 ## Tipografía
 
-- **Instrument Serif** (`font-editorial`): títulos del sitio, landings, artículos y
-  acentos expresivos. Regular e itálica; no simular pesos no disponibles.
-- **Geist Sans** (`font-sans`): panel, navegación, formularios, tablas y lectura.
-  Normal 400, medio 500 y seminegrita 600.
+- **Google Sans**: títulos del sitio, landings, artículos, panel, navegación,
+  formularios, tablas y lectura. Normal 400, medio 500 y seminegrita 600.
+- `font-editorial` se conserva como alias de compatibilidad para los títulos
+  existentes; utiliza la misma familia que `font-sans`.
 - Las fuentes se sirven mediante `next/font`. No se realizan peticiones a Google
   Fonts desde el navegador del visitante.
 
 Mantener el cuerpo de las páginas públicas en 16–18 px y con interlineado amplio.
+Usar títulos principales de 36–52 px, títulos de sección de 26–34 px y títulos
+de tarjeta de 18–21 px. La mayoría de los títulos usa peso 500. Limitar el ancho
+de lectura a unas 60–68 letras por línea; reservar las columnas estrechas para
+metadatos, títulos de apoyo o navegación, no para párrafos extensos.
 La galería incluye aplicaciones a escala reducida; sus tamaños compactos son para
 el preview, no una recomendación de texto pequeño para la home real.
+
+## Forma
+
+El radio compartido es **8 px** (`--radius: 0.5rem`). Botones, campos, tarjetas,
+diálogos, alertas, badges, menús y contenedores de imágenes utilizan ese token.
+Los alias de Tailwind `rounded`, `rounded-sm`, `rounded-md`, `rounded-lg`,
+`rounded-xl`, `rounded-2xl` y `rounded-3xl` resuelven al mismo radio.
+Los avatares, puntos de estado y figuras decorativas conservan su geometría
+circular; no definen otro radio para componentes rectangulares.
 
 ## Componentes
 
@@ -73,6 +108,12 @@ botones; la navegación usa enlaces. Una acción destructiva requiere una descri
 clara y confirmación cuando corresponda.
 
 ## Patrones
+
+Las secciones tienen roles visuales distintos: presentación con imagen contenida,
+tarjetas de navegación con enlaces claros, beneficios compactos sobre una superficie
+tenue, pasos en una secuencia vertical y preguntas frecuentes en acordeón. Los bloques
+de contenido agrupan etiqueta, título y explicación en una cabecera. Evitar una
+sucesión de títulos grandes con el mismo peso y rejillas con una tarjeta huérfana.
 
 `SectionHeading`, `ServiceCard`, `Checklist`, `FAQ` y `EmptyState` componen las
 páginas públicas y los estados de la aplicación. `AdminShell` proporciona la

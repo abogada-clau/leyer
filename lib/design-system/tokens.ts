@@ -46,9 +46,7 @@ export const brandColors = [
 
 export const spacing = [4, 8, 12, 16, 24, 32, 48, 64] as const;
 export const radii = [
-  { name: "Pequeño", value: 6 },
-  { name: "Base", value: 10 },
-  { name: "Amplio", value: 16 },
+  { name: "Radio compartido", value: 8 },
 ] as const;
 
 export const navigation = [

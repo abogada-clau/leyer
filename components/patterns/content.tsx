@@ -48,7 +48,7 @@ export function ServiceCard({
         className="size-7 text-terracotta"
         strokeWidth={1.4}
       />
-      <h3 className="mt-5 font-editorial text-2xl">{title}</h3>
+      <h3 className="mt-5 font-editorial text-lg font-medium leading-snug">{title}</h3>
       <div className="mt-2 text-sm leading-relaxed text-muted-foreground">
         {children}
       </div>

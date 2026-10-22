@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type CSSProperties } from "react";
+import { useCallback, useState, type CSSProperties } from "react";
 import { ImageIcon, ImageOff, Loader2, RotateCcw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -83,6 +83,10 @@ function ImageContent({
 }: MediaImageProps) {
   const [state, setState] = useState<"loading" | "ready" | "error">("loading");
   const [attempt, setAttempt] = useState(0);
+  const imageRef = useCallback((node: HTMLImageElement | null) => {
+    // A cached image can finish before hydration attaches its load listener.
+    if (node?.complete && node.naturalWidth > 0) setState("ready");
+  }, []);
   return (
     <div
       className={cn(
@@ -111,6 +115,7 @@ function ImageContent({
         // Already optimized WebP, blob previews and signed URLs must not be recompressed by next/image.
         // eslint-disable-next-line @next/next/no-img-element
         <img
+          ref={imageRef}
           key={attempt}
           src={src}
           alt={alt}

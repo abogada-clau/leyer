@@ -16,7 +16,7 @@ export async function EntryCards({
     entries.map((e) => e.cover_asset_id).filter(Boolean) as string[],
   );
   return (
-    <div className="public-entry-grid">
+    <div className="public-entry-grid" data-count={entries.length}>
       {entries.map((e) => {
         const a = assets.find((a) => a.id === e.cover_asset_id);
         return (

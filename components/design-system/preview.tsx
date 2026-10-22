@@ -508,7 +508,7 @@ export function DesignSystemPreview() {
           id="typography"
           number="02"
           title="Carácter y claridad, en diálogo."
-          description="Una voz editorial para inspirar confianza. Una voz funcional para hacer las cosas simples."
+          description="Una misma familia legible para títulos, contenido e interfaz. La jerarquía se construye con tamaño, peso e interlineado."
         >
           <div className="ds-type-grid">
             <div className="ds-editorial-type">
@@ -516,14 +516,14 @@ export function DesignSystemPreview() {
                 <span>LA VOZ EDITORIAL</span>
                 <ArrowUpRight size={17} />
               </div>
-              <p className="ds-type-family">Instrument Serif</p>
+              <p className="ds-type-family">Google Sans</p>
               <p className="ds-type-example">
                 Las palabras
                 <br />
                 también <em>acercan.</em>
               </p>
               <div className="ds-type-bottom">
-                <span>Regular · Italic</span>
+                <span>Medium · Semibold</span>
                 <span>Homes / Landings / Blog</span>
               </div>
             </div>
@@ -532,7 +532,7 @@ export function DesignSystemPreview() {
                 <span>LA VOZ FUNCIONAL</span>
                 <span className="text-xs">Aa Bb Cc 0123</span>
               </div>
-              <p className="ds-type-family">Geist Sans</p>
+              <p className="ds-type-family">Google Sans</p>
               <div className="ds-type-scale">
                 <div>
                   <span>24 / 600</span>

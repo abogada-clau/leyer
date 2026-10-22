@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Instrument_Serif } from "next/font/google";
+import { Google_Sans } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import "./globals.css";
 import "./design-system.css";
@@ -16,17 +16,13 @@ export const metadata: Metadata = {
     "Una base común para la presencia digital y la gestión de tu estudio jurídico.",
 };
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const googleSans = Google_Sans({
+  variable: "--font-google-sans",
   display: "swap",
   subsets: ["latin"],
-});
-const editorial = Instrument_Serif({
-  variable: "--font-editorial",
-  weight: "400",
-  style: ["normal", "italic"],
-  display: "swap",
-  subsets: ["latin"],
+  fallback: ["Arial", "sans-serif"],
+  // Next has no automatic fallback metrics for Google Sans yet.
+  adjustFontFallback: false,
 });
 
 export default function RootLayout({
@@ -37,7 +33,7 @@ export default function RootLayout({
   return (
     <html lang="es" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${editorial.variable} font-sans antialiased`}
+        className={`${googleSans.variable} font-sans antialiased`}
       >
         <ThemeProvider
           attribute="class"

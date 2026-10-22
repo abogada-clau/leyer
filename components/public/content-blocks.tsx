@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { ArrowUpRight, Check } from "lucide-react";
+import { ArrowUpRight, Check, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { FAQ } from "@/components/patterns/content";
 import { Alert } from "@/components/ui/alert";
@@ -31,6 +31,7 @@ export function ContentBlocks({
   related,
   firstHeroAsTitle = false,
   preview = false,
+  contactHref,
 }: {
   blocks: Block[];
   link: (href: unknown) => string | null;
@@ -38,7 +39,9 @@ export function ContentBlocks({
   related?: (block: Block) => ReactNode;
   firstHeroAsTitle?: boolean;
   preview?: boolean;
+  contactHref?: string;
 }) {
+  const firstNavigation = blocks.findIndex(block => block.type === "card_grid" && Array.isArray(block.data.items) && block.data.items.some(item => link(record(item).href)));
   return (
     <div className="content-blocks">
       {blocks.map((b, index) => {
@@ -70,7 +73,7 @@ export function ContentBlocks({
                   key={i}
                   asChild
                   size="lg"
-                  variant={i ? "outline" : "default"}
+                  variant={i ? "ghost" : "default"}
                 >
                   <a href={href}>
                     {str(a.label)}
@@ -82,11 +85,11 @@ export function ContentBlocks({
           </div>
         ) : null;
         const heading = (
-          <>
+          <header className="block-heading">
             {d.eyebrow && <p className="public-eyebrow">{str(d.eyebrow)}</p>}
             {title && <H className="font-editorial">{title}</H>}
             {d.body && <p className="public-block-body">{str(d.body)}</p>}
-          </>
+          </header>
         );
         let content: ReactNode;
         if (b.type === "hero" || b.type === "split_content")
@@ -95,6 +98,7 @@ export function ContentBlocks({
               <div className="block-copy">
                 {heading}
                 {actions}
+                {b.type === "hero" && contactHref && <p className="public-action-note"><MessageCircle size={15} aria-hidden /> El primer paso es contarnos qué necesitas resolver.</p>}
               </div>
               {assets.length > 0 && (
                 <div className="block-visual">{assets}</div>
@@ -110,9 +114,11 @@ export function ContentBlocks({
                   const href = link(item.href);
                   const inner = (
                     <>
-                      <span className="service-number">
-                        {String(i + 1).padStart(2, "0")}
-                      </span>
+                      {!href && (
+                        <span className="service-marker" aria-hidden>
+                          <Check size={17} strokeWidth={1.5} />
+                        </span>
+                      )}
                       <h3 className="font-editorial">{str(item.heading)}</h3>
                       <p>{str(item.body)}</p>
                       {href && (
@@ -134,6 +140,12 @@ export function ContentBlocks({
                   );
                 })}
               </div>
+              {contactHref && index === firstNavigation && (
+                <aside className="public-service-guidance">
+                  <div><p>¿No sabes qué opción corresponde a tu situación?</p><span>Cuéntanos qué ocurre y conversemos sobre el siguiente paso.</span></div>
+                  <a href={contactHref}>Hablemos de tu caso <ArrowUpRight size={18} aria-hidden /></a>
+                </aside>
+              )}
             </>
           );
         else if (b.type === "checklist")
@@ -207,6 +219,7 @@ export function ContentBlocks({
           <section
             key={b.key}
             data-block={b.type}
+            data-layout={b.type === "card_grid" ? (items.some(item => link(item.href)) ? "navigation" : "features") : undefined}
             className={`public-block block-${b.type} variant-${["default", "image-right", "image-left", "centered"].includes(b.variant) ? b.variant : "default"} ${assets.length ? "has-media" : ""}`}
           >
             {content}

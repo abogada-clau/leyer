@@ -164,7 +164,7 @@ export function ImageUploader({
         <p id={`${id}-label`} className="text-sm font-medium">
           {label}
         </p>
-        <span className="rounded-full bg-secondary px-2.5 py-1 text-[10px] font-medium text-secondary-foreground">
+        <span className="rounded-lg bg-secondary px-2.5 py-1 text-[10px] font-medium text-secondary-foreground">
           WebP sin pérdida
         </span>
       </div>
