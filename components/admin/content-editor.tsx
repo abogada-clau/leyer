@@ -21,6 +21,7 @@ import {
   latestSnapshot,
   revisionHistory,
 } from "@/app/admin/actions";
+import { materializeServiceContent, serviceStarterBlocks } from "@/lib/content/service-template";
 import { validateSnapshot } from "@/lib/admin/validation";
 import {
   entryState,
@@ -35,7 +36,7 @@ import {
 export function ContentEditor({
   entry,
   initial,
-  siteId,
+
   userId,
   permissions,
   entries,
@@ -44,10 +45,11 @@ export function ContentEditor({
   taxonomies,
   revisions,
   schedules,
+  serviceDefaults = {},
 }: {
   entry: Entry;
   initial: Snapshot;
-  siteId: string;
+
   userId: string;
   permissions: string[];
   entries: Entry[];
@@ -56,7 +58,10 @@ export function ContentEditor({
   taxonomies: Row[];
   revisions: Row[];
   schedules: Row[];
+  serviceDefaults?: { contactPath?: string; whatsappHref?: string };
 }) {
+  const [hydrated, setHydrated] = useState(false);
+  useEffect(() => setHydrated(true), []);
   const [content, setContent] = useState(initial);
   const [name, setName] = useState(entry.internal_name);
   const [parent, setParent] = useState(entry.parent_id || "");
@@ -85,7 +90,7 @@ export function ContentEditor({
   const canEdit = permissions.includes("content.edit");
   const canPublish = permissions.includes("content.publish");
   const canUpload = permissions.includes("media.manage");
-  const storageKey = `leyer-editor:${userId}:${siteId}:${entry.id}`;
+  const storageKey = `leyer-editor:${userId}:${entry.id}`;
   useEffect(() => {
     try {
       const saved = localStorage.getItem(storageKey);
@@ -133,7 +138,7 @@ export function ContentEditor({
       flush();
       e.preventDefault();
     };
-    const workspace = (e: Event) => {
+    const beforeNavigate = (e: Event) => {
       flush();
       if (
         !window.confirm(
@@ -159,11 +164,11 @@ export function ContentEditor({
       }
     };
     window.addEventListener("beforeunload", before);
-    window.addEventListener("leyer:before-navigate", workspace);
+    window.addEventListener("leyer:before-navigate", beforeNavigate);
     document.addEventListener("click", click, true);
     return () => {
       window.removeEventListener("beforeunload", before);
-      window.removeEventListener("leyer:before-navigate", workspace);
+      window.removeEventListener("leyer:before-navigate", beforeNavigate);
       document.removeEventListener("click", click, true);
     };
   }, [dirty, content, name, parent, expected, storageKey]);
@@ -185,7 +190,7 @@ export function ContentEditor({
       try {
         validateSnapshot(content);
         const r = await saveContent({
-          siteId,
+
           entryId: entry.id,
           expectedRevisionId: expected,
           internalName: name,
@@ -235,7 +240,7 @@ export function ContentEditor({
     start(async () => {
       try {
         const r = await contentOperation({
-          siteId,
+
           entryId: entry.id,
           revisionId: expected || undefined,
           operation,
@@ -259,7 +264,7 @@ export function ContentEditor({
   async function restore(id: string) {
     start(async () => {
       try {
-        const snapshot = await loadSnapshot(siteId, entry.id, id);
+        const snapshot = await loadSnapshot(entry.id, id);
         setContent({
           ...snapshot,
           id: expected || undefined,
@@ -360,7 +365,7 @@ export function ContentEditor({
             <Button
               type="submit"
               form="content-editor"
-              disabled={pending || !dirty}
+              disabled={!hydrated || pending || !dirty}
             >
               <Save />
               Guardar revisión
@@ -387,7 +392,7 @@ export function ContentEditor({
               onClick={() =>
                 start(async () => {
                   try {
-                    setRemote(await latestSnapshot(siteId, entry.id));
+                    setRemote(await latestSnapshot(entry.id));
                   } catch {
                     setResult({
                       error: "No se pudo consultar la versión actual.",
@@ -413,7 +418,7 @@ export function ContentEditor({
           }}
         >
           <fieldset
-            disabled={!canEdit || pending}
+            disabled={!hydrated || !canEdit || pending}
             className="min-w-0 space-y-6"
           >
             <section className="panel-card">
@@ -482,7 +487,7 @@ export function ContentEditor({
                     id="template"
                     required
                     value={content.template_key}
-                    onChange={(e) => change({ template_key: e.target.value })}
+                    onChange={(e) => change({ template_key: e.target.value, template_version: e.target.value === "service-landing" ? 2 : 1 })}
                   />
                   <datalist id="templates">
                     <option value="default" />
@@ -506,7 +511,6 @@ export function ContentEditor({
                 <div className="panel-field wide">
                   <Label>Imagen de portada</Label>
                   <AssetPicker
-                    siteId={siteId}
                     canUpload={canUpload}
                     value={content.cover_asset_id}
                     onChange={(id) => change({ cover_asset_id: id })}
@@ -520,15 +524,25 @@ export function ContentEditor({
                 Agrega, edita y ordena secciones. La biblioteca conserva las
                 referencias a cada recurso.
               </p>
+              {content.template_key === "service-landing" && content.template_version < 2 && <Alert title="Composición anterior"><p>Convierte los elementos de la plantilla en contenido editable. Se creará una nueva revisión al guardar.</p><Button type="button" variant="outline" onClick={() => {
+                const author = authors.find(author => content.authors.includes(author.id) && author.avatar_asset_id);
+                const assetId = content.cover_asset_id || author?.avatar_asset_id;
+                change(materializeServiceContent(content, { ...serviceDefaults, heroAsset: typeof assetId === "string" ? { asset_id: assetId, slot: "image", alt_text: String(author?.display_name || ""), focal_point: { x: .5, y: .5 } } : undefined }));
+              }}>Convertir a contenido editable</Button></Alert>}
+              {content.template_key === "service-landing" && content.blocks.length === 0 && <Button type="button" variant="outline" onClick={() => {
+                const hero = makeBlock("hero"); hero.data.heading = content.title;
+                const cta = makeBlock("cta");
+                if (serviceDefaults.contactPath && Array.isArray(cta.data.actions)) cta.data.actions = [{ label: "", href: serviceDefaults.contactPath, icon: "none", style: "primary" }];
+                change({ template_version: 2, blocks: [hero, makeBlock("split_content"), ...serviceStarterBlocks(), makeBlock("checklist"), makeBlock("card_grid"), makeBlock("steps"), makeBlock("faq"), cta] });
+              }}>Agregar estructura de servicio</Button>}
               {content.blocks.map((b, index) => (
                 <BlockEditor
                   key={b.key}
                   block={b}
                   index={index}
                   total={content.blocks.length}
-                  siteId={siteId}
                   canUpload={canUpload}
-                  disabled={!canEdit || pending}
+                  disabled={!hydrated || !canEdit || pending}
                   onChange={(block) =>
                     change({
                       blocks: content.blocks.map((v, i) =>
@@ -925,7 +939,6 @@ export function ContentEditor({
                     start(async () => {
                       try {
                         const rows = await revisionHistory(
-                          siteId,
                           entry.id,
                           history.length,
                         );

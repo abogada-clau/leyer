@@ -1,6 +1,6 @@
 # Seed editorial de ALBAR ABOGADOS
 
-`seed.sql` es un SQL autocontenido para ejecutar una vez en Supabase SQL Editor o mediante una conexión SQL de confianza. No necesita Node en producción. Requiere las migraciones 001–016 del proyecto y una cuenta Auth existente con perfil activo y rol global `super_admin`.
+`seed.sql` es un SQL autocontenido para ejecutar una vez en Supabase SQL Editor o mediante una conexión SQL de confianza. No necesita Node en producción. Requiere todas las migraciones del proyecto, incluida `20261026000100_single_client.sql`, y una cuenta Auth existente con perfil activo y `is_admin=true`.
 
 ## Qué crea
 
@@ -12,13 +12,27 @@
 
 Consulta [contenidos.md](./contenidos.md) y el [análisis de la home](../../../docs/albar/analisis-home.md).
 
+## Ampliación con el contenido original del sitio
+
+Después del seed inicial, ejecuta el [seed complementario](./complement/seed.sql)
+siguiendo su [guía](./complement/README.md). Añade las 11 páginas de servicios
+faltantes y el artículo original sobre despido injustificado, conservando los
+copys capturados en el sitio de ALBAR. El catálogo resultante tiene 37 entradas.
+También amplía Personas, Empresas y Familia mediante nuevas revisiones y completa
+el menú. El SQL inicial conserva su catálogo de 25 entradas.
+
+Una vez importado el complemento, este importador inicial aborta si se intenta
+repetir: así evita restaurar el menú reducido anterior. Usa únicamente el seed del
+complemento para repetir su carga; las ediciones posteriores se realizan desde
+el panel y se respetan mediante controles de concurrencia.
+
 ## Importar mediante SQL en producción
 
 1. Abre [seed.sql](./seed.sql). Edita únicamente el JSON inicial delimitado por `$ALBAR_CONFIG$` para la primera importación.
-2. Completa `actor_email` con el correo de un superadministrador existente. El SQL verifica su estado actual y usa las funciones editoriales ya implementadas. No crea usuarios, contraseñas ni roles globales.
+2. Completa `actor_email` con el correo de un administrador existente. El SQL verifica su estado actual y usa las funciones editoriales ya implementadas. No crea usuarios ni contraseñas.
 3. Mantén `publish: false`, `activate_site: false` y `contact_enabled: false` para cargar y revisar desde `/admin`. Ejecuta **el archivo completo**, incluidos `begin` y `commit`.
 4. El resultado muestra identificadores, 25 contenidos y cero publicaciones. El sitio queda en borrador y los últimos snapshots en revisión. El SQL falla sin datos parciales si el actor o la configuración no son válidos.
-5. Opcionalmente indica `admin_email` de una cuenta Auth activa ya existente para crear su primera membresía `admin` en ALBAR. No sustituye ni reactiva membresías existentes. Las invitaciones siguen el flujo de Auth del panel.
+5. Opcionalmente indica `admin_email` de una cuenta Auth activa ya existente para habilitar su acceso administrativo al sitio. Las cuentas se crean mediante Supabase Auth.
 
 Los datos confirmados por el cliente son teléfono y WhatsApp **+56 9 4697 8661** y dirección **Av. Corrientes 1234, piso 5, Quinta Normal, Chile**. El seed los incorpora en `phone`, `address` y `whatsapp`; este último usa solo dígitos con código de país (`56946978661`). El correo público observado es `contacto@abogadaclaudia.com`. No se inventan enlaces sociales.
 
@@ -74,3 +88,28 @@ npm run local:albar -- --publish-demo
 `local:albar` exige Supabase en `127.0.0.1:57321`, una aplicación local y las cuentas de prueba existentes. Carga las imágenes mediante el endpoint autorizado. `--publish-demo` utiliza datos de privacidad expresamente locales y muestra la banda de demostración; no es configuración de producción. La URL resultante es `http://localhost:3000/sitios/albar-abogados/principal` con las rutas locales habilitadas.
 
 La fuente editorial es `content.mjs`; el importador es `import.template.sql`. Regenera `seed.sql` y `contenidos.md` después de cambiarlos. Las pruebas de importación usan una organización temporal diferente y revierten sus transacciones. La comprobación HTTP adicional consulta las 25 páginas de la demostración local, si existe; no modifica contenido.
+
+## Servicios completamente editables
+
+El seed genera `service-landing` versión 2: los beneficios, notas, imágenes,
+ilustraciones e iconos se guardan en los bloques, junto con sus acciones y opciones
+visuales. Se editan desde Contenidos; quitar u ocultar un bloque se respeta al
+publicar. No hay contenido editorial añadido por el renderizador.
+
+Para actualizar un sitio existente sin repetir los importadores:
+
+```sh
+npm run content:upgrade-services -- --site-id UUID_DEL_SITIO
+```
+
+El comando requiere `CMS_MIGRATION_EMAIL` y `CMS_MIGRATION_PASSWORD` de una cuenta
+con permisos sobre el sitio. En el entorno local usa la cuenta de verificación
+y el sitio de `.local/albar-fixtures.json`. Por defecto crea revisiones en revisión.
+Con `--publish` publica las nuevas revisiones solo de servicios que ya estaban
+publicados y no tienen cambios pendientes; los conflictos se conservan y se informan.
+Repetir no duplica contenido ni restaura elementos eliminados de la versión 2.
+La conversión también está disponible por servicio en el editor. No se debe volver
+a ejecutar el seed original sobre un catálogo ya editado para aplicar esta mejora.
+
+Verificación: `npm run test:services` y las pruebas de navegador
+`tests/browser/service-cms.spec.ts` y `tests/browser/service-layout.spec.ts`.

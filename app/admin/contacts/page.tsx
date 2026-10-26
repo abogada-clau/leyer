@@ -68,7 +68,6 @@ export default async function Contacts({
       </form>
       <ContactInbox
         rows={(checked(response) || []) as Row[]}
-        siteId={site.id}
         canManage={site.permissions.includes("contacts.manage")}
       />
       <Pagination

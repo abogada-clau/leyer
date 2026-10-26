@@ -13,9 +13,11 @@ export async function GET(
     if (!user)
       return Response.json({ error: "Inicia sesión." }, { status: 401 });
     const { id } = await params;
-    const siteId = uuid(new URL(request.url).searchParams.get("site"));
+    const { data: context } = await db.rpc("get_admin_context");
+    if (!context?.is_admin || !context.site)
+      return Response.json({ error: "Recurso no autorizado." }, { status: 403 });
     const { data: record, error } = await db
-      .rpc("get_cms_media", { p_site_id: siteId })
+      .rpc("get_cms_media", { p_site_id: context.site.id })
       .eq("id", uuid(id))
       .single();
     const data = record as Asset | null;

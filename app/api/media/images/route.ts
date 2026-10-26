@@ -31,31 +31,25 @@ export async function POST(request: Request) {
       throw new MediaError("Inicia sesión para guardar imágenes.", 401);
     release = reserveMediaJob();
     const form = await readMediaForm(request);
-    const siteId = String(form.get("siteId") || "");
     const bucket = String(form.get("bucket") || "");
-    if (
-      !/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(
-        siteId,
-      ) ||
-      !["cms-public", "cms-private"].includes(bucket)
-    )
-      throw new MediaError("Selecciona un sitio y un destino válidos.");
-    // User-scoped RPC checks active membership and media.manage before using server credentials.
+    if (!["cms-public", "cms-private"].includes(bucket))
+      throw new MediaError("Destino inválido.");
+    // User-scoped RPC checks administrative access and media.manage before using server credentials.
     const { data: context, error: permissionError } = await session.rpc(
       "get_media_upload_context",
-      { p_site_id: siteId },
     );
     if (permissionError || !context?.[0])
       throw new MediaError(
         "No tienes permiso para gestionar imágenes de este sitio.",
         403,
       );
+    const siteId = context[0].site_id;
     const source = await readImageSource(form, request.signal);
     const image = await optimizeImage(source.data, source.filename);
     request.signal.throwIfAborted();
     // Downloads/encoding can take time: honour permission revocations before persistence too.
     const { data: currentContext, error: currentPermissionError } =
-      await session.rpc("get_media_upload_context", { p_site_id: siteId });
+      await session.rpc("get_media_upload_context");
     if (currentPermissionError || !currentContext?.[0])
       throw new MediaError(
         "Ya no tienes permiso para guardar imágenes en este sitio.",
@@ -65,11 +59,9 @@ export async function POST(request: Request) {
       auth: { persistSession: false, autoRefreshToken: false },
     });
     const assetId = randomUUID();
-    const organizationId = context[0].organization_id;
-    const storagePath = `${organizationId}/${siteId}/${assetId}/${image.filename}`;
+    const storagePath = `${siteId}/${assetId}/${image.filename}`;
     const { error: assetError } = await admin.from("media_assets").insert({
       id: assetId,
-      organization_id: organizationId,
       site_id: siteId,
       bucket_id: bucket,
       storage_path: storagePath,

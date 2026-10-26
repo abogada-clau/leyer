@@ -5,10 +5,10 @@ import { RecordForm } from "./resource-manager";
 import { mutate } from "@/app/admin/actions";
 import { kindLabels } from "@/lib/admin/types";
 export function NewContent({
-  siteId,
+
   locale,
 }: {
-  siteId: string;
+
   locale: string;
 }) {
   const [pending, start] = useTransition();
@@ -48,7 +48,7 @@ export function NewContent({
         onSubmit={(d) =>
           start(async () => {
             try {
-              const r = await mutate({ action: "entry", siteId, data: d });
+              const r = await mutate({ action: "entry", data: d });
               setError(r.error || "");
               if (r.id) router.push(`/admin/content/${r.id}`);
             } catch {

@@ -1,59 +1,68 @@
-# Leyer
+# Leyer · ALBAR Abogados
 
-SaaS para estudios jurídicos con identidad global, membresías por estudio y CMS
-con revisiones inmutables. Construido sobre Next.js, el sistema de diseño de
-Leyer y Supabase Auth, PostgreSQL y Storage.
+Desarrollo a medida para ALBAR Abogados: un sitio público y un panel privado para
+editar contenido, imágenes, navegación y consultas. Next.js, Supabase Auth,
+PostgreSQL y Storage. La instalación admite un único sitio.
 
-- [Sitios públicos, formularios y operación](docs/public-site.md)
-- [Panel de administración: rutas, ejecución y workers](docs/admin.md)
-- [Base de datos, permisos y primer superadministrador](supabase/README.md)
-- [Sistema de diseño y componentes compartidos](docs/design-system.md)
+- [Sitio público y operación](docs/public-site.md)
+- [Panel de administración](docs/admin.md)
+- [Base de datos y habilitación de acceso](supabase/README.md)
+- [Sistema de diseño](docs/design-system.md)
 
 ## Desarrollo local
 
-Requiere Node.js 22+, Docker y Supabase CLI. Configura `.env.local` siguiendo
-`.env.example`, con las claves del proyecto local de Leyer.
+Requiere Node.js 22+, Docker y Supabase CLI. Configura `.env.local` según
+`.env.example` con las claves del proyecto local.
 
 ```sh
 npm ci
 supabase start
 supabase migration up --local
+npm run local:setup
 npm run dev
 ```
 
-El sitio público está en `/` según su dominio o selección local.
-El panel está en `http://localhost:3000/admin`. La galería pública continúa en
-`/design-system`. El buzón de correo local está en `http://127.0.0.1:57324`.
+El sitio público se abre en `http://localhost:3000/`, el panel en `/admin` y la
+galería de componentes en `/design-system`. Las credenciales de verificación se
+guardan en `.local/admin-accounts.json`, fuera de Git. El correo local está en
+`http://127.0.0.1:57324`.
 
-En otra terminal, inicia el procesamiento independiente de publicaciones:
+Para cargar el catálogo inicial en una instalación vacía, con la aplicación
+encendida: `npm run local:albar`. `-- --publish-demo` publica únicamente la
+presentación local de demostración. El importador conserva los sitios que ya
+contienen trabajo editorial; no vuelve a ejecutar el seed inicial sobre ellos.
 
-```sh
-npm run worker
-```
+En otra terminal, ejecutar `npm run worker` para procesar publicaciones
+programadas e invalidar las cachés.
 
-Para generar datos locales de verificación y cuentas con credenciales
-aleatorias: `npm run local:setup`. Este comando no admite proyectos remotos.
-Sus archivos privados quedan en `.local/`, fuera de Git. Para preparar los dos sitios de demostración aislados, ejecuta después
-`npm run local:sites` y sigue `docs/public-site.md`. El panel consulta
-siempre los datos persistidos; no usa las demostraciones de la galería.
-
-## Comprobación
+## Verificación
 
 ```sh
 npm run lint
 npm run build
-npm run test:media
 npm run db:lint
 npm run db:test
-# Con la aplicación en ejecución:
+npm run test:media
+npm run test:services
+# Con la aplicación en ejecución y el catálogo local publicado:
 npm run test:admin
 npm run test:public
+npm run test:albar
+npm run test:albar:complement
 npm run test:browser
 ```
 
-La primera ejecución de pruebas de navegador requiere
-`npx playwright install chromium`. Consulta `docs/admin.md` para las condiciones
-de ejecución, el correo de invitaciones, el almacenamiento y el cron de producción.
+La primera ejecución de navegador requiere `npx playwright install chromium`.
 
-La gestión documental y los expedientes se incorporarán posteriormente, con
-almacenamiento y autorización separados de los recursos públicos del CMS.
+## Actualización de una instalación existente
+
+La migración `20261026000100_single_client.sql` conserva el sitio ALBAR
+registrado, su contenido, revisiones, archivos, consultas y accesos vigentes.
+Los registros de los antiguos sitios de prueba y las asignaciones de acceso
+retiradas se archivan en `private.retired_installation_records`, sin permisos de
+lectura para la API. Los archivos existentes conservan sus URLs.
+
+Si hay varios sitios y ninguno corresponde al registro ALBAR, la migración
+aborta sin elegir uno automáticamente. Las migraciones anteriores permanecen
+como historial; el esquema final elimina organizaciones, membresías y roles de
+plataforma, e impide crear un segundo sitio.

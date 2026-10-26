@@ -1,3 +1,4 @@
+import { validatePresentation } from "@/lib/content/presentation-validation";
 import type { Snapshot, Json } from "./types";
 export function text(
   value: unknown,
@@ -72,6 +73,7 @@ export function validateSnapshot(s: Snapshot) {
   };
   for (const b of s.blocks) {
     uuid(b.key);
+    validatePresentation(b);
     if (!(b.type in required) || b.schema_version !== 1 || !b.data)
       throw new Error("Tipo o versión de bloque inválidos.");
     for (const key of required[b.type])

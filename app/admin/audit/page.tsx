@@ -1,5 +1,5 @@
 import {
-  getSelection,
+  requireSite,
   checked,
   pageNumber,
   type Search,
@@ -10,15 +10,10 @@ import { Button } from "@/components/ui/button";
 import { Select } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Alert } from "@/components/ui/alert";
 import { dateTime, type Row } from "@/lib/admin/types";
 const tables: Record<string, string> = {
   profiles: "Perfiles",
-  organizations: "Estudios",
-  organization_memberships: "Membresías",
-  membership_roles: "Roles del estudio",
-  platform_role_assignments: "Roles globales",
-  sites: "Sitios",
+  sites: "Configuración",
   content_entries: "Contenidos",
   content_revisions: "Revisiones",
   content_blocks: "Bloques",
@@ -41,14 +36,7 @@ export default async function Audit({
 }: {
   searchParams: Search;
 }) {
-  const { db, context, site, organization } = await getSelection();
-  if (!context.super_admin && !site?.permissions.includes("audit.read"))
-    return (
-      <Alert
-        variant="warning"
-        title="No tienes permiso para consultar la auditoría."
-      />
-    );
+  const { db } = await requireSite("audit.read");
   const p = await searchParams;
   const page = pageNumber(p.page);
   const table = String(p.table || "");
@@ -56,13 +44,7 @@ export default async function Audit({
   const from = String(p.from || "");
   const to = String(p.to || "");
   const actor = String(p.actor || "");
-  const scope = String(p.scope || "organization");
   let query = db.from("audit_events").select("*", { count: "exact" });
-  if (!(context.super_admin && scope === "all"))
-    query = query.eq(
-      "organization_id",
-      organization?.id || "00000000-0000-0000-0000-000000000000",
-    );
   if (table in tables) query = query.eq("table_name", table);
   if (action in actions) query = query.eq("action", action);
   if (/^\d{4}-\d{2}-\d{2}$/.test(from))
@@ -104,15 +86,6 @@ export default async function Audit({
             ))}
           </Select>
         </div>
-        {context.super_admin && (
-          <div className="panel-field">
-            <Label htmlFor="audit-scope">Alcance</Label>
-            <Select id="audit-scope" name="scope" defaultValue={scope}>
-              <option value="organization">Estudio seleccionado</option>
-              <option value="all">Toda la plataforma</option>
-            </Select>
-          </div>
-        )}
         <div className="panel-field">
           <Label htmlFor="audit-from">Desde · UTC</Label>
           <Input id="audit-from" type="date" name="from" defaultValue={from} />
@@ -180,7 +153,7 @@ export default async function Audit({
         page={page}
         total={result.count || 0}
         base="/admin/audit"
-        params={{ table, action, scope, from, to, actor }}
+        params={{ table, action, from, to, actor }}
       />
     </>
   );

@@ -13,11 +13,10 @@ import { dateTime, type Row, type ActionResult } from "@/lib/admin/types";
 import { contactStatuses } from "@/lib/public/contact-validation";
 export function ContactInbox({
   rows,
-  siteId,
   canManage,
 }: {
   rows: Row[];
-  siteId: string;
+
   canManage: boolean;
 }) {
   const [selected, setSelected] = useState<Row | null>(null);
@@ -154,7 +153,6 @@ export function ContactInbox({
                   e.preventDefault();
                   start(async () => {
                     const r = await updateContact(
-                      siteId,
                       selected.id,
                       status,
                       notes,

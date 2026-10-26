@@ -19,17 +19,17 @@ export function localePrefix(locale: string, defaultLocale: string) {
     : `/idioma/${encodeURIComponent(locale)}`;
 }
 export function publicHref(
-  context: Pick<PublicContext, "basePath" | "locale" | "site">,
+  context: Pick<PublicContext, "locale" | "site">,
   path: string,
   locale = context.locale,
 ) {
   return (
-    `${context.basePath}${localePrefix(locale, context.site.default_locale)}${path === "/" ? "" : path}` ||
+    `${localePrefix(locale, context.site.default_locale)}${path === "/" ? "" : path}` ||
     "/"
   );
 }
 export function contentLink(
-  context: Pick<PublicContext, "basePath" | "locale" | "site">,
+  context: Pick<PublicContext, "locale" | "site">,
   value: unknown,
 ): string | null {
   if (typeof value !== "string" || /[\s\\\u0000-\u001f]/.test(value))

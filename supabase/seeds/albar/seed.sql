@@ -1,5 +1,5 @@
 -- ALBAR ABOGADOS. Generado desde content.mjs; no ejecutar como migración automática.
--- Solo SQL Editor/conexión de confianza. Requiere migraciones 001–016.
+-- Solo SQL Editor/conexión de confianza. Requiere todas las migraciones, incluida 20261022000100_editable_service_presentation.sql.
 -- Edita esta configuración. Sin actor válido la transacción aborta sin crear datos.
 -- Por defecto TODO queda en revisión y el sitio en borrador.
 begin;
@@ -30,12 +30,7 @@ create temporary table albar_seed_source(payload jsonb) on commit drop;
 insert into albar_seed_source values ($ALBAR_PAYLOAD${
   "seed_key": "albar-abogados-editorial-v1",
   "reviewed_at": "2026-10-21",
-  "organization": {
-    "name": "ALBAR ABOGADOS",
-    "slug": "albar-abogados"
-  },
   "site": {
-    "slug": "principal",
     "name": "Sitio principal ALBAR",
     "domain": "www.albarabogados.cl",
     "default_locale": "es-CL"
@@ -850,25 +845,68 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
           "schema_version": 1,
           "variant": "image-right",
           "data": {
-            "eyebrow": "Divorcio en Chile",
-            "heading": "Un nuevo comienzo también necesita decisiones claras.",
+            "eyebrow": "Asesoría y representación",
+            "heading": "Divorcio en Chile",
             "body": "Si estás pensando en divorciarte, te ayudaré a distinguir qué vía puede corresponder a tu situación y qué materias familiares o económicas conviene abordar.",
             "actions": [
               {
                 "label": "Solicitar evaluación de mi caso",
-                "href": "/contacto"
+                "href": "/contacto",
+                "icon": "arrow-up-right",
+                "style": "primary"
               }
-            ]
-          }
+            ],
+            "lead": "Un nuevo comienzo también necesita decisiones claras.",
+            "note": "El primer paso es contarnos qué necesitas resolver.",
+            "note_icon": "message-circle",
+            "visual": "image"
+          },
+          "assets": [],
+          "asset_key": "claudia-perfil"
         },
         {
           "type": "split_content",
           "schema_version": 1,
-          "variant": "default",
+          "variant": "image-right",
           "data": {
             "eyebrow": "Antes de iniciar",
             "heading": "¿Qué necesitas ordenar para divorciarte?",
-            "body": "No todas las separaciones parten del mismo punto. Revisamos si existe acuerdo, cómo se acredita el cese de convivencia y si hay decisiones pendientes respecto de hijos, alimentos, compensación económica o bienes."
+            "body": "No todas las separaciones parten del mismo punto. Revisamos si existe acuerdo, cómo se acredita el cese de convivencia y si hay decisiones pendientes respecto de hijos, alimentos, compensación económica o bienes.",
+            "visual": "brand"
+          },
+          "assets": []
+        },
+        {
+          "type": "card_grid",
+          "schema_version": 1,
+          "variant": "benefits",
+          "assets": [],
+          "data": {
+            "aria_label": "Nuestro acompañamiento",
+            "tone": "sage",
+            "columns": "4",
+            "items": [
+              {
+                "icon": "heart-handshake",
+                "heading": "Tu situación primero",
+                "body": "Escuchamos tu contexto y lo que necesitas resolver."
+              },
+              {
+                "icon": "message-circle",
+                "heading": "Alternativas claras",
+                "body": "Te explicamos las opciones y las preguntas pendientes."
+              },
+              {
+                "icon": "book-open-check",
+                "heading": "Una estrategia fundada",
+                "body": "Revisamos los hechos y antecedentes de tu caso."
+              },
+              {
+                "icon": "wallet-cards",
+                "heading": "Un alcance acordado",
+                "body": "Definimos las gestiones y los honorarios antes de avanzar."
+              }
+            ]
           }
         },
         {
@@ -883,22 +921,26 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
                 "heading": "Divorcio de mutuo acuerdo",
                 "body": "Ambos cónyuges solicitan el divorcio y presentan un acuerdo completo y suficiente.",
                 "href": "/personas/derecho-de-familia/divorcios/mutuo-acuerdo",
-                "link_label": "Conocer mis opciones"
+                "link_label": "Conocer mis opciones",
+                "icon": "file-text"
               },
               {
                 "heading": "Divorcio unilateral",
                 "body": "Uno de los cónyuges solicita el divorcio por cese efectivo de convivencia, sujeto a sus requisitos.",
                 "href": "/personas/derecho-de-familia/divorcios/unilateral",
-                "link_label": "Conocer mis opciones"
+                "link_label": "Conocer mis opciones",
+                "icon": "scale"
               },
               {
                 "heading": "Divorcio por culpa",
                 "body": "Se analizan hechos graves y la prueba que podría sustentar esta causal.",
                 "href": "/personas/derecho-de-familia/divorcios/por-culpa",
-                "link_label": "Conocer mis opciones"
+                "link_label": "Conocer mis opciones",
+                "icon": "scale"
               }
             ]
-          }
+          },
+          "assets": []
         },
         {
           "type": "checklist",
@@ -922,8 +964,10 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
               {
                 "text": "¿Qué régimen patrimonial existe y qué gestiones adicionales requiere?"
               }
-            ]
-          }
+            ],
+            "visual": "requirements"
+          },
+          "assets": []
         },
         {
           "type": "steps",
@@ -949,7 +993,18 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
                 "body": "Realizamos las gestiones acordadas y te informamos sobre los hitos que correspondan."
               }
             ]
-          }
+          },
+          "assets": []
+        },
+        {
+          "type": "related_content",
+          "schema_version": 1,
+          "variant": "default",
+          "data": {
+            "heading": "También puede ayudarte",
+            "source": "related"
+          },
+          "assets": []
         },
         {
           "type": "faq",
@@ -976,7 +1031,8 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
                 "answer": "Los honorarios dependen del alcance y de las actuaciones necesarias. Se informan y acuerdan antes del encargo."
               }
             ]
-          }
+          },
+          "assets": []
         },
         {
           "type": "cta",
@@ -989,21 +1045,22 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
             "actions": [
               {
                 "label": "Solicitar evaluación de mi caso",
-                "href": "/contacto"
+                "href": "/contacto",
+                "icon": "arrow-up-right",
+                "style": "primary"
+              },
+              {
+                "label": "Escríbenos por WhatsApp",
+                "href": "https://wa.me/{{whatsapp}}",
+                "icon": "message-circle",
+                "style": "text"
               }
             ]
-          }
-        },
-        {
-          "type": "related_content",
-          "schema_version": 1,
-          "variant": "default",
-          "data": {
-            "heading": "También puede ayudarte",
-            "source": "related"
-          }
+          },
+          "assets": []
         }
-      ]
+      ],
+      "template_version": 2
     },
     {
       "key": "mutuo",
@@ -1037,25 +1094,68 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
           "schema_version": 1,
           "variant": "image-right",
           "data": {
-            "eyebrow": "Divorcio de mutuo acuerdo",
-            "heading": "Si ambos quieren cerrar esta etapa, construyamos un acuerdo que les permita avanzar.",
+            "eyebrow": "Asesoría y representación",
+            "heading": "Divorcio de mutuo acuerdo",
             "body": "Te acompaño a revisar los requisitos y a ordenar las materias del acuerdo, con una explicación clara de lo que se propone y de lo que aún debe resolverse.",
             "actions": [
               {
                 "label": "Solicitar evaluación de mi caso",
-                "href": "/contacto"
+                "href": "/contacto",
+                "icon": "arrow-up-right",
+                "style": "primary"
               }
-            ]
-          }
+            ],
+            "lead": "Si ambos quieren cerrar esta etapa, construyamos un acuerdo que les permita avanzar.",
+            "note": "El primer paso es contarnos qué necesitas resolver.",
+            "note_icon": "message-circle",
+            "visual": "image"
+          },
+          "assets": [],
+          "asset_key": "claudia-perfil"
         },
         {
           "type": "split_content",
           "schema_version": 1,
-          "variant": "default",
+          "variant": "image-right",
           "data": {
             "eyebrow": "Una decisión compartida",
             "heading": "Estar de acuerdo en divorciarse es el punto de partida.",
-            "body": "La solicitud conjunta exige revisar también las relaciones entre los cónyuges y con sus hijos cuando corresponda. Trabajamos para identificar acuerdos posibles y puntos que necesitan una decisión antes de presentar la solicitud."
+            "body": "La solicitud conjunta exige revisar también las relaciones entre los cónyuges y con sus hijos cuando corresponda. Trabajamos para identificar acuerdos posibles y puntos que necesitan una decisión antes de presentar la solicitud.",
+            "visual": "brand"
+          },
+          "assets": []
+        },
+        {
+          "type": "card_grid",
+          "schema_version": 1,
+          "variant": "benefits",
+          "assets": [],
+          "data": {
+            "aria_label": "Nuestro acompañamiento",
+            "tone": "sage",
+            "columns": "4",
+            "items": [
+              {
+                "icon": "heart-handshake",
+                "heading": "Tu situación primero",
+                "body": "Escuchamos tu contexto y lo que necesitas resolver."
+              },
+              {
+                "icon": "message-circle",
+                "heading": "Alternativas claras",
+                "body": "Te explicamos las opciones y las preguntas pendientes."
+              },
+              {
+                "icon": "book-open-check",
+                "heading": "Una estrategia fundada",
+                "body": "Revisamos los hechos y antecedentes de tu caso."
+              },
+              {
+                "icon": "wallet-cards",
+                "heading": "Un alcance acordado",
+                "body": "Definimos las gestiones y los honorarios antes de avanzar."
+              }
+            ]
           }
         },
         {
@@ -1080,8 +1180,10 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
               {
                 "text": "Documentación y representación jurídica para la solicitud."
               }
-            ]
-          }
+            ],
+            "visual": "requirements"
+          },
+          "assets": []
         },
         {
           "type": "card_grid",
@@ -1093,22 +1195,27 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
             "items": [
               {
                 "heading": "Cuidado y relación con los hijos",
-                "body": "Se revisa la organización familiar y la regulación existente."
+                "body": "Se revisa la organización familiar y la regulación existente.",
+                "icon": "users"
               },
               {
                 "heading": "Aportes de alimentos",
-                "body": "Se precisan obligaciones, montos y formas de cumplimiento que correspondan."
+                "body": "Se precisan obligaciones, montos y formas de cumplimiento que correspondan.",
+                "icon": "coins"
               },
               {
                 "heading": "Compensación económica",
-                "body": "Se evalúa su procedencia y cómo debe plantearse oportunamente."
+                "body": "Se evalúa su procedencia y cómo debe plantearse oportunamente.",
+                "icon": "coins"
               },
               {
                 "heading": "Bienes y régimen patrimonial",
-                "body": "Se distingue lo que puede acordarse de las gestiones patrimoniales adicionales."
+                "body": "Se distingue lo que puede acordarse de las gestiones patrimoniales adicionales.",
+                "icon": "house"
               }
             ]
-          }
+          },
+          "assets": []
         },
         {
           "type": "steps",
@@ -1134,7 +1241,18 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
                 "body": "Se atiende lo que disponga el tribunal y las gestiones acordadas que correspondan."
               }
             ]
-          }
+          },
+          "assets": []
+        },
+        {
+          "type": "related_content",
+          "schema_version": 1,
+          "variant": "default",
+          "data": {
+            "heading": "También puede ayudarte",
+            "source": "related"
+          },
+          "assets": []
         },
         {
           "type": "faq",
@@ -1165,7 +1283,8 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
                 "answer": "Se define según el alcance del acuerdo, los antecedentes y las actuaciones que se encarguen."
               }
             ]
-          }
+          },
+          "assets": []
         },
         {
           "type": "cta",
@@ -1178,21 +1297,22 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
             "actions": [
               {
                 "label": "Solicitar evaluación de mi caso",
-                "href": "/contacto"
+                "href": "/contacto",
+                "icon": "arrow-up-right",
+                "style": "primary"
+              },
+              {
+                "label": "Escríbenos por WhatsApp",
+                "href": "https://wa.me/{{whatsapp}}",
+                "icon": "message-circle",
+                "style": "text"
               }
             ]
-          }
-        },
-        {
-          "type": "related_content",
-          "schema_version": 1,
-          "variant": "default",
-          "data": {
-            "heading": "También puede ayudarte",
-            "source": "related"
-          }
+          },
+          "assets": []
         }
-      ]
+      ],
+      "template_version": 2
     },
     {
       "key": "unilateral",
@@ -1226,25 +1346,68 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
           "schema_version": 1,
           "variant": "image-right",
           "data": {
-            "eyebrow": "Divorcio unilateral",
-            "heading": "Si tu cónyuge no quiere divorciarse, conoce qué opciones puedes tener.",
+            "eyebrow": "Asesoría y representación",
+            "heading": "Divorcio unilateral",
             "body": "Analicemos si se cumplen los requisitos de una solicitud unilateral y qué debes acreditar antes de tomar la decisión de demandar.",
             "actions": [
               {
                 "label": "Solicitar evaluación de mi caso",
-                "href": "/contacto"
+                "href": "/contacto",
+                "icon": "arrow-up-right",
+                "style": "primary"
               }
-            ]
-          }
+            ],
+            "lead": "Si tu cónyuge no quiere divorciarse, conoce qué opciones puedes tener.",
+            "note": "El primer paso es contarnos qué necesitas resolver.",
+            "note_icon": "message-circle",
+            "visual": "image"
+          },
+          "assets": [],
+          "asset_key": "claudia-perfil"
         },
         {
           "type": "split_content",
           "schema_version": 1,
-          "variant": "default",
+          "variant": "image-right",
           "data": {
             "eyebrow": "Cuándo evaluar esta alternativa",
             "heading": "La falta de acuerdo no resuelve por sí sola cuál es la vía.",
-            "body": "La solicitud unilateral por cese efectivo de convivencia exige, entre otros antecedentes, un período de a lo menos tres años. También se deben revisar la prueba disponible y las circunstancias relevantes del caso."
+            "body": "La solicitud unilateral por cese efectivo de convivencia exige, entre otros antecedentes, un período de a lo menos tres años. También se deben revisar la prueba disponible y las circunstancias relevantes del caso.",
+            "visual": "brand"
+          },
+          "assets": []
+        },
+        {
+          "type": "card_grid",
+          "schema_version": 1,
+          "variant": "benefits",
+          "assets": [],
+          "data": {
+            "aria_label": "Nuestro acompañamiento",
+            "tone": "sage",
+            "columns": "4",
+            "items": [
+              {
+                "icon": "heart-handshake",
+                "heading": "Tu situación primero",
+                "body": "Escuchamos tu contexto y lo que necesitas resolver."
+              },
+              {
+                "icon": "message-circle",
+                "heading": "Alternativas claras",
+                "body": "Te explicamos las opciones y las preguntas pendientes."
+              },
+              {
+                "icon": "book-open-check",
+                "heading": "Una estrategia fundada",
+                "body": "Revisamos los hechos y antecedentes de tu caso."
+              },
+              {
+                "icon": "wallet-cards",
+                "heading": "Un alcance acordado",
+                "body": "Definimos las gestiones y los honorarios antes de avanzar."
+              }
+            ]
           }
         },
         {
@@ -1269,8 +1432,10 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
               {
                 "text": "Situación de compensación económica y del régimen patrimonial."
               }
-            ]
-          }
+            ],
+            "visual": "requirements"
+          },
+          "assets": []
         },
         {
           "type": "steps",
@@ -1296,7 +1461,18 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
                 "body": "Te explicamos los efectos de lo decidido y las actuaciones posteriores acordadas."
               }
             ]
-          }
+          },
+          "assets": []
+        },
+        {
+          "type": "related_content",
+          "schema_version": 1,
+          "variant": "default",
+          "data": {
+            "heading": "También puede ayudarte",
+            "source": "related"
+          },
+          "assets": []
         },
         {
           "type": "faq",
@@ -1327,7 +1503,8 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
                 "answer": "El valor se acuerda según el encargo. Los tiempos dependen de la tramitación y no se garantizan por anticipado."
               }
             ]
-          }
+          },
+          "assets": []
         },
         {
           "type": "cta",
@@ -1340,21 +1517,22 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
             "actions": [
               {
                 "label": "Solicitar evaluación de mi caso",
-                "href": "/contacto"
+                "href": "/contacto",
+                "icon": "arrow-up-right",
+                "style": "primary"
+              },
+              {
+                "label": "Escríbenos por WhatsApp",
+                "href": "https://wa.me/{{whatsapp}}",
+                "icon": "message-circle",
+                "style": "text"
               }
             ]
-          }
-        },
-        {
-          "type": "related_content",
-          "schema_version": 1,
-          "variant": "default",
-          "data": {
-            "heading": "También puede ayudarte",
-            "source": "related"
-          }
+          },
+          "assets": []
         }
-      ]
+      ],
+      "template_version": 2
     },
     {
       "key": "culpa",
@@ -1387,25 +1565,68 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
           "schema_version": 1,
           "variant": "image-right",
           "data": {
-            "eyebrow": "Divorcio por culpa",
-            "heading": "Cuando la convivencia se vuelve intolerable, el primer paso es evaluar los hechos.",
+            "eyebrow": "Asesoría y representación",
+            "heading": "Divorcio por culpa",
             "body": "Te ayudo a comprender si esta causal puede corresponder a tu situación y qué antecedentes se necesitan, con un trato reservado y una estrategia fundada.",
             "actions": [
               {
                 "label": "Solicitar evaluación de mi caso",
-                "href": "/contacto"
+                "href": "/contacto",
+                "icon": "arrow-up-right",
+                "style": "primary"
               }
-            ]
-          }
+            ],
+            "lead": "Cuando la convivencia se vuelve intolerable, el primer paso es evaluar los hechos.",
+            "note": "El primer paso es contarnos qué necesitas resolver.",
+            "note_icon": "message-circle",
+            "visual": "image"
+          },
+          "assets": [],
+          "asset_key": "claudia-perfil"
         },
         {
           "type": "split_content",
           "schema_version": 1,
-          "variant": "default",
+          "variant": "image-right",
           "data": {
             "eyebrow": "Cuándo puede corresponder",
             "heading": "Una causal que exige hechos graves y prueba.",
-            "body": "No toda discusión, infidelidad o separación configura automáticamente esta causal. Debe analizarse la gravedad de la infracción y cómo torna intolerable la vida en común, conforme a la ley."
+            "body": "No toda discusión, infidelidad o separación configura automáticamente esta causal. Debe analizarse la gravedad de la infracción y cómo torna intolerable la vida en común, conforme a la ley.",
+            "visual": "brand"
+          },
+          "assets": []
+        },
+        {
+          "type": "card_grid",
+          "schema_version": 1,
+          "variant": "benefits",
+          "assets": [],
+          "data": {
+            "aria_label": "Nuestro acompañamiento",
+            "tone": "sage",
+            "columns": "4",
+            "items": [
+              {
+                "icon": "heart-handshake",
+                "heading": "Tu situación primero",
+                "body": "Escuchamos tu contexto y lo que necesitas resolver."
+              },
+              {
+                "icon": "message-circle",
+                "heading": "Alternativas claras",
+                "body": "Te explicamos las opciones y las preguntas pendientes."
+              },
+              {
+                "icon": "book-open-check",
+                "heading": "Una estrategia fundada",
+                "body": "Revisamos los hechos y antecedentes de tu caso."
+              },
+              {
+                "icon": "wallet-cards",
+                "heading": "Un alcance acordado",
+                "body": "Definimos las gestiones y los honorarios antes de avanzar."
+              }
+            ]
           }
         },
         {
@@ -1430,8 +1651,10 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
               {
                 "text": "Prueba obtenida lícitamente y materias familiares o económicas relacionadas."
               }
-            ]
-          }
+            ],
+            "visual": "requirements"
+          },
+          "assets": []
         },
         {
           "type": "card_grid",
@@ -1443,22 +1666,27 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
             "items": [
               {
                 "heading": "Protección y contexto familiar",
-                "body": "Se revisan las necesidades de protección y las vías que correspondan."
+                "body": "Se revisan las necesidades de protección y las vías que correspondan.",
+                "icon": "users"
               },
               {
                 "heading": "Situación de los hijos",
-                "body": "Sus derechos y obligaciones no desaparecen por el divorcio."
+                "body": "Sus derechos y obligaciones no desaparecen por el divorcio.",
+                "icon": "users"
               },
               {
                 "heading": "Compensación económica",
-                "body": "Se analiza su procedencia y el efecto que la causal pueda tener según la ley."
+                "body": "Se analiza su procedencia y el efecto que la causal pueda tener según la ley.",
+                "icon": "coins"
               },
               {
                 "heading": "Patrimonio",
-                "body": "Las consecuencias dependen del régimen y de las gestiones que correspondan."
+                "body": "Las consecuencias dependen del régimen y de las gestiones que correspondan.",
+                "icon": "house"
               }
             ]
-          }
+          },
+          "assets": []
         },
         {
           "type": "steps",
@@ -1484,7 +1712,18 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
                 "body": "Realizamos las gestiones acordadas y te informamos sobre los hitos que correspondan."
               }
             ]
-          }
+          },
+          "assets": []
+        },
+        {
+          "type": "related_content",
+          "schema_version": 1,
+          "variant": "default",
+          "data": {
+            "heading": "También puede ayudarte",
+            "source": "related"
+          },
+          "assets": []
         },
         {
           "type": "faq",
@@ -1515,7 +1754,8 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
                 "answer": "La controversia, la prueba y las actuaciones judiciales influyen. No se ofrece un plazo de resultado."
               }
             ]
-          }
+          },
+          "assets": []
         },
         {
           "type": "cta",
@@ -1528,21 +1768,22 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
             "actions": [
               {
                 "label": "Solicitar evaluación de mi caso",
-                "href": "/contacto"
+                "href": "/contacto",
+                "icon": "arrow-up-right",
+                "style": "primary"
+              },
+              {
+                "label": "Escríbenos por WhatsApp",
+                "href": "https://wa.me/{{whatsapp}}",
+                "icon": "message-circle",
+                "style": "text"
               }
             ]
-          }
-        },
-        {
-          "type": "related_content",
-          "schema_version": 1,
-          "variant": "default",
-          "data": {
-            "heading": "También puede ayudarte",
-            "source": "related"
-          }
+          },
+          "assets": []
         }
-      ]
+      ],
+      "template_version": 2
     },
     {
       "key": "alimentos",
@@ -1578,25 +1819,68 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
           "schema_version": 1,
           "variant": "image-right",
           "data": {
-            "eyebrow": "Pensión de alimentos en Chile",
-            "heading": "Las necesidades de tus hijos merecen un aporte claro y una estrategia para hacerlo cumplir.",
+            "eyebrow": "Asesoría y representación",
+            "heading": "Pensión de alimentos en Chile",
             "body": "Si necesitas fijar una pensión, ajustarla o cobrar lo pendiente, revisemos qué existe hoy y qué cambio necesitas lograr.",
             "actions": [
               {
                 "label": "Solicitar evaluación de mi caso",
-                "href": "/contacto"
+                "href": "/contacto",
+                "icon": "arrow-up-right",
+                "style": "primary"
               }
-            ]
-          }
+            ],
+            "lead": "Las necesidades de tus hijos merecen un aporte claro y una estrategia para hacerlo cumplir.",
+            "note": "El primer paso es contarnos qué necesitas resolver.",
+            "note_icon": "message-circle",
+            "visual": "image"
+          },
+          "assets": [],
+          "asset_key": "claudia-perfil"
         },
         {
           "type": "split_content",
           "schema_version": 1,
-          "variant": "default",
+          "variant": "image-right",
           "data": {
             "eyebrow": "Información para decidir",
             "heading": "Empieza por identificar qué necesitas cambiar.",
-            "body": "No es lo mismo fijar una pensión por primera vez que modificar una vigente o cobrar una deuda. La evaluación ordena el objetivo, la resolución o acuerdo existente y los antecedentes que lo respaldan."
+            "body": "No es lo mismo fijar una pensión por primera vez que modificar una vigente o cobrar una deuda. La evaluación ordena el objetivo, la resolución o acuerdo existente y los antecedentes que lo respaldan.",
+            "visual": "brand"
+          },
+          "assets": []
+        },
+        {
+          "type": "card_grid",
+          "schema_version": 1,
+          "variant": "benefits",
+          "assets": [],
+          "data": {
+            "aria_label": "Nuestro acompañamiento",
+            "tone": "sage",
+            "columns": "4",
+            "items": [
+              {
+                "icon": "heart-handshake",
+                "heading": "Tu situación primero",
+                "body": "Escuchamos tu contexto y lo que necesitas resolver."
+              },
+              {
+                "icon": "message-circle",
+                "heading": "Alternativas claras",
+                "body": "Te explicamos las opciones y las preguntas pendientes."
+              },
+              {
+                "icon": "book-open-check",
+                "heading": "Una estrategia fundada",
+                "body": "Revisamos los hechos y antecedentes de tu caso."
+              },
+              {
+                "icon": "wallet-cards",
+                "heading": "Un alcance acordado",
+                "body": "Definimos las gestiones y los honorarios antes de avanzar."
+              }
+            ]
           }
         },
         {
@@ -1611,34 +1895,40 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
                 "heading": "Solicitar una pensión",
                 "body": "Organiza necesidades, gastos y antecedentes para una regulación inicial.",
                 "href": "/personas/derecho-de-familia/pension-de-alimentos/solicitar",
-                "link_label": "Conocer mis opciones"
+                "link_label": "Conocer mis opciones",
+                "icon": "scale"
               },
               {
                 "heading": "Pedir un aumento",
                 "body": "Revisa cambios en necesidades y capacidad económica.",
                 "href": "/personas/derecho-de-familia/pension-de-alimentos/aumento",
-                "link_label": "Conocer mis opciones"
+                "link_label": "Conocer mis opciones",
+                "icon": "scale"
               },
               {
                 "heading": "Evaluar una rebaja",
                 "body": "Analiza una variación de circunstancias sin dejar de cumplir por tu cuenta.",
                 "href": "/personas/derecho-de-familia/pension-de-alimentos/rebaja",
-                "link_label": "Conocer mis opciones"
+                "link_label": "Conocer mis opciones",
+                "icon": "scale"
               },
               {
                 "heading": "Solicitar el cese",
                 "body": "Comprende cuándo puede dejar de corresponder la obligación y qué debe acreditarse.",
                 "href": "/personas/derecho-de-familia/pension-de-alimentos/cese",
-                "link_label": "Conocer mis opciones"
+                "link_label": "Conocer mis opciones",
+                "icon": "scale"
               },
               {
                 "heading": "Exigir el pago",
                 "body": "Ordena incumplimientos, liquidación y medidas de cumplimiento.",
                 "href": "/personas/derecho-de-familia/pension-de-alimentos/cobro",
-                "link_label": "Conocer mis opciones"
+                "link_label": "Conocer mis opciones",
+                "icon": "coins"
               }
             ]
-          }
+          },
+          "assets": []
         },
         {
           "type": "checklist",
@@ -1662,8 +1952,10 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
               {
                 "text": "Distribución del cuidado y aportes de cada progenitor."
               }
-            ]
-          }
+            ],
+            "visual": "requirements"
+          },
+          "assets": []
         },
         {
           "type": "card_grid",
@@ -1675,22 +1967,27 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
             "items": [
               {
                 "heading": "Necesidades de los hijos",
-                "body": "Edad, salud, educación y necesidades acreditables."
+                "body": "Edad, salud, educación y necesidades acreditables.",
+                "icon": "users"
               },
               {
                 "heading": "Capacidad económica",
-                "body": "Ingresos, antecedentes patrimoniales y otras circunstancias relevantes."
+                "body": "Ingresos, antecedentes patrimoniales y otras circunstancias relevantes.",
+                "icon": "coins"
               },
               {
                 "heading": "Cuidado y aportes",
-                "body": "La organización familiar y las contribuciones existentes."
+                "body": "La organización familiar y las contribuciones existentes.",
+                "icon": "users"
               },
               {
                 "heading": "Acuerdos y resoluciones",
-                "body": "Lo que ya está regulado y lo que se pide modificar o cumplir."
+                "body": "Lo que ya está regulado y lo que se pide modificar o cumplir.",
+                "icon": "file-text"
               }
             ]
-          }
+          },
+          "assets": []
         },
         {
           "type": "steps",
@@ -1716,7 +2013,18 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
                 "body": "Se realizan las gestiones y actuaciones que correspondan."
               }
             ]
-          }
+          },
+          "assets": []
+        },
+        {
+          "type": "related_content",
+          "schema_version": 1,
+          "variant": "default",
+          "data": {
+            "heading": "También puede ayudarte",
+            "source": "related"
+          },
+          "assets": []
         },
         {
           "type": "faq",
@@ -1747,7 +2055,8 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
                 "answer": "No. La evaluación de necesidades puede comprender distintos gastos de subsistencia y desarrollo."
               }
             ]
-          }
+          },
+          "assets": []
         },
         {
           "type": "cta",
@@ -1760,21 +2069,22 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
             "actions": [
               {
                 "label": "Solicitar evaluación de mi caso",
-                "href": "/contacto"
+                "href": "/contacto",
+                "icon": "arrow-up-right",
+                "style": "primary"
+              },
+              {
+                "label": "Escríbenos por WhatsApp",
+                "href": "https://wa.me/{{whatsapp}}",
+                "icon": "message-circle",
+                "style": "text"
               }
             ]
-          }
-        },
-        {
-          "type": "related_content",
-          "schema_version": 1,
-          "variant": "default",
-          "data": {
-            "heading": "También puede ayudarte",
-            "source": "related"
-          }
+          },
+          "assets": []
         }
-      ]
+      ],
+      "template_version": 2
     },
     {
       "key": "solicitar",
@@ -1806,13 +2116,54 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
           "schema_version": 1,
           "variant": "image-right",
           "data": {
-            "eyebrow": "Solicitar una pensión de alimentos",
-            "heading": "Si hoy los aportes son inciertos, empecemos por darles una base clara.",
+            "eyebrow": "Asesoría y representación",
+            "heading": "Solicitar una pensión de alimentos",
             "body": "Te ayudo a organizar las necesidades de tus hijos y los antecedentes para evaluar una solicitud de alimentos y las etapas que correspondan.",
             "actions": [
               {
                 "label": "Solicitar evaluación de mi caso",
-                "href": "/contacto"
+                "href": "/contacto",
+                "icon": "arrow-up-right",
+                "style": "primary"
+              }
+            ],
+            "lead": "Si hoy los aportes son inciertos, empecemos por darles una base clara.",
+            "note": "El primer paso es contarnos qué necesitas resolver.",
+            "note_icon": "message-circle",
+            "visual": "image"
+          },
+          "assets": [],
+          "asset_key": "claudia-perfil"
+        },
+        {
+          "type": "card_grid",
+          "schema_version": 1,
+          "variant": "benefits",
+          "assets": [],
+          "data": {
+            "aria_label": "Nuestro acompañamiento",
+            "tone": "sage",
+            "columns": "4",
+            "items": [
+              {
+                "icon": "heart-handshake",
+                "heading": "Tu situación primero",
+                "body": "Escuchamos tu contexto y lo que necesitas resolver."
+              },
+              {
+                "icon": "message-circle",
+                "heading": "Alternativas claras",
+                "body": "Te explicamos las opciones y las preguntas pendientes."
+              },
+              {
+                "icon": "book-open-check",
+                "heading": "Una estrategia fundada",
+                "body": "Revisamos los hechos y antecedentes de tu caso."
+              },
+              {
+                "icon": "wallet-cards",
+                "heading": "Un alcance acordado",
+                "body": "Definimos las gestiones y los honorarios antes de avanzar."
               }
             ]
           }
@@ -1839,8 +2190,10 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
               {
                 "text": "Procedencia de mediación previa y certificados o excepciones aplicables."
               }
-            ]
-          }
+            ],
+            "visual": "requirements"
+          },
+          "assets": []
         },
         {
           "type": "steps",
@@ -1866,7 +2219,18 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
                 "body": "Realizamos las gestiones acordadas y te informamos sobre los hitos que correspondan."
               }
             ]
-          }
+          },
+          "assets": []
+        },
+        {
+          "type": "related_content",
+          "schema_version": 1,
+          "variant": "default",
+          "data": {
+            "heading": "También puede ayudarte",
+            "source": "related"
+          },
+          "assets": []
         },
         {
           "type": "faq",
@@ -1889,7 +2253,8 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
                 "answer": "No. La propuesta se fundamenta en los antecedentes y la decisión corresponde al tribunal o al acuerdo aprobado que proceda."
               }
             ]
-          }
+          },
+          "assets": []
         },
         {
           "type": "cta",
@@ -1902,21 +2267,22 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
             "actions": [
               {
                 "label": "Solicitar evaluación de mi caso",
-                "href": "/contacto"
+                "href": "/contacto",
+                "icon": "arrow-up-right",
+                "style": "primary"
+              },
+              {
+                "label": "Escríbenos por WhatsApp",
+                "href": "https://wa.me/{{whatsapp}}",
+                "icon": "message-circle",
+                "style": "text"
               }
             ]
-          }
-        },
-        {
-          "type": "related_content",
-          "schema_version": 1,
-          "variant": "default",
-          "data": {
-            "heading": "También puede ayudarte",
-            "source": "related"
-          }
+          },
+          "assets": []
         }
-      ]
+      ],
+      "template_version": 2
     },
     {
       "key": "aumento",
@@ -1950,25 +2316,68 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
           "schema_version": 1,
           "variant": "image-right",
           "data": {
-            "eyebrow": "Aumento de pensión de alimentos",
-            "heading": "Si las necesidades de tus hijos cambiaron, revisemos si la pensión necesita cambiar también.",
+            "eyebrow": "Asesoría y representación",
+            "heading": "Aumento de pensión de alimentos",
             "body": "Te acompaño a ordenar los nuevos gastos y antecedentes para evaluar una solicitud fundada, sin dar por hecho un monto ni un resultado.",
             "actions": [
               {
                 "label": "Solicitar evaluación de mi caso",
-                "href": "/contacto"
+                "href": "/contacto",
+                "icon": "arrow-up-right",
+                "style": "primary"
               }
-            ]
-          }
+            ],
+            "lead": "Si las necesidades de tus hijos cambiaron, revisemos si la pensión necesita cambiar también.",
+            "note": "El primer paso es contarnos qué necesitas resolver.",
+            "note_icon": "message-circle",
+            "visual": "image"
+          },
+          "assets": [],
+          "asset_key": "claudia-perfil"
         },
         {
           "type": "split_content",
           "schema_version": 1,
-          "variant": "default",
+          "variant": "image-right",
           "data": {
             "eyebrow": "Una modificación con antecedentes",
             "heading": "No se trata solo de pedir más: necesitamos explicar qué cambió.",
-            "body": "La evaluación compara la regulación vigente con la situación actual y determina qué necesidades o cambios económicos pueden respaldarse."
+            "body": "La evaluación compara la regulación vigente con la situación actual y determina qué necesidades o cambios económicos pueden respaldarse.",
+            "visual": "brand"
+          },
+          "assets": []
+        },
+        {
+          "type": "card_grid",
+          "schema_version": 1,
+          "variant": "benefits",
+          "assets": [],
+          "data": {
+            "aria_label": "Nuestro acompañamiento",
+            "tone": "sage",
+            "columns": "4",
+            "items": [
+              {
+                "icon": "heart-handshake",
+                "heading": "Tu situación primero",
+                "body": "Escuchamos tu contexto y lo que necesitas resolver."
+              },
+              {
+                "icon": "message-circle",
+                "heading": "Alternativas claras",
+                "body": "Te explicamos las opciones y las preguntas pendientes."
+              },
+              {
+                "icon": "book-open-check",
+                "heading": "Una estrategia fundada",
+                "body": "Revisamos los hechos y antecedentes de tu caso."
+              },
+              {
+                "icon": "wallet-cards",
+                "heading": "Un alcance acordado",
+                "body": "Definimos las gestiones y los honorarios antes de avanzar."
+              }
+            ]
           }
         },
         {
@@ -1993,8 +2402,10 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
               {
                 "text": "Modificaciones en la distribución del cuidado y aportes."
               }
-            ]
-          }
+            ],
+            "visual": "requirements"
+          },
+          "assets": []
         },
         {
           "type": "card_grid",
@@ -2006,22 +2417,27 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
             "items": [
               {
                 "heading": "Necesidades actuales",
-                "body": "Organizamos gastos nuevos y su respaldo."
+                "body": "Organizamos gastos nuevos y su respaldo.",
+                "icon": "scale"
               },
               {
                 "heading": "Situación económica",
-                "body": "Revisamos los antecedentes disponibles sobre capacidad de aporte."
+                "body": "Revisamos los antecedentes disponibles sobre capacidad de aporte.",
+                "icon": "coins"
               },
               {
                 "heading": "Regulación vigente",
-                "body": "Identificamos qué se fijó y bajo qué contexto."
+                "body": "Identificamos qué se fijó y bajo qué contexto.",
+                "icon": "scale"
               },
               {
                 "heading": "Cambio acreditable",
-                "body": "Distinguimos hechos relevantes de suposiciones."
+                "body": "Distinguimos hechos relevantes de suposiciones.",
+                "icon": "scale"
               }
             ]
-          }
+          },
+          "assets": []
         },
         {
           "type": "steps",
@@ -2047,7 +2463,18 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
                 "body": "Realizamos las gestiones acordadas y te informamos sobre los hitos que correspondan."
               }
             ]
-          }
+          },
+          "assets": []
+        },
+        {
+          "type": "related_content",
+          "schema_version": 1,
+          "variant": "default",
+          "data": {
+            "heading": "También puede ayudarte",
+            "source": "related"
+          },
+          "assets": []
         },
         {
           "type": "faq",
@@ -2078,7 +2505,8 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
                 "answer": "Depende de las etapas previas, la prueba y la tramitación. No se garantiza un plazo de sentencia."
               }
             ]
-          }
+          },
+          "assets": []
         },
         {
           "type": "cta",
@@ -2091,21 +2519,22 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
             "actions": [
               {
                 "label": "Solicitar evaluación de mi caso",
-                "href": "/contacto"
+                "href": "/contacto",
+                "icon": "arrow-up-right",
+                "style": "primary"
+              },
+              {
+                "label": "Escríbenos por WhatsApp",
+                "href": "https://wa.me/{{whatsapp}}",
+                "icon": "message-circle",
+                "style": "text"
               }
             ]
-          }
-        },
-        {
-          "type": "related_content",
-          "schema_version": 1,
-          "variant": "default",
-          "data": {
-            "heading": "También puede ayudarte",
-            "source": "related"
-          }
+          },
+          "assets": []
         }
-      ]
+      ],
+      "template_version": 2
     },
     {
       "key": "rebaja",
@@ -2139,25 +2568,68 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
           "schema_version": 1,
           "variant": "image-right",
           "data": {
-            "eyebrow": "Rebaja de pensión de alimentos",
-            "heading": "Si tu realidad económica cambió, revisemos cómo plantearlo por la vía correspondiente.",
+            "eyebrow": "Asesoría y representación",
+            "heading": "Rebaja de pensión de alimentos",
             "body": "Una caída de ingresos puede generar incertidumbre. Te ayudo a revisar los antecedentes para evaluar una solicitud de rebaja sin desconocer las necesidades de tus hijos.",
             "actions": [
               {
                 "label": "Solicitar evaluación de mi caso",
-                "href": "/contacto"
+                "href": "/contacto",
+                "icon": "arrow-up-right",
+                "style": "primary"
               }
-            ]
-          }
+            ],
+            "lead": "Si tu realidad económica cambió, revisemos cómo plantearlo por la vía correspondiente.",
+            "note": "El primer paso es contarnos qué necesitas resolver.",
+            "note_icon": "message-circle",
+            "visual": "image"
+          },
+          "assets": [],
+          "asset_key": "claudia-perfil"
         },
         {
           "type": "split_content",
           "schema_version": 1,
-          "variant": "default",
+          "variant": "image-right",
           "data": {
             "eyebrow": "Antes de modificar tus pagos",
             "heading": "La rebaja no ocurre por decisión unilateral.",
-            "body": "Quedar sin trabajo o asumir nuevos gastos no reduce automáticamente una pensión vigente. Conviene evaluar qué cambió, cómo se acredita y qué vía corresponde antes de alterar el cumplimiento."
+            "body": "Quedar sin trabajo o asumir nuevos gastos no reduce automáticamente una pensión vigente. Conviene evaluar qué cambió, cómo se acredita y qué vía corresponde antes de alterar el cumplimiento.",
+            "visual": "brand"
+          },
+          "assets": []
+        },
+        {
+          "type": "card_grid",
+          "schema_version": 1,
+          "variant": "benefits",
+          "assets": [],
+          "data": {
+            "aria_label": "Nuestro acompañamiento",
+            "tone": "sage",
+            "columns": "4",
+            "items": [
+              {
+                "icon": "heart-handshake",
+                "heading": "Tu situación primero",
+                "body": "Escuchamos tu contexto y lo que necesitas resolver."
+              },
+              {
+                "icon": "message-circle",
+                "heading": "Alternativas claras",
+                "body": "Te explicamos las opciones y las preguntas pendientes."
+              },
+              {
+                "icon": "book-open-check",
+                "heading": "Una estrategia fundada",
+                "body": "Revisamos los hechos y antecedentes de tu caso."
+              },
+              {
+                "icon": "wallet-cards",
+                "heading": "Un alcance acordado",
+                "body": "Definimos las gestiones y los honorarios antes de avanzar."
+              }
+            ]
           }
         },
         {
@@ -2182,8 +2654,10 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
               {
                 "text": "Documentos de la regulación vigente y del cambio que se plantea."
               }
-            ]
-          }
+            ],
+            "visual": "requirements"
+          },
+          "assets": []
         },
         {
           "type": "card_grid",
@@ -2195,22 +2669,27 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
             "items": [
               {
                 "heading": "Ingresos y capacidad económica",
-                "body": "Se consideran los antecedentes actuales y su estabilidad."
+                "body": "Se consideran los antecedentes actuales y su estabilidad.",
+                "icon": "coins"
               },
               {
                 "heading": "Cargas y gastos",
-                "body": "Se analiza su relevancia y respaldo."
+                "body": "Se analiza su relevancia y respaldo.",
+                "icon": "scale"
               },
               {
                 "heading": "Necesidades de los hijos",
-                "body": "Sus necesidades siguen siendo parte central del análisis."
+                "body": "Sus necesidades siguen siendo parte central del análisis.",
+                "icon": "users"
               },
               {
                 "heading": "Variación de circunstancias",
-                "body": "Debe explicarse qué diferencia la situación actual de la que se tuvo en cuenta."
+                "body": "Debe explicarse qué diferencia la situación actual de la que se tuvo en cuenta.",
+                "icon": "scale"
               }
             ]
-          }
+          },
+          "assets": []
         },
         {
           "type": "steps",
@@ -2236,7 +2715,18 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
                 "body": "Realizamos las gestiones acordadas y te informamos sobre los hitos que correspondan."
               }
             ]
-          }
+          },
+          "assets": []
+        },
+        {
+          "type": "related_content",
+          "schema_version": 1,
+          "variant": "default",
+          "data": {
+            "heading": "También puede ayudarte",
+            "source": "related"
+          },
+          "assets": []
         },
         {
           "type": "faq",
@@ -2267,7 +2757,8 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
                 "answer": "La regulación vigente, antecedentes de ingresos y los que respalden el cambio que se invoca."
               }
             ]
-          }
+          },
+          "assets": []
         },
         {
           "type": "cta",
@@ -2280,21 +2771,22 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
             "actions": [
               {
                 "label": "Solicitar evaluación de mi caso",
-                "href": "/contacto"
+                "href": "/contacto",
+                "icon": "arrow-up-right",
+                "style": "primary"
+              },
+              {
+                "label": "Escríbenos por WhatsApp",
+                "href": "https://wa.me/{{whatsapp}}",
+                "icon": "message-circle",
+                "style": "text"
               }
             ]
-          }
-        },
-        {
-          "type": "related_content",
-          "schema_version": 1,
-          "variant": "default",
-          "data": {
-            "heading": "También puede ayudarte",
-            "source": "related"
-          }
+          },
+          "assets": []
         }
-      ]
+      ],
+      "template_version": 2
     },
     {
       "key": "cese",
@@ -2328,25 +2820,68 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
           "schema_version": 1,
           "variant": "image-right",
           "data": {
-            "eyebrow": "Cese de pensión de alimentos",
-            "heading": "Cuando cambia la situación de tu hijo, conviene revisar la obligación antes de dejar de pagar.",
+            "eyebrow": "Asesoría y representación",
+            "heading": "Cese de pensión de alimentos",
             "body": "Te ayudo a evaluar edad, estudios, autonomía y demás antecedentes relevantes para saber si corresponde solicitar el cese y cómo plantearlo.",
             "actions": [
               {
                 "label": "Solicitar evaluación de mi caso",
-                "href": "/contacto"
+                "href": "/contacto",
+                "icon": "arrow-up-right",
+                "style": "primary"
               }
-            ]
-          }
+            ],
+            "lead": "Cuando cambia la situación de tu hijo, conviene revisar la obligación antes de dejar de pagar.",
+            "note": "El primer paso es contarnos qué necesitas resolver.",
+            "note_icon": "message-circle",
+            "visual": "image"
+          },
+          "assets": [],
+          "asset_key": "claudia-perfil"
         },
         {
           "type": "split_content",
           "schema_version": 1,
-          "variant": "default",
+          "variant": "image-right",
           "data": {
             "eyebrow": "Una precisión importante",
             "heading": "Cumplir 18 años no termina automáticamente la pensión.",
-            "body": "La edad por sí sola no permite desconocer una obligación vigente. Para descendientes deben revisarse las reglas de 21 años, la continuidad de estudios que puede extenderla hasta los 28 y las excepciones legales, además de las necesidades y antecedentes del caso."
+            "body": "La edad por sí sola no permite desconocer una obligación vigente. Para descendientes deben revisarse las reglas de 21 años, la continuidad de estudios que puede extenderla hasta los 28 y las excepciones legales, además de las necesidades y antecedentes del caso.",
+            "visual": "brand"
+          },
+          "assets": []
+        },
+        {
+          "type": "card_grid",
+          "schema_version": 1,
+          "variant": "benefits",
+          "assets": [],
+          "data": {
+            "aria_label": "Nuestro acompañamiento",
+            "tone": "sage",
+            "columns": "4",
+            "items": [
+              {
+                "icon": "heart-handshake",
+                "heading": "Tu situación primero",
+                "body": "Escuchamos tu contexto y lo que necesitas resolver."
+              },
+              {
+                "icon": "message-circle",
+                "heading": "Alternativas claras",
+                "body": "Te explicamos las opciones y las preguntas pendientes."
+              },
+              {
+                "icon": "book-open-check",
+                "heading": "Una estrategia fundada",
+                "body": "Revisamos los hechos y antecedentes de tu caso."
+              },
+              {
+                "icon": "wallet-cards",
+                "heading": "Un alcance acordado",
+                "body": "Definimos las gestiones y los honorarios antes de avanzar."
+              }
+            ]
           }
         },
         {
@@ -2371,8 +2906,10 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
               {
                 "text": "Contenido de la resolución vigente y cambios posteriores relevantes."
               }
-            ]
-          }
+            ],
+            "visual": "requirements"
+          },
+          "assets": []
         },
         {
           "type": "card_grid",
@@ -2384,22 +2921,27 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
             "items": [
               {
                 "heading": "Edad y condiciones legales",
-                "body": "Se consideran las condiciones y excepciones, no solo una fecha de cumpleaños."
+                "body": "Se consideran las condiciones y excepciones, no solo una fecha de cumpleaños.",
+                "icon": "scale"
               },
               {
                 "heading": "Estudios",
-                "body": "Importan los antecedentes concretos de formación."
+                "body": "Importan los antecedentes concretos de formación.",
+                "icon": "scale"
               },
               {
                 "heading": "Autonomía y necesidades",
-                "body": "Se revisa si existen medios suficientes y qué necesidades continúan."
+                "body": "Se revisa si existen medios suficientes y qué necesidades continúan.",
+                "icon": "scale"
               },
               {
                 "heading": "Prueba del cambio",
-                "body": "La solicitud debe estar sustentada en antecedentes pertinentes."
+                "body": "La solicitud debe estar sustentada en antecedentes pertinentes.",
+                "icon": "scale"
               }
             ]
-          }
+          },
+          "assets": []
         },
         {
           "type": "steps",
@@ -2425,7 +2967,18 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
                 "body": "Se revisa lo decidido antes de alterar las obligaciones."
               }
             ]
-          }
+          },
+          "assets": []
+        },
+        {
+          "type": "related_content",
+          "schema_version": 1,
+          "variant": "default",
+          "data": {
+            "heading": "También puede ayudarte",
+            "source": "related"
+          },
+          "assets": []
         },
         {
           "type": "faq",
@@ -2456,7 +3009,8 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
                 "answer": "La obligación no desaparece por haber presentado la solicitud. Se revisan la resolución y las opciones que correspondan."
               }
             ]
-          }
+          },
+          "assets": []
         },
         {
           "type": "cta",
@@ -2469,21 +3023,22 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
             "actions": [
               {
                 "label": "Solicitar evaluación de mi caso",
-                "href": "/contacto"
+                "href": "/contacto",
+                "icon": "arrow-up-right",
+                "style": "primary"
+              },
+              {
+                "label": "Escríbenos por WhatsApp",
+                "href": "https://wa.me/{{whatsapp}}",
+                "icon": "message-circle",
+                "style": "text"
               }
             ]
-          }
-        },
-        {
-          "type": "related_content",
-          "schema_version": 1,
-          "variant": "default",
-          "data": {
-            "heading": "También puede ayudarte",
-            "source": "related"
-          }
+          },
+          "assets": []
         }
-      ]
+      ],
+      "template_version": 2
     },
     {
       "key": "cobro",
@@ -2517,25 +3072,68 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
           "schema_version": 1,
           "variant": "image-right",
           "data": {
-            "eyebrow": "Cobro de pensión de alimentos",
-            "heading": "Si la pensión no se está pagando, empecemos por una estrategia de cumplimiento.",
+            "eyebrow": "Asesoría y representación",
+            "heading": "Cobro de pensión de alimentos",
             "body": "Te acompaño a revisar la resolución o acuerdo, los pagos registrados y el estado del procedimiento para determinar qué gestiones pueden corresponder.",
             "actions": [
               {
                 "label": "Solicitar evaluación de mi caso",
-                "href": "/contacto"
+                "href": "/contacto",
+                "icon": "arrow-up-right",
+                "style": "primary"
               }
-            ]
-          }
+            ],
+            "lead": "Si la pensión no se está pagando, empecemos por una estrategia de cumplimiento.",
+            "note": "El primer paso es contarnos qué necesitas resolver.",
+            "note_icon": "message-circle",
+            "visual": "image"
+          },
+          "assets": [],
+          "asset_key": "claudia-perfil"
         },
         {
           "type": "split_content",
           "schema_version": 1,
-          "variant": "default",
+          "variant": "image-right",
           "data": {
             "eyebrow": "Distinguir el objetivo",
             "heading": "Cobrar una pensión fijada no es lo mismo que pedirla por primera vez.",
-            "body": "Antes de iniciar actuaciones se revisa si hay un título vigente, cómo se registran los pagos y cuál es el estado de la liquidación de deuda. La estrategia depende de esa base."
+            "body": "Antes de iniciar actuaciones se revisa si hay un título vigente, cómo se registran los pagos y cuál es el estado de la liquidación de deuda. La estrategia depende de esa base.",
+            "visual": "brand"
+          },
+          "assets": []
+        },
+        {
+          "type": "card_grid",
+          "schema_version": 1,
+          "variant": "benefits",
+          "assets": [],
+          "data": {
+            "aria_label": "Nuestro acompañamiento",
+            "tone": "sage",
+            "columns": "4",
+            "items": [
+              {
+                "icon": "heart-handshake",
+                "heading": "Tu situación primero",
+                "body": "Escuchamos tu contexto y lo que necesitas resolver."
+              },
+              {
+                "icon": "message-circle",
+                "heading": "Alternativas claras",
+                "body": "Te explicamos las opciones y las preguntas pendientes."
+              },
+              {
+                "icon": "book-open-check",
+                "heading": "Una estrategia fundada",
+                "body": "Revisamos los hechos y antecedentes de tu caso."
+              },
+              {
+                "icon": "wallet-cards",
+                "heading": "Un alcance acordado",
+                "body": "Definimos las gestiones y los honorarios antes de avanzar."
+              }
+            ]
           }
         },
         {
@@ -2560,8 +3158,10 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
               {
                 "text": "Información disponible sobre ingresos o recursos, sin acceder ilegítimamente a datos."
               }
-            ]
-          }
+            ],
+            "visual": "requirements"
+          },
+          "assets": []
         },
         {
           "type": "steps",
@@ -2587,7 +3187,18 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
                 "body": "Se controla lo resuelto y el cumplimiento que corresponda."
               }
             ]
-          }
+          },
+          "assets": []
+        },
+        {
+          "type": "related_content",
+          "schema_version": 1,
+          "variant": "default",
+          "data": {
+            "heading": "También puede ayudarte",
+            "source": "related"
+          },
+          "assets": []
         },
         {
           "type": "faq",
@@ -2618,7 +3229,8 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
                 "answer": "No. La estrategia y el seguimiento no permiten prometer recursos disponibles ni un resultado judicial."
               }
             ]
-          }
+          },
+          "assets": []
         },
         {
           "type": "cta",
@@ -2631,21 +3243,22 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
             "actions": [
               {
                 "label": "Solicitar evaluación de mi caso",
-                "href": "/contacto"
+                "href": "/contacto",
+                "icon": "arrow-up-right",
+                "style": "primary"
+              },
+              {
+                "label": "Escríbenos por WhatsApp",
+                "href": "https://wa.me/{{whatsapp}}",
+                "icon": "message-circle",
+                "style": "text"
               }
             ]
-          }
-        },
-        {
-          "type": "related_content",
-          "schema_version": 1,
-          "variant": "default",
-          "data": {
-            "heading": "También puede ayudarte",
-            "source": "related"
-          }
+          },
+          "assets": []
         }
-      ]
+      ],
+      "template_version": 2
     },
     {
       "key": "deuda",
@@ -2678,25 +3291,68 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
           "schema_version": 1,
           "variant": "image-right",
           "data": {
-            "eyebrow": "Cobro de deuda de alimentos y fondos AFP",
-            "heading": "Si la deuda se acumula, revisemos qué herramientas de cobro pueden corresponder.",
+            "eyebrow": "Asesoría y representación",
+            "heading": "Cobro de deuda de alimentos y fondos AFP",
             "body": "Te ayudo a entender el estado de la deuda y a evaluar medidas sobre recursos del deudor, incluido el mecanismo sobre fondos previsionales cuando se cumplan sus condiciones.",
             "actions": [
               {
                 "label": "Solicitar evaluación de mi caso",
-                "href": "/contacto"
+                "href": "/contacto",
+                "icon": "arrow-up-right",
+                "style": "primary"
               }
-            ]
-          }
+            ],
+            "lead": "Si la deuda se acumula, revisemos qué herramientas de cobro pueden corresponder.",
+            "note": "El primer paso es contarnos qué necesitas resolver.",
+            "note_icon": "message-circle",
+            "visual": "image"
+          },
+          "assets": [],
+          "asset_key": "claudia-perfil"
         },
         {
           "type": "split_content",
           "schema_version": 1,
-          "variant": "default",
+          "variant": "image-right",
           "data": {
             "eyebrow": "Antes de pedir una medida",
             "heading": "Una herramienta adecuada empieza por una deuda bien determinada.",
-            "body": "La evaluación revisa el título, la liquidación y el estado del cumplimiento. No todos los recursos ni todas las deudas se persiguen de la misma manera."
+            "body": "La evaluación revisa el título, la liquidación y el estado del cumplimiento. No todos los recursos ni todas las deudas se persiguen de la misma manera.",
+            "visual": "brand"
+          },
+          "assets": []
+        },
+        {
+          "type": "card_grid",
+          "schema_version": 1,
+          "variant": "benefits",
+          "assets": [],
+          "data": {
+            "aria_label": "Nuestro acompañamiento",
+            "tone": "sage",
+            "columns": "4",
+            "items": [
+              {
+                "icon": "heart-handshake",
+                "heading": "Tu situación primero",
+                "body": "Escuchamos tu contexto y lo que necesitas resolver."
+              },
+              {
+                "icon": "message-circle",
+                "heading": "Alternativas claras",
+                "body": "Te explicamos las opciones y las preguntas pendientes."
+              },
+              {
+                "icon": "book-open-check",
+                "heading": "Una estrategia fundada",
+                "body": "Revisamos los hechos y antecedentes de tu caso."
+              },
+              {
+                "icon": "wallet-cards",
+                "heading": "Un alcance acordado",
+                "body": "Definimos las gestiones y los honorarios antes de avanzar."
+              }
+            ]
           }
         },
         {
@@ -2709,22 +3365,27 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
             "items": [
               {
                 "heading": "Investigación y retención de recursos",
-                "body": "Se analizan cuentas e instrumentos por los procedimientos autorizados."
+                "body": "Se analizan cuentas e instrumentos por los procedimientos autorizados.",
+                "icon": "scale"
               },
               {
                 "heading": "Fondos previsionales",
-                "body": "El mecanismo sobre cotizaciones obligatorias tiene requisitos específicos; no es un retiro libre solicitado por la persona acreedora."
+                "body": "El mecanismo sobre cotizaciones obligatorias tiene requisitos específicos; no es un retiro libre solicitado por la persona acreedora.",
+                "icon": "scale"
               },
               {
                 "heading": "Medidas sobre bienes",
-                "body": "Se revisa si pueden solicitarse medidas de ejecución según los antecedentes."
+                "body": "Se revisa si pueden solicitarse medidas de ejecución según los antecedentes.",
+                "icon": "house"
               },
               {
                 "heading": "Apremios y otras actuaciones",
-                "body": "Su procedencia depende de los presupuestos legales y de lo que resuelva el tribunal."
+                "body": "Su procedencia depende de los presupuestos legales y de lo que resuelva el tribunal.",
+                "icon": "scale"
               }
             ]
-          }
+          },
+          "assets": []
         },
         {
           "type": "checklist",
@@ -2745,8 +3406,10 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
               {
                 "text": "Los límites y eventuales exclusiones deben analizarse; no se promete recuperar la totalidad."
               }
-            ]
-          }
+            ],
+            "visual": "requirements"
+          },
+          "assets": []
         },
         {
           "type": "steps",
@@ -2772,7 +3435,18 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
                 "body": "Realizamos las gestiones acordadas y te informamos sobre los hitos que correspondan."
               }
             ]
-          }
+          },
+          "assets": []
+        },
+        {
+          "type": "related_content",
+          "schema_version": 1,
+          "variant": "default",
+          "data": {
+            "heading": "También puede ayudarte",
+            "source": "related"
+          },
+          "assets": []
         },
         {
           "type": "faq",
@@ -2803,7 +3477,8 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
                 "answer": "Depende de la deuda, los recursos y las condiciones legales. No se garantiza un monto o fecha de pago."
               }
             ]
-          }
+          },
+          "assets": []
         },
         {
           "type": "cta",
@@ -2816,21 +3491,22 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
             "actions": [
               {
                 "label": "Solicitar evaluación de mi caso",
-                "href": "/contacto"
+                "href": "/contacto",
+                "icon": "arrow-up-right",
+                "style": "primary"
+              },
+              {
+                "label": "Escríbenos por WhatsApp",
+                "href": "https://wa.me/{{whatsapp}}",
+                "icon": "message-circle",
+                "style": "text"
               }
             ]
-          }
-        },
-        {
-          "type": "related_content",
-          "schema_version": 1,
-          "variant": "default",
-          "data": {
-            "heading": "También puede ayudarte",
-            "source": "related"
-          }
+          },
+          "assets": []
         }
-      ]
+      ],
+      "template_version": 2
     },
     {
       "key": "liquidacion",
@@ -2865,17 +3541,24 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
           "schema_version": 1,
           "variant": "image-right",
           "data": {
-            "eyebrow": "Liquidación concursal en Chile",
-            "heading": "¿Tus deudas superan lo que puedes pagar? Primero, conoce tus opciones.",
+            "eyebrow": "Asesoría y representación",
+            "heading": "Liquidación concursal en Chile",
             "body": "Antes de elegir una liquidación, revisemos qué calidad de deudor tienes, qué bienes y obligaciones existen y si hay una alternativa que se ajuste mejor a tu situación.",
             "actions": [
               {
                 "label": "Solicitar evaluación de mi caso",
-                "href": "/contacto"
+                "href": "/contacto",
+                "icon": "arrow-up-right",
+                "style": "primary"
               }
-            ]
+            ],
+            "lead": "¿Tus deudas superan lo que puedes pagar? Primero, conoce tus opciones.",
+            "note": "El primer paso es contarnos qué necesitas resolver.",
+            "note_icon": "message-circle",
+            "visual": "image"
           },
-          "asset_key": "claudia-perfil"
+          "asset_key": "claudia-perfil",
+          "assets": []
         },
         {
           "type": "card_grid",
@@ -2889,25 +3572,63 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
                 "heading": "Soy persona",
                 "body": "Revisemos tu actividad, obligaciones y situación para evaluar la vía que podría corresponder.",
                 "href": "/personas/insolvencia-y-reemprendimiento",
-                "link_label": "Conocer mis opciones"
+                "link_label": "Conocer mis opciones",
+                "icon": "users"
               },
               {
                 "heading": "Tengo una empresa",
                 "body": "Analicemos la operación del negocio y la alternativa concursal aplicable.",
                 "href": "/empresas/insolvencia-y-reemprendimiento",
-                "link_label": "Conocer mis opciones"
+                "link_label": "Conocer mis opciones",
+                "icon": "scale"
               }
             ]
-          }
+          },
+          "assets": []
         },
         {
           "type": "split_content",
           "schema_version": 1,
-          "variant": "default",
+          "variant": "image-right",
           "data": {
             "eyebrow": "Qué significa liquidar",
             "heading": "Una decisión con efectos sobre los bienes y las obligaciones.",
-            "body": "La liquidación es un procedimiento judicial orientado a realizar los bienes que legalmente correspondan para pagar a acreedores. Sus efectos y las eventuales consecuencias sobre saldos pendientes exigen un análisis individual; no equivale a una promesa de borrar todas las deudas."
+            "body": "La liquidación es un procedimiento judicial orientado a realizar los bienes que legalmente correspondan para pagar a acreedores. Sus efectos y las eventuales consecuencias sobre saldos pendientes exigen un análisis individual; no equivale a una promesa de borrar todas las deudas.",
+            "visual": "brand"
+          },
+          "assets": []
+        },
+        {
+          "type": "card_grid",
+          "schema_version": 1,
+          "variant": "benefits",
+          "assets": [],
+          "data": {
+            "aria_label": "Nuestro acompañamiento",
+            "tone": "sage",
+            "columns": "4",
+            "items": [
+              {
+                "icon": "heart-handshake",
+                "heading": "Tu situación primero",
+                "body": "Escuchamos tu contexto y lo que necesitas resolver."
+              },
+              {
+                "icon": "message-circle",
+                "heading": "Alternativas claras",
+                "body": "Te explicamos las opciones y las preguntas pendientes."
+              },
+              {
+                "icon": "book-open-check",
+                "heading": "Una estrategia fundada",
+                "body": "Revisamos los hechos y antecedentes de tu caso."
+              },
+              {
+                "icon": "wallet-cards",
+                "heading": "Un alcance acordado",
+                "body": "Definimos las gestiones y los honorarios antes de avanzar."
+              }
+            ]
           }
         },
         {
@@ -2920,22 +3641,27 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
             "items": [
               {
                 "heading": "Persona Deudora",
-                "body": "No basta llamarse persona natural: se debe revisar la actividad y la definición legal que corresponde."
+                "body": "No basta llamarse persona natural: se debe revisar la actividad y la definición legal que corresponde.",
+                "icon": "users"
               },
               {
                 "heading": "Empresa Deudora",
-                "body": "La categoría puede incluir sociedades y determinadas personas naturales; la actividad y la situación tributaria son relevantes."
+                "body": "La categoría puede incluir sociedades y determinadas personas naturales; la actividad y la situación tributaria son relevantes.",
+                "icon": "scale"
               },
               {
                 "heading": "Vía simplificada",
-                "body": "Se analiza la procedencia del régimen para las categorías habilitadas."
+                "body": "Se analiza la procedencia del régimen para las categorías habilitadas.",
+                "icon": "scale"
               },
               {
                 "heading": "Vía ordinaria u otra alternativa",
-                "body": "La elección no debe hacerse solo por el monto de las deudas o la rapidez esperada."
+                "body": "La elección no debe hacerse solo por el monto de las deudas o la rapidez esperada.",
+                "icon": "scale"
               }
             ]
-          }
+          },
+          "assets": []
         },
         {
           "type": "checklist",
@@ -2959,8 +3685,10 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
               {
                 "text": "Posibilidad de evaluar renegociación o reorganización cuando corresponda."
               }
-            ]
-          }
+            ],
+            "visual": "requirements"
+          },
+          "assets": []
         },
         {
           "type": "card_grid",
@@ -2972,22 +3700,27 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
             "items": [
               {
                 "heading": "¿Qué ocurre con mis bienes?",
-                "body": "Debe analizarse qué bienes pueden formar parte del procedimiento y cuáles están legalmente excluidos."
+                "body": "Debe analizarse qué bienes pueden formar parte del procedimiento y cuáles están legalmente excluidos.",
+                "icon": "house"
               },
               {
                 "heading": "¿Qué ocurre con las deudas?",
-                "body": "Existen condiciones y exclusiones. Los alimentos y otras obligaciones no deben presentarse como deudas que siempre se extinguen."
+                "body": "Existen condiciones y exclusiones. Los alimentos y otras obligaciones no deben presentarse como deudas que siempre se extinguen.",
+                "icon": "coins"
               },
               {
                 "heading": "¿Qué pasa con las cobranzas?",
-                "body": "Los efectos dependen de las resoluciones y del procedimiento. No se promete detener toda actuación desde la consulta."
+                "body": "Los efectos dependen de las resoluciones y del procedimiento. No se promete detener toda actuación desde la consulta.",
+                "icon": "scale"
               },
               {
                 "heading": "¿Liquidar es siempre conveniente?",
-                "body": "No. La evaluación debe considerar también alternativas y sus requisitos."
+                "body": "No. La evaluación debe considerar también alternativas y sus requisitos.",
+                "icon": "scale"
               }
             ]
-          }
+          },
+          "assets": []
         },
         {
           "type": "steps",
@@ -3013,7 +3746,18 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
                 "body": "Realizamos las gestiones acordadas y te informamos sobre los hitos que correspondan."
               }
             ]
-          }
+          },
+          "assets": []
+        },
+        {
+          "type": "related_content",
+          "schema_version": 1,
+          "variant": "default",
+          "data": {
+            "heading": "También puede ayudarte",
+            "source": "related"
+          },
+          "assets": []
         },
         {
           "type": "faq",
@@ -3044,7 +3788,8 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
                 "answer": "No. La recomendación depende de la situación y de los requisitos de cada alternativa."
               }
             ]
-          }
+          },
+          "assets": []
         },
         {
           "type": "cta",
@@ -3057,21 +3802,22 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
             "actions": [
               {
                 "label": "Solicitar evaluación de mi caso",
-                "href": "/contacto"
+                "href": "/contacto",
+                "icon": "arrow-up-right",
+                "style": "primary"
+              },
+              {
+                "label": "Escríbenos por WhatsApp",
+                "href": "https://wa.me/{{whatsapp}}",
+                "icon": "message-circle",
+                "style": "text"
               }
             ]
-          }
-        },
-        {
-          "type": "related_content",
-          "schema_version": 1,
-          "variant": "default",
-          "data": {
-            "heading": "También puede ayudarte",
-            "source": "related"
-          }
+          },
+          "assets": []
         }
       ],
+      "template_version": 2,
       "variants": [
         {
           "key": "liquidacion-propuesta-1",
@@ -3107,25 +3853,63 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
                     "heading": "Soy persona",
                     "body": "Revisemos tu actividad, obligaciones y situación para evaluar la vía que podría corresponder.",
                     "href": "/personas/insolvencia-y-reemprendimiento",
-                    "link_label": "Conocer mis opciones"
+                    "link_label": "Conocer mis opciones",
+                    "icon": "users"
                   },
                   {
                     "heading": "Tengo una empresa",
                     "body": "Analicemos la operación del negocio y la alternativa concursal aplicable.",
                     "href": "/empresas/insolvencia-y-reemprendimiento",
-                    "link_label": "Conocer mis opciones"
+                    "link_label": "Conocer mis opciones",
+                    "icon": "scale"
                   }
                 ]
-              }
+              },
+              "assets": []
             },
             {
               "type": "split_content",
               "schema_version": 1,
-              "variant": "default",
+              "variant": "image-right",
               "data": {
                 "eyebrow": "Qué significa liquidar",
                 "heading": "Una decisión con efectos sobre los bienes y las obligaciones.",
-                "body": "La liquidación es un procedimiento judicial orientado a realizar los bienes que legalmente correspondan para pagar a acreedores. Sus efectos y las eventuales consecuencias sobre saldos pendientes exigen un análisis individual; no equivale a una promesa de borrar todas las deudas."
+                "body": "La liquidación es un procedimiento judicial orientado a realizar los bienes que legalmente correspondan para pagar a acreedores. Sus efectos y las eventuales consecuencias sobre saldos pendientes exigen un análisis individual; no equivale a una promesa de borrar todas las deudas.",
+                "visual": "brand"
+              },
+              "assets": []
+            },
+            {
+              "type": "card_grid",
+              "schema_version": 1,
+              "variant": "benefits",
+              "assets": [],
+              "data": {
+                "aria_label": "Nuestro acompañamiento",
+                "tone": "sage",
+                "columns": "4",
+                "items": [
+                  {
+                    "icon": "heart-handshake",
+                    "heading": "Tu situación primero",
+                    "body": "Escuchamos tu contexto y lo que necesitas resolver."
+                  },
+                  {
+                    "icon": "message-circle",
+                    "heading": "Alternativas claras",
+                    "body": "Te explicamos las opciones y las preguntas pendientes."
+                  },
+                  {
+                    "icon": "book-open-check",
+                    "heading": "Una estrategia fundada",
+                    "body": "Revisamos los hechos y antecedentes de tu caso."
+                  },
+                  {
+                    "icon": "wallet-cards",
+                    "heading": "Un alcance acordado",
+                    "body": "Definimos las gestiones y los honorarios antes de avanzar."
+                  }
+                ]
               }
             },
             {
@@ -3138,22 +3922,27 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
                 "items": [
                   {
                     "heading": "Persona Deudora",
-                    "body": "No basta llamarse persona natural: se debe revisar la actividad y la definición legal que corresponde."
+                    "body": "No basta llamarse persona natural: se debe revisar la actividad y la definición legal que corresponde.",
+                    "icon": "users"
                   },
                   {
                     "heading": "Empresa Deudora",
-                    "body": "La categoría puede incluir sociedades y determinadas personas naturales; la actividad y la situación tributaria son relevantes."
+                    "body": "La categoría puede incluir sociedades y determinadas personas naturales; la actividad y la situación tributaria son relevantes.",
+                    "icon": "scale"
                   },
                   {
                     "heading": "Vía simplificada",
-                    "body": "Se analiza la procedencia del régimen para las categorías habilitadas."
+                    "body": "Se analiza la procedencia del régimen para las categorías habilitadas.",
+                    "icon": "scale"
                   },
                   {
                     "heading": "Vía ordinaria u otra alternativa",
-                    "body": "La elección no debe hacerse solo por el monto de las deudas o la rapidez esperada."
+                    "body": "La elección no debe hacerse solo por el monto de las deudas o la rapidez esperada.",
+                    "icon": "scale"
                   }
                 ]
-              }
+              },
+              "assets": []
             },
             {
               "type": "checklist",
@@ -3177,8 +3966,10 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
                   {
                     "text": "Posibilidad de evaluar renegociación o reorganización cuando corresponda."
                   }
-                ]
-              }
+                ],
+                "visual": "requirements"
+              },
+              "assets": []
             },
             {
               "type": "card_grid",
@@ -3190,22 +3981,27 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
                 "items": [
                   {
                     "heading": "¿Qué ocurre con mis bienes?",
-                    "body": "Debe analizarse qué bienes pueden formar parte del procedimiento y cuáles están legalmente excluidos."
+                    "body": "Debe analizarse qué bienes pueden formar parte del procedimiento y cuáles están legalmente excluidos.",
+                    "icon": "house"
                   },
                   {
                     "heading": "¿Qué ocurre con las deudas?",
-                    "body": "Existen condiciones y exclusiones. Los alimentos y otras obligaciones no deben presentarse como deudas que siempre se extinguen."
+                    "body": "Existen condiciones y exclusiones. Los alimentos y otras obligaciones no deben presentarse como deudas que siempre se extinguen.",
+                    "icon": "coins"
                   },
                   {
                     "heading": "¿Qué pasa con las cobranzas?",
-                    "body": "Los efectos dependen de las resoluciones y del procedimiento. No se promete detener toda actuación desde la consulta."
+                    "body": "Los efectos dependen de las resoluciones y del procedimiento. No se promete detener toda actuación desde la consulta.",
+                    "icon": "scale"
                   },
                   {
                     "heading": "¿Liquidar es siempre conveniente?",
-                    "body": "No. La evaluación debe considerar también alternativas y sus requisitos."
+                    "body": "No. La evaluación debe considerar también alternativas y sus requisitos.",
+                    "icon": "scale"
                   }
                 ]
-              }
+              },
+              "assets": []
             },
             {
               "type": "steps",
@@ -3231,7 +4027,18 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
                     "body": "Realizamos las gestiones acordadas y te informamos sobre los hitos que correspondan."
                   }
                 ]
-              }
+              },
+              "assets": []
+            },
+            {
+              "type": "related_content",
+              "schema_version": 1,
+              "variant": "default",
+              "data": {
+                "heading": "También puede ayudarte",
+                "source": "related"
+              },
+              "assets": []
             },
             {
               "type": "faq",
@@ -3262,7 +4069,8 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
                     "answer": "No. La recomendación depende de la situación y de los requisitos de cada alternativa."
                   }
                 ]
-              }
+              },
+              "assets": []
             },
             {
               "type": "cta",
@@ -3275,19 +4083,19 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
                 "actions": [
                   {
                     "label": "Solicitar evaluación de mi caso",
-                    "href": "/contacto"
+                    "href": "/contacto",
+                    "icon": "arrow-up-right",
+                    "style": "primary"
+                  },
+                  {
+                    "label": "Escríbenos por WhatsApp",
+                    "href": "https://wa.me/{{whatsapp}}",
+                    "icon": "message-circle",
+                    "style": "text"
                   }
                 ]
-              }
-            },
-            {
-              "type": "related_content",
-              "schema_version": 1,
-              "variant": "default",
-              "data": {
-                "heading": "También puede ayudarte",
-                "source": "related"
-              }
+              },
+              "assets": []
             }
           ]
         },
@@ -3325,25 +4133,63 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
                     "heading": "Soy persona",
                     "body": "Revisemos tu actividad, obligaciones y situación para evaluar la vía que podría corresponder.",
                     "href": "/personas/insolvencia-y-reemprendimiento",
-                    "link_label": "Conocer mis opciones"
+                    "link_label": "Conocer mis opciones",
+                    "icon": "users"
                   },
                   {
                     "heading": "Tengo una empresa",
                     "body": "Analicemos la operación del negocio y la alternativa concursal aplicable.",
                     "href": "/empresas/insolvencia-y-reemprendimiento",
-                    "link_label": "Conocer mis opciones"
+                    "link_label": "Conocer mis opciones",
+                    "icon": "scale"
                   }
                 ]
-              }
+              },
+              "assets": []
             },
             {
               "type": "split_content",
               "schema_version": 1,
-              "variant": "default",
+              "variant": "image-right",
               "data": {
                 "eyebrow": "Qué significa liquidar",
                 "heading": "Una decisión con efectos sobre los bienes y las obligaciones.",
-                "body": "La liquidación es un procedimiento judicial orientado a realizar los bienes que legalmente correspondan para pagar a acreedores. Sus efectos y las eventuales consecuencias sobre saldos pendientes exigen un análisis individual; no equivale a una promesa de borrar todas las deudas."
+                "body": "La liquidación es un procedimiento judicial orientado a realizar los bienes que legalmente correspondan para pagar a acreedores. Sus efectos y las eventuales consecuencias sobre saldos pendientes exigen un análisis individual; no equivale a una promesa de borrar todas las deudas.",
+                "visual": "brand"
+              },
+              "assets": []
+            },
+            {
+              "type": "card_grid",
+              "schema_version": 1,
+              "variant": "benefits",
+              "assets": [],
+              "data": {
+                "aria_label": "Nuestro acompañamiento",
+                "tone": "sage",
+                "columns": "4",
+                "items": [
+                  {
+                    "icon": "heart-handshake",
+                    "heading": "Tu situación primero",
+                    "body": "Escuchamos tu contexto y lo que necesitas resolver."
+                  },
+                  {
+                    "icon": "message-circle",
+                    "heading": "Alternativas claras",
+                    "body": "Te explicamos las opciones y las preguntas pendientes."
+                  },
+                  {
+                    "icon": "book-open-check",
+                    "heading": "Una estrategia fundada",
+                    "body": "Revisamos los hechos y antecedentes de tu caso."
+                  },
+                  {
+                    "icon": "wallet-cards",
+                    "heading": "Un alcance acordado",
+                    "body": "Definimos las gestiones y los honorarios antes de avanzar."
+                  }
+                ]
               }
             },
             {
@@ -3356,22 +4202,27 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
                 "items": [
                   {
                     "heading": "Persona Deudora",
-                    "body": "No basta llamarse persona natural: se debe revisar la actividad y la definición legal que corresponde."
+                    "body": "No basta llamarse persona natural: se debe revisar la actividad y la definición legal que corresponde.",
+                    "icon": "users"
                   },
                   {
                     "heading": "Empresa Deudora",
-                    "body": "La categoría puede incluir sociedades y determinadas personas naturales; la actividad y la situación tributaria son relevantes."
+                    "body": "La categoría puede incluir sociedades y determinadas personas naturales; la actividad y la situación tributaria son relevantes.",
+                    "icon": "scale"
                   },
                   {
                     "heading": "Vía simplificada",
-                    "body": "Se analiza la procedencia del régimen para las categorías habilitadas."
+                    "body": "Se analiza la procedencia del régimen para las categorías habilitadas.",
+                    "icon": "scale"
                   },
                   {
                     "heading": "Vía ordinaria u otra alternativa",
-                    "body": "La elección no debe hacerse solo por el monto de las deudas o la rapidez esperada."
+                    "body": "La elección no debe hacerse solo por el monto de las deudas o la rapidez esperada.",
+                    "icon": "scale"
                   }
                 ]
-              }
+              },
+              "assets": []
             },
             {
               "type": "checklist",
@@ -3395,8 +4246,10 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
                   {
                     "text": "Posibilidad de evaluar renegociación o reorganización cuando corresponda."
                   }
-                ]
-              }
+                ],
+                "visual": "requirements"
+              },
+              "assets": []
             },
             {
               "type": "card_grid",
@@ -3408,22 +4261,27 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
                 "items": [
                   {
                     "heading": "¿Qué ocurre con mis bienes?",
-                    "body": "Debe analizarse qué bienes pueden formar parte del procedimiento y cuáles están legalmente excluidos."
+                    "body": "Debe analizarse qué bienes pueden formar parte del procedimiento y cuáles están legalmente excluidos.",
+                    "icon": "house"
                   },
                   {
                     "heading": "¿Qué ocurre con las deudas?",
-                    "body": "Existen condiciones y exclusiones. Los alimentos y otras obligaciones no deben presentarse como deudas que siempre se extinguen."
+                    "body": "Existen condiciones y exclusiones. Los alimentos y otras obligaciones no deben presentarse como deudas que siempre se extinguen.",
+                    "icon": "coins"
                   },
                   {
                     "heading": "¿Qué pasa con las cobranzas?",
-                    "body": "Los efectos dependen de las resoluciones y del procedimiento. No se promete detener toda actuación desde la consulta."
+                    "body": "Los efectos dependen de las resoluciones y del procedimiento. No se promete detener toda actuación desde la consulta.",
+                    "icon": "scale"
                   },
                   {
                     "heading": "¿Liquidar es siempre conveniente?",
-                    "body": "No. La evaluación debe considerar también alternativas y sus requisitos."
+                    "body": "No. La evaluación debe considerar también alternativas y sus requisitos.",
+                    "icon": "scale"
                   }
                 ]
-              }
+              },
+              "assets": []
             },
             {
               "type": "steps",
@@ -3449,7 +4307,18 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
                     "body": "Realizamos las gestiones acordadas y te informamos sobre los hitos que correspondan."
                   }
                 ]
-              }
+              },
+              "assets": []
+            },
+            {
+              "type": "related_content",
+              "schema_version": 1,
+              "variant": "default",
+              "data": {
+                "heading": "También puede ayudarte",
+                "source": "related"
+              },
+              "assets": []
             },
             {
               "type": "faq",
@@ -3480,7 +4349,8 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
                     "answer": "No. La recomendación depende de la situación y de los requisitos de cada alternativa."
                   }
                 ]
-              }
+              },
+              "assets": []
             },
             {
               "type": "cta",
@@ -3493,19 +4363,19 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
                 "actions": [
                   {
                     "label": "Solicitar evaluación de mi caso",
-                    "href": "/contacto"
+                    "href": "/contacto",
+                    "icon": "arrow-up-right",
+                    "style": "primary"
+                  },
+                  {
+                    "label": "Escríbenos por WhatsApp",
+                    "href": "https://wa.me/{{whatsapp}}",
+                    "icon": "message-circle",
+                    "style": "text"
                   }
                 ]
-              }
-            },
-            {
-              "type": "related_content",
-              "schema_version": 1,
-              "variant": "default",
-              "data": {
-                "heading": "También puede ayudarte",
-                "source": "related"
-              }
+              },
+              "assets": []
             }
           ]
         },
@@ -3543,25 +4413,63 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
                     "heading": "Soy persona",
                     "body": "Revisemos tu actividad, obligaciones y situación para evaluar la vía que podría corresponder.",
                     "href": "/personas/insolvencia-y-reemprendimiento",
-                    "link_label": "Conocer mis opciones"
+                    "link_label": "Conocer mis opciones",
+                    "icon": "users"
                   },
                   {
                     "heading": "Tengo una empresa",
                     "body": "Analicemos la operación del negocio y la alternativa concursal aplicable.",
                     "href": "/empresas/insolvencia-y-reemprendimiento",
-                    "link_label": "Conocer mis opciones"
+                    "link_label": "Conocer mis opciones",
+                    "icon": "scale"
                   }
                 ]
-              }
+              },
+              "assets": []
             },
             {
               "type": "split_content",
               "schema_version": 1,
-              "variant": "default",
+              "variant": "image-right",
               "data": {
                 "eyebrow": "Qué significa liquidar",
                 "heading": "Una decisión con efectos sobre los bienes y las obligaciones.",
-                "body": "La liquidación es un procedimiento judicial orientado a realizar los bienes que legalmente correspondan para pagar a acreedores. Sus efectos y las eventuales consecuencias sobre saldos pendientes exigen un análisis individual; no equivale a una promesa de borrar todas las deudas."
+                "body": "La liquidación es un procedimiento judicial orientado a realizar los bienes que legalmente correspondan para pagar a acreedores. Sus efectos y las eventuales consecuencias sobre saldos pendientes exigen un análisis individual; no equivale a una promesa de borrar todas las deudas.",
+                "visual": "brand"
+              },
+              "assets": []
+            },
+            {
+              "type": "card_grid",
+              "schema_version": 1,
+              "variant": "benefits",
+              "assets": [],
+              "data": {
+                "aria_label": "Nuestro acompañamiento",
+                "tone": "sage",
+                "columns": "4",
+                "items": [
+                  {
+                    "icon": "heart-handshake",
+                    "heading": "Tu situación primero",
+                    "body": "Escuchamos tu contexto y lo que necesitas resolver."
+                  },
+                  {
+                    "icon": "message-circle",
+                    "heading": "Alternativas claras",
+                    "body": "Te explicamos las opciones y las preguntas pendientes."
+                  },
+                  {
+                    "icon": "book-open-check",
+                    "heading": "Una estrategia fundada",
+                    "body": "Revisamos los hechos y antecedentes de tu caso."
+                  },
+                  {
+                    "icon": "wallet-cards",
+                    "heading": "Un alcance acordado",
+                    "body": "Definimos las gestiones y los honorarios antes de avanzar."
+                  }
+                ]
               }
             },
             {
@@ -3574,22 +4482,27 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
                 "items": [
                   {
                     "heading": "Persona Deudora",
-                    "body": "No basta llamarse persona natural: se debe revisar la actividad y la definición legal que corresponde."
+                    "body": "No basta llamarse persona natural: se debe revisar la actividad y la definición legal que corresponde.",
+                    "icon": "users"
                   },
                   {
                     "heading": "Empresa Deudora",
-                    "body": "La categoría puede incluir sociedades y determinadas personas naturales; la actividad y la situación tributaria son relevantes."
+                    "body": "La categoría puede incluir sociedades y determinadas personas naturales; la actividad y la situación tributaria son relevantes.",
+                    "icon": "scale"
                   },
                   {
                     "heading": "Vía simplificada",
-                    "body": "Se analiza la procedencia del régimen para las categorías habilitadas."
+                    "body": "Se analiza la procedencia del régimen para las categorías habilitadas.",
+                    "icon": "scale"
                   },
                   {
                     "heading": "Vía ordinaria u otra alternativa",
-                    "body": "La elección no debe hacerse solo por el monto de las deudas o la rapidez esperada."
+                    "body": "La elección no debe hacerse solo por el monto de las deudas o la rapidez esperada.",
+                    "icon": "scale"
                   }
                 ]
-              }
+              },
+              "assets": []
             },
             {
               "type": "checklist",
@@ -3613,8 +4526,10 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
                   {
                     "text": "Posibilidad de evaluar renegociación o reorganización cuando corresponda."
                   }
-                ]
-              }
+                ],
+                "visual": "requirements"
+              },
+              "assets": []
             },
             {
               "type": "card_grid",
@@ -3626,22 +4541,27 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
                 "items": [
                   {
                     "heading": "¿Qué ocurre con mis bienes?",
-                    "body": "Debe analizarse qué bienes pueden formar parte del procedimiento y cuáles están legalmente excluidos."
+                    "body": "Debe analizarse qué bienes pueden formar parte del procedimiento y cuáles están legalmente excluidos.",
+                    "icon": "house"
                   },
                   {
                     "heading": "¿Qué ocurre con las deudas?",
-                    "body": "Existen condiciones y exclusiones. Los alimentos y otras obligaciones no deben presentarse como deudas que siempre se extinguen."
+                    "body": "Existen condiciones y exclusiones. Los alimentos y otras obligaciones no deben presentarse como deudas que siempre se extinguen.",
+                    "icon": "coins"
                   },
                   {
                     "heading": "¿Qué pasa con las cobranzas?",
-                    "body": "Los efectos dependen de las resoluciones y del procedimiento. No se promete detener toda actuación desde la consulta."
+                    "body": "Los efectos dependen de las resoluciones y del procedimiento. No se promete detener toda actuación desde la consulta.",
+                    "icon": "scale"
                   },
                   {
                     "heading": "¿Liquidar es siempre conveniente?",
-                    "body": "No. La evaluación debe considerar también alternativas y sus requisitos."
+                    "body": "No. La evaluación debe considerar también alternativas y sus requisitos.",
+                    "icon": "scale"
                   }
                 ]
-              }
+              },
+              "assets": []
             },
             {
               "type": "steps",
@@ -3667,7 +4587,18 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
                     "body": "Realizamos las gestiones acordadas y te informamos sobre los hitos que correspondan."
                   }
                 ]
-              }
+              },
+              "assets": []
+            },
+            {
+              "type": "related_content",
+              "schema_version": 1,
+              "variant": "default",
+              "data": {
+                "heading": "También puede ayudarte",
+                "source": "related"
+              },
+              "assets": []
             },
             {
               "type": "faq",
@@ -3698,7 +4629,8 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
                     "answer": "No. La recomendación depende de la situación y de los requisitos de cada alternativa."
                   }
                 ]
-              }
+              },
+              "assets": []
             },
             {
               "type": "cta",
@@ -3711,19 +4643,19 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
                 "actions": [
                   {
                     "label": "Solicitar evaluación de mi caso",
-                    "href": "/contacto"
+                    "href": "/contacto",
+                    "icon": "arrow-up-right",
+                    "style": "primary"
+                  },
+                  {
+                    "label": "Escríbenos por WhatsApp",
+                    "href": "https://wa.me/{{whatsapp}}",
+                    "icon": "message-circle",
+                    "style": "text"
                   }
                 ]
-              }
-            },
-            {
-              "type": "related_content",
-              "schema_version": 1,
-              "variant": "default",
-              "data": {
-                "heading": "También puede ayudarte",
-                "source": "related"
-              }
+              },
+              "assets": []
             }
           ]
         }
@@ -3758,25 +4690,68 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
           "schema_version": 1,
           "variant": "image-right",
           "data": {
-            "eyebrow": "Insolvencia y liquidación para personas",
-            "heading": "Si ya no puedes sostener tus deudas, necesitas una evaluación antes que otra promesa.",
+            "eyebrow": "Asesoría y representación",
+            "heading": "Insolvencia y liquidación para personas",
             "body": "Revisemos el origen de tus obligaciones, tus ingresos y tu actividad para distinguir qué alternativas pueden corresponderte y qué implicaría cada una.",
             "actions": [
               {
                 "label": "Solicitar evaluación de mi caso",
-                "href": "/contacto"
+                "href": "/contacto",
+                "icon": "arrow-up-right",
+                "style": "primary"
               }
-            ]
-          }
+            ],
+            "lead": "Si ya no puedes sostener tus deudas, necesitas una evaluación antes que otra promesa.",
+            "note": "El primer paso es contarnos qué necesitas resolver.",
+            "note_icon": "message-circle",
+            "visual": "image"
+          },
+          "assets": [],
+          "asset_key": "claudia-perfil"
         },
         {
           "type": "split_content",
           "schema_version": 1,
-          "variant": "default",
+          "variant": "image-right",
           "data": {
             "eyebrow": "Primero, la calificación",
             "heading": "Ser persona natural no define por sí solo el procedimiento.",
-            "body": "Se revisan la actividad y los antecedentes tributarios, además de la deuda y el patrimonio. Esa información permite analizar si corresponde una vía para Persona Deudora o para Empresa Deudora y evaluar sus requisitos."
+            "body": "Se revisan la actividad y los antecedentes tributarios, además de la deuda y el patrimonio. Esa información permite analizar si corresponde una vía para Persona Deudora o para Empresa Deudora y evaluar sus requisitos.",
+            "visual": "brand"
+          },
+          "assets": []
+        },
+        {
+          "type": "card_grid",
+          "schema_version": 1,
+          "variant": "benefits",
+          "assets": [],
+          "data": {
+            "aria_label": "Nuestro acompañamiento",
+            "tone": "sage",
+            "columns": "4",
+            "items": [
+              {
+                "icon": "heart-handshake",
+                "heading": "Tu situación primero",
+                "body": "Escuchamos tu contexto y lo que necesitas resolver."
+              },
+              {
+                "icon": "message-circle",
+                "heading": "Alternativas claras",
+                "body": "Te explicamos las opciones y las preguntas pendientes."
+              },
+              {
+                "icon": "book-open-check",
+                "heading": "Una estrategia fundada",
+                "body": "Revisamos los hechos y antecedentes de tu caso."
+              },
+              {
+                "icon": "wallet-cards",
+                "heading": "Un alcance acordado",
+                "body": "Definimos las gestiones y los honorarios antes de avanzar."
+              }
+            ]
           }
         },
         {
@@ -3801,8 +4776,10 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
               {
                 "text": "Obligaciones familiares u otras con tratamiento especial."
               }
-            ]
-          }
+            ],
+            "visual": "requirements"
+          },
+          "assets": []
         },
         {
           "type": "steps",
@@ -3828,7 +4805,18 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
                 "body": "Realizamos las gestiones acordadas y te informamos sobre los hitos que correspondan."
               }
             ]
-          }
+          },
+          "assets": []
+        },
+        {
+          "type": "related_content",
+          "schema_version": 1,
+          "variant": "default",
+          "data": {
+            "heading": "También puede ayudarte",
+            "source": "related"
+          },
+          "assets": []
         },
         {
           "type": "faq",
@@ -3855,7 +4843,8 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
                 "answer": "Una descripción inicial permite comenzar; luego se indica qué antecedentes son necesarios para una evaluación fundada."
               }
             ]
-          }
+          },
+          "assets": []
         },
         {
           "type": "cta",
@@ -3868,21 +4857,22 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
             "actions": [
               {
                 "label": "Solicitar evaluación de mi caso",
-                "href": "/contacto"
+                "href": "/contacto",
+                "icon": "arrow-up-right",
+                "style": "primary"
+              },
+              {
+                "label": "Escríbenos por WhatsApp",
+                "href": "https://wa.me/{{whatsapp}}",
+                "icon": "message-circle",
+                "style": "text"
               }
             ]
-          }
-        },
-        {
-          "type": "related_content",
-          "schema_version": 1,
-          "variant": "default",
-          "data": {
-            "heading": "También puede ayudarte",
-            "source": "related"
-          }
+          },
+          "assets": []
         }
-      ]
+      ],
+      "template_version": 2
     },
     {
       "key": "liquidacion_empresa",
@@ -3913,13 +4903,54 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
           "schema_version": 1,
           "variant": "image-right",
           "data": {
-            "eyebrow": "Insolvencia y liquidación para empresas",
-            "heading": "Cuando el negocio deja de sostener sus obligaciones, decide con una visión completa.",
+            "eyebrow": "Asesoría y representación",
+            "heading": "Insolvencia y liquidación para empresas",
             "body": "Te ayudo a ordenar la situación financiera, patrimonial y procesal de la empresa antes de recomendar una vía, con atención a sus obligaciones y efectos.",
             "actions": [
               {
                 "label": "Solicitar evaluación de mi caso",
-                "href": "/contacto"
+                "href": "/contacto",
+                "icon": "arrow-up-right",
+                "style": "primary"
+              }
+            ],
+            "lead": "Cuando el negocio deja de sostener sus obligaciones, decide con una visión completa.",
+            "note": "El primer paso es contarnos qué necesitas resolver.",
+            "note_icon": "message-circle",
+            "visual": "image"
+          },
+          "assets": [],
+          "asset_key": "claudia-perfil"
+        },
+        {
+          "type": "card_grid",
+          "schema_version": 1,
+          "variant": "benefits",
+          "assets": [],
+          "data": {
+            "aria_label": "Nuestro acompañamiento",
+            "tone": "sage",
+            "columns": "4",
+            "items": [
+              {
+                "icon": "heart-handshake",
+                "heading": "Tu situación primero",
+                "body": "Escuchamos tu contexto y lo que necesitas resolver."
+              },
+              {
+                "icon": "message-circle",
+                "heading": "Alternativas claras",
+                "body": "Te explicamos las opciones y las preguntas pendientes."
+              },
+              {
+                "icon": "book-open-check",
+                "heading": "Una estrategia fundada",
+                "body": "Revisamos los hechos y antecedentes de tu caso."
+              },
+              {
+                "icon": "wallet-cards",
+                "heading": "Un alcance acordado",
+                "body": "Definimos las gestiones y los honorarios antes de avanzar."
               }
             ]
           }
@@ -3934,22 +4965,27 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
             "items": [
               {
                 "heading": "Actividad y situación tributaria",
-                "body": "La clasificación y los requisitos del procedimiento deben comprobarse."
+                "body": "La clasificación y los requisitos del procedimiento deben comprobarse.",
+                "icon": "scale"
               },
               {
                 "heading": "Viabilidad del negocio",
-                "body": "Se consideran la operación, los compromisos y los antecedentes financieros."
+                "body": "Se consideran la operación, los compromisos y los antecedentes financieros.",
+                "icon": "scale"
               },
               {
                 "heading": "Activos y garantías",
-                "body": "Se identifica el patrimonio y la situación de las garantías."
+                "body": "Se identifica el patrimonio y la situación de las garantías.",
+                "icon": "scale"
               },
               {
                 "heading": "Obligaciones y personas afectadas",
-                "body": "Se revisan acreedores, procesos pendientes y antecedentes laborales cuando existan."
+                "body": "Se revisan acreedores, procesos pendientes y antecedentes laborales cuando existan.",
+                "icon": "users"
               }
             ]
-          }
+          },
+          "assets": []
         },
         {
           "type": "checklist",
@@ -3973,8 +5009,10 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
               {
                 "text": "Situación de trabajadores y obligaciones relacionadas, cuando corresponda."
               }
-            ]
-          }
+            ],
+            "visual": "requirements"
+          },
+          "assets": []
         },
         {
           "type": "steps",
@@ -4000,7 +5038,18 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
                 "body": "Realizamos las gestiones acordadas y te informamos sobre los hitos que correspondan."
               }
             ]
-          }
+          },
+          "assets": []
+        },
+        {
+          "type": "related_content",
+          "schema_version": 1,
+          "variant": "default",
+          "data": {
+            "heading": "También puede ayudarte",
+            "source": "related"
+          },
+          "assets": []
         },
         {
           "type": "faq",
@@ -4027,7 +5076,8 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
                 "answer": "No. Cada alternativa tiene condiciones, exclusiones y consecuencias que requieren análisis individual."
               }
             ]
-          }
+          },
+          "assets": []
         },
         {
           "type": "cta",
@@ -4040,21 +5090,22 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
             "actions": [
               {
                 "label": "Solicitar evaluación de mi caso",
-                "href": "/contacto"
+                "href": "/contacto",
+                "icon": "arrow-up-right",
+                "style": "primary"
+              },
+              {
+                "label": "Escríbenos por WhatsApp",
+                "href": "https://wa.me/{{whatsapp}}",
+                "icon": "message-circle",
+                "style": "text"
               }
             ]
-          }
-        },
-        {
-          "type": "related_content",
-          "schema_version": 1,
-          "variant": "default",
-          "data": {
-            "heading": "También puede ayudarte",
-            "source": "related"
-          }
+          },
+          "assets": []
         }
-      ]
+      ],
+      "template_version": 2
     },
     {
       "key": "contacto",
@@ -4549,7 +5600,7 @@ begin
   blocks:=blocks||jsonb_build_array(b);
  end loop;
  result:=jsonb_build_object('title',source->>'title','excerpt',source->>'excerpt','path',source->>'path',
-  'cover_asset_id',case when source->>'template_key' in ('home','service-landing') then assets->>(source#>>'{blocks,0,asset_key}') else null end,'template_key',source->>'template_key','template_version',1,
+  'cover_asset_id',case when source->>'template_key' in ('home','service-landing') then assets->>(source#>>'{blocks,0,asset_key}') else null end,'template_key',source->>'template_key','template_version',coalesce((source->>'template_version')::integer,1),
   'seo',jsonb_build_object('title',source->>'title','description',source->>'excerpt','noindex',false),
   'blocks',blocks,'authors',jsonb_build_array(author),
   'terms',coalesce((select jsonb_agg(terms->>value) from jsonb_array_elements_text(coalesce(source->'terms','[]'))),'[]'::jsonb),
@@ -4558,6 +5609,7 @@ begin
  replacements:=jsonb_build_object('{{privacy_controller}}',coalesce(nullif(config->>'privacy_controller',''),'[Responsable pendiente de validación]'),
   '{{privacy_email}}',coalesce(config->>'privacy_email','contacto@abogadaclaudia.com'),
   '{{privacy_processors}}',coalesce(nullif(config->>'privacy_processors',''),'[Proveedores, región y encargados pendientes de validación]'),
+  '{{whatsapp}}',coalesce(config->>'whatsapp','56946978661'),
   '{{retention_days}}',coalesce(config->>'retention_days','[Plazo pendiente de validación]'));
  for pair in select key,value from jsonb_each_text(replacements) loop
   -- Replacing JSON-encoded strings preserves quotes, newlines and backslashes in config values.
@@ -4566,14 +5618,14 @@ begin
  return result;
 end;
 $$;
-create or replace function pg_temp.albar_menu_items(items jsonb,site uuid,org uuid,menu uuid,entry_ids jsonb,parent uuid default null)
+create or replace function pg_temp.albar_menu_items(items jsonb,site uuid,menu uuid,entry_ids jsonb,parent uuid default null)
 returns void language plpgsql as $$
 declare item jsonb; item_id uuid; pos integer:=0;
 begin
  for item in select value from jsonb_array_elements(items) loop
-  insert into public.menu_items(organization_id,site_id,menu_id,parent_id,label,position,entry_id,external_url)
-  values(org,site,menu,parent,item->>'label',pos,(entry_ids->>(item->>'entry'))::uuid,item->>'external_url') returning id into item_id;
-  if item ? 'children' then perform pg_temp.albar_menu_items(item->'children',site,org,menu,entry_ids,item_id);end if;
+  insert into public.menu_items(site_id,menu_id,parent_id,label,position,entry_id,external_url)
+  values(site,menu,parent,item->>'label',pos,(entry_ids->>(item->>'entry'))::uuid,item->>'external_url') returning id into item_id;
+  if item ? 'children' then perform pg_temp.albar_menu_items(item->'children',site,menu,entry_ids,item_id);end if;
   pos:=pos+1;
  end loop;
 end;
@@ -4585,10 +5637,10 @@ $$;
 do $ALBAR_IMPORT$
 <<albar_seed>>
 declare
- cfg jsonb; src jsonb; actor uuid; org uuid; site uuid; author uuid; tx uuid; entry uuid; menu uuid; admin_user uuid; membership uuid;
+ cfg jsonb; src jsonb; actor uuid; site uuid; author uuid; tx uuid; entry uuid; menu uuid; admin_user uuid;
  state jsonb:='{}'; e_state jsonb:='{}'; entry_ids jsonb:='{}'; term_ids jsonb:='{}'; node jsonb; item jsonb; v_variant jsonb; variants jsonb;
  snapshot jsonb; expected uuid; revision uuid; previous_published uuid; current_published uuid; archived timestamptz;
- fingerprint text; current_hash text; org_slug text; site_status text; v_revision_state text; old_entry jsonb; known boolean;
+ fingerprint text; current_hash text; site_status text; v_revision_state text; old_entry jsonb; known boolean;
  publish boolean; activate boolean; n_created integer:=0; n_saved integer:=0; n_published integer:=0; n_skipped integer:=0;
  row_menu record; old_claims text; old_sub text;
 begin
@@ -4597,13 +5649,12 @@ begin
  if to_regprocedure('public.save_content_revision(uuid,uuid,jsonb)') is null or to_regprocedure('public.public_section_available(uuid,text,text)') is null then
   raise exception 'Aplica primero las migraciones de Leyer 001–016';end if;
  select p.id into actor from auth.users u join public.profiles p on p.id=u.id
-  join public.platform_role_assignments r on r.user_id=p.id and r.role_code='super_admin'
-  where lower(u.email)=lower(nullif(cfg->>'actor_email','')) and p.status='active';
- if actor is null then raise exception 'Configura actor_email con una cuenta Auth existente y super_admin activo. No se crean cuentas ni permisos globales.';end if;
+  where lower(u.email)=lower(nullif(cfg->>'actor_email','')) and p.status='active' and p.is_admin;
+ if actor is null then raise exception 'Configura actor_email con una cuenta Auth existente y administrador activo. No se crean cuentas ni accesos administrativos.';end if;
  old_claims:=current_setting('request.jwt.claims',true);old_sub:=current_setting('request.jwt.claim.sub',true);
  perform set_config('request.jwt.claims',jsonb_build_object('sub',actor,'role','authenticated')::text,true);
  perform set_config('request.jwt.claim.sub',actor::text,true);
- if not private.is_super_admin() then raise insufficient_privilege;end if;
+ if not private.is_admin() then raise insufficient_privilege;end if;
  publish:=coalesce((cfg->>'publish')::boolean,false);activate:=coalesce((cfg->>'activate_site')::boolean,false);
  if activate and not publish then raise exception 'activate_site requiere publish=true y las revisiones confirmadas';end if;
  if publish and (cfg->>'legal_review_confirmed' is distinct from 'true' or cfg->>'privacy_review_confirmed' is distinct from 'true'
@@ -4615,30 +5666,32 @@ begin
  perform pg_advisory_xact_lock(hashtextextended(src->>'seed_key',0));
  -- Private import state is not public presentation metadata and has no Data API grants.
  create table if not exists private.cms_seed_registry(
-  seed_key text primary key,organization_id uuid not null unique references public.organizations(id),
+  seed_key text primary key,
   site_id uuid not null unique references public.sites(id),state jsonb not null default '{}',updated_at timestamptz not null default now());
  alter table private.cms_seed_registry enable row level security;
  revoke all on private.cms_seed_registry from public,anon,authenticated,service_role;
- select o.id,o.slug into org,org_slug from public.organizations o where o.slug=src->'organization'->>'slug' for update;
- known:=false;
- if org is not null then
-  select r.site_id,r.state into site,state from private.cms_seed_registry r where r.seed_key=src->>'seed_key' and r.organization_id=org for update;
-  if site is null then raise exception 'Ya existe el slug ALBAR sin pertenecer a este seed. No se adoptan ni sobrescriben estudios existentes automáticamente.';end if;
-  if not exists(select 1 from public.organizations where id=org and status='active' and name=src->'organization'->>'name') then raise exception 'El estudio cambió de nombre/estado: revisa el cambio antes de reimportar';end if;
-  select s.status into site_status from public.sites s where s.id=site and s.organization_id=org and s.slug=src->'site'->>'slug' for update;
-  if site_status not in ('draft','active') or site_status is null then raise exception 'El sitio fue retirado o cambió: el seed no lo reactiva';end if;
-  known:=true;
+ select id into site from public.sites for update;
+ if site is null then raise exception 'Falta la configuración del sitio único. Ejecuta las migraciones.';end if;
+ select r.state into state from private.cms_seed_registry r where r.seed_key=src->>'seed_key' and r.site_id=site for update;
+ known:=found;
+ select s.status into site_status from public.sites s where s.id=site;
+ if site_status not in ('draft','active') then raise exception 'El sitio fue retirado: el seed no lo reactiva';end if;
+ if known then
+  if coalesce(state->'extensions','{}'::jsonb)<>'{}'::jsonb then
+   raise exception 'ALBAR ya tiene un complemento editorial. Usa su seed complementario; repetir el inicial restauraría el menú anterior.';
+  end if;
  else
-  insert into public.organizations(name,slug) values(src->'organization'->>'name',src->'organization'->>'slug') returning id into org;
-  insert into public.sites(organization_id,name,slug,domain,default_locale,status) values(org,src->'site'->>'name',src->'site'->>'slug',null,'es-CL','draft') returning id into site;
-  insert into private.cms_seed_registry(seed_key,organization_id,site_id) values(src->>'seed_key',org,site);
+  if exists(select 1 from public.content_entries where site_id=site) then
+   raise exception 'El sitio ya tiene contenido ajeno al seed. No se sobrescribe automáticamente.';
+  end if;
+  insert into private.cms_seed_registry(seed_key,site_id) values(src->>'seed_key',site);
   state:='{}';
  end if;
  -- Resolve only public, physically present assets belonging to this exact site.
  for row_menu in select key,value from jsonb_each_text(coalesce(cfg->'assets','{}')) loop
   if row_menu.key not in ('claudia-perfil','claudia-hero','logo') then raise exception 'Clave de recurso no reconocida: %',row_menu.key;end if;
   if not exists(select 1 from public.media_assets m join storage.objects o on o.bucket_id=m.bucket_id and o.name=m.storage_path
-    where m.id=row_menu.value::uuid and m.site_id=site and m.organization_id=org and m.bucket_id='cms-public' and m.mime_type='image/webp') then
+    where m.id=row_menu.value::uuid and m.site_id=site and m.bucket_id='cms-public' and m.mime_type='image/webp') then
    raise exception 'El recurso % debe estar optimizado, existir en cms-public y pertenecer a ALBAR',row_menu.key;end if;
  end loop;
  snapshot:=jsonb_strip_nulls(jsonb_build_object('public_name','ALBAR Abogados','description','Asesoría jurídica para personas y empresas, con claridad, estrategia y acompañamiento cercano.',
@@ -4656,28 +5709,28 @@ begin
  author:=nullif(state->>'author_id','')::uuid;
  if author is null then
   if exists(select 1 from public.authors where site_id=site and slug=src->'author'->>'slug') then raise exception 'Autor existente fuera del registro del seed';end if;
-  insert into public.authors(organization_id,site_id,display_name,slug) values(org,site,src->'author'->>'display_name',src->'author'->>'slug') returning id into author;
+  insert into public.authors(site_id,display_name,slug) values(site,src->'author'->>'display_name',src->'author'->>'slug') returning id into author;
  else
   perform 1 from public.authors where id=author and site_id=site for update;
-  select pg_temp.albar_hash(to_jsonb(a)-'id'-'organization_id'-'site_id') into current_hash from public.authors a where a.id=author and a.site_id=site;
+  select pg_temp.albar_hash(to_jsonb(a)-'id'-'site_id') into current_hash from public.authors a where a.id=author and a.site_id=site;
   if current_hash is distinct from state->>'author_hash' then raise exception 'Conflicto: el perfil de Claudia fue editado fuera del seed' using errcode='40001';end if;
  end if;
  update public.authors set display_name=src->'author'->>'display_name',slug=src->'author'->>'slug',biography=src->'author'->>'biography',professional_title=src->'author'->>'professional_title',
   avatar_asset_id=nullif(cfg->'assets'->>'claudia-perfil','')::uuid,is_public=is_public or publish where id=author and site_id=site
   and (display_name,slug,biography,professional_title,avatar_asset_id,is_public) is distinct from
    (src->'author'->>'display_name',src->'author'->>'slug',src->'author'->>'biography',src->'author'->>'professional_title',nullif(cfg->'assets'->>'claudia-perfil','')::uuid,is_public or publish);
- select pg_temp.albar_hash(to_jsonb(a)-'id'-'organization_id'-'site_id') into current_hash from public.authors a where a.id=author;
+ select pg_temp.albar_hash(to_jsonb(a)-'id'-'site_id') into current_hash from public.authors a where a.id=author;
  state:=state||jsonb_build_object('author_id',author,'author_hash',current_hash);
  tx:=nullif(state->>'taxonomy_id','')::uuid;
  if tx is null then
   if exists(select 1 from public.taxonomies where site_id=site and code='category') then raise exception 'Taxonomía existente fuera del registro del seed';end if;
-  insert into public.taxonomies(organization_id,site_id,code,name) values(org,site,'category','Áreas de práctica') returning id into tx;
+  insert into public.taxonomies(site_id,code,name) values(site,'category','Áreas de práctica') returning id into tx;
   state:=state||jsonb_build_object('taxonomy_id',tx);
  elsif not exists(select 1 from public.taxonomies where id=tx and site_id=site and code='category' and name='Áreas de práctica') then raise exception 'Conflicto: taxonomía editada fuera del seed';end if;
  for node in select value from jsonb_array_elements(src->'terms') loop
   entry:=nullif(state->'terms'->>(node->>'key'),'')::uuid;
   if entry is null then
-   insert into public.terms(organization_id,site_id,taxonomy_id,name,slug) values(org,site,tx,node->>'name',node->>'slug') returning id into entry;
+   insert into public.terms(site_id,taxonomy_id,name,slug) values(site,tx,node->>'name',node->>'slug') returning id into entry;
   elsif not exists(select 1 from public.terms where id=entry and site_id=site and taxonomy_id=tx and name=node->>'name' and slug=node->>'slug') then raise exception 'Conflicto: término editado fuera del seed';end if;
   term_ids:=term_ids||jsonb_build_object(node->>'key',entry);
  end loop;
@@ -4688,7 +5741,7 @@ begin
   entry:=nullif(e_state->(node->>'key')->>'id','')::uuid;
   if entry is null then
    if exists(select 1 from public.content_revisions where site_id=site and path=node->>'path') then raise exception 'Ruta editorial existente fuera del seed: %',node->>'path';end if;
-   insert into public.content_entries(organization_id,site_id,kind,locale,internal_name) values(org,site,node->>'kind','es-CL','ALBAR · '||(node->>'title')) returning id into entry;
+   insert into public.content_entries(site_id,kind,locale,internal_name) values(site,node->>'kind','es-CL','ALBAR · '||(node->>'title')) returning id into entry;
    e_state:=e_state||jsonb_build_object(node->>'key',jsonb_build_object('id',entry));n_created:=n_created+1;
   end if;
   entry_ids:=entry_ids||jsonb_build_object(node->>'key',entry);
@@ -4696,7 +5749,7 @@ begin
  for node in select value from jsonb_array_elements(src->'entries') loop
   entry:=(entry_ids->>(node->>'key'))::uuid;old_entry:=e_state->(node->>'key');
   perform 1 from public.content_entries where id=entry and site_id=site for update;
-  if not exists(select 1 from public.content_entries where id=entry and site_id=site and organization_id=org and kind=node->>'kind' and locale='es-CL') then raise exception 'Identidad editorial inválida: %',node->>'key';end if;
+  if not exists(select 1 from public.content_entries where id=entry and site_id=site and kind=node->>'kind' and locale='es-CL') then raise exception 'Identidad editorial inválida: %',node->>'key';end if;
  select r.id,r.editorial_state into expected,v_revision_state from public.content_revisions r where r.entry_id=entry order by r.revision_number desc limit 1;
   select e.published_revision_id,e.archived_at into current_published,archived from public.content_entries e where e.id=entry;
   if archived is not null then raise exception 'El contenido fue archivado: el seed no lo recupera: %',node->>'key';end if;
@@ -4735,11 +5788,11 @@ begin
  for node in select value from jsonb_array_elements(src->'menus') loop
   menu:=nullif(state->'menus'->(node->>'code')->>'id','')::uuid;
   if menu is null then
-   insert into public.menus(organization_id,site_id,code,name,locale,is_public) values(org,site,node->>'code',node->>'name','es-CL',publish) returning id into menu;
+   insert into public.menus(site_id,code,name,locale,is_public) values(site,node->>'code',node->>'name','es-CL',publish) returning id into menu;
   else
    perform 1 from public.menus where id=menu and site_id=site for update;
    perform 1 from public.menu_items where menu_id=menu order by id for update;
-   select pg_temp.albar_hash(jsonb_build_object('items',pg_temp.albar_menu_snapshot(menu),'menu',(select to_jsonb(m)-'id'-'site_id'-'organization_id' from public.menus m where m.id=menu and m.site_id=site))) into current_hash;
+   select pg_temp.albar_hash(jsonb_build_object('items',pg_temp.albar_menu_snapshot(menu),'menu',(select to_jsonb(m)-'id'-'site_id' from public.menus m where m.id=menu and m.site_id=site))) into current_hash;
    if current_hash is distinct from state->'menus'->(node->>'code')->>'hash' then raise exception 'Conflicto: menú % editado fuera del seed',node->>'code' using errcode='40001';end if;
   end if;
   item:=node->'items';
@@ -4750,10 +5803,10 @@ begin
    for row_menu in with recursive tree as(select id,0 as depth from public.menu_items where menu_id=menu and parent_id is null union all select m.id,t.depth+1 from public.menu_items m join tree t on m.parent_id=t.id where m.menu_id=menu) select id from tree order by depth desc loop
     delete from public.menu_items where id=row_menu.id and menu_id=menu;
    end loop;
-   perform pg_temp.albar_menu_items(item,site,org,menu,entry_ids);
+   perform pg_temp.albar_menu_items(item,site,menu,entry_ids);
   end if;
   update public.menus set is_public=true where id=menu and publish and not is_public;
-  select pg_temp.albar_hash(jsonb_build_object('items',pg_temp.albar_menu_snapshot(menu),'menu',(select to_jsonb(m)-'id'-'site_id'-'organization_id' from public.menus m where m.id=menu))) into current_hash;
+  select pg_temp.albar_hash(jsonb_build_object('items',pg_temp.albar_menu_snapshot(menu),'menu',(select to_jsonb(m)-'id'-'site_id' from public.menus m where m.id=menu))) into current_hash;
   state:=jsonb_set(state,'{menus}',coalesce(state->'menus','{}')||jsonb_build_object(node->>'code',jsonb_build_object('id',menu,'hash',current_hash,'source_hash',fingerprint)));
  end loop;
  for node in select value from jsonb_array_elements(src->'redirects') loop
@@ -4766,19 +5819,17 @@ begin
  if nullif(cfg->>'admin_email','') is not null then
   select p.id into admin_user from auth.users u join public.profiles p on p.id=u.id where lower(u.email)=lower(cfg->>'admin_email') and p.status='active';
   if admin_user is null then raise exception 'admin_email debe ser una cuenta Auth existente y activa. Invítala mediante Auth, no insertando auth.users por SQL.';end if;
-  select id into membership from public.organization_memberships where organization_id=org and user_id=admin_user;
-  if membership is null then perform public.create_membership_access(org,admin_user,'active',array['admin']);
-  elsif not exists(select 1 from public.organization_memberships m join public.membership_roles r on r.membership_id=m.id and r.role_code='admin' where m.id=membership and m.status='active') then raise exception 'La membresía existente no se modifica automáticamente. Revísala desde el panel.';end if;
+  update public.profiles set is_admin=true where id=admin_user;
  end if;
  if activate then update public.sites set status='active' where id=site and status<>'active';end if;
  update private.cms_seed_registry r set state=albar_seed.state,updated_at=now() where r.seed_key=src->>'seed_key';
  perform set_config('request.jwt.claims',coalesce(old_claims,''),true);perform set_config('request.jwt.claim.sub',coalesce(old_sub,''),true);
- raise notice 'ALBAR: organización %, sitio %, contenidos nuevos %, revisiones nuevas %, publicados %, sin nueva revisión %',org,site,n_created,n_saved,n_published,n_skipped;
+ raise notice 'ALBAR: sitio %, contenidos nuevos %, revisiones nuevas %, publicados %, sin nueva revisión %',site,n_created,n_saved,n_published,n_skipped;
 end;
 $ALBAR_IMPORT$;
-select r.organization_id,r.site_id,o.slug as organization_slug,s.slug as site_slug,s.status,
+select r.site_id,s.status,
  (select count(*) from public.content_entries e where e.site_id=s.id) as contents,
  (select count(*) from public.content_entries e where e.site_id=s.id and e.published_revision_id is not null) as published
-from private.cms_seed_registry r join public.organizations o on o.id=r.organization_id join public.sites s on s.id=r.site_id
+from private.cms_seed_registry r join public.sites s on s.id=r.site_id
 where r.seed_key='albar-abogados-editorial-v1';
 commit;

@@ -1,7 +1,6 @@
 "use client";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useState, useTransition } from "react";
 import {
   LayoutDashboard,
   FileText,
@@ -11,39 +10,27 @@ import {
   Tags,
   Route,
   ShieldCheck,
-  Users,
   UserRound,
   MessagesSquare,
 } from "lucide-react";
 import { AdminShell } from "@/components/patterns/admin-shell";
-import { Select } from "@/components/ui/select";
-import { Label } from "@/components/ui/label";
-import { Alert } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { ThemeSwitcher } from "@/components/theme-switcher";
 import { createClient } from "@/lib/supabase/client";
-import { selectWorkspace } from "@/app/admin/actions";
 import type { AdminContext } from "@/lib/admin/types";
 
 export function AdminFrame({
   context,
-  organizationId,
-  siteId,
+
   children,
 }: {
   context: AdminContext;
-  organizationId?: string;
-  siteId?: string;
+
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
   const router = useRouter();
-  const [pending, start] = useTransition();
-  const [error, setError] = useState("");
-  const organization = context.organizations.find(
-    (o) => o.id === organizationId,
-  );
-  const site = context.sites.find((s) => s.id === siteId);
+  const site = context.site;
   const can = (p: string) => site?.permissions.includes(p);
   const navigation = [
     { id: "/admin", label: "Vista general", icon: LayoutDashboard },
@@ -60,85 +47,27 @@ export function AdminFrame({
       ? [
           { id: "/admin/navigation", label: "Navegación", icon: ListTree },
           { id: "/admin/routes", label: "Rutas y redirecciones", icon: Route },
-          { id: "/admin/settings", label: "Sitio y estudio", icon: Settings },
+          { id: "/admin/settings", label: "Configuración", icon: Settings },
         ]
       : []),
     ...(can("contacts.read")
       ? [{ id: "/admin/contacts", label: "Consultas", icon: MessagesSquare }]
       : []),
-    ...(can("audit.read") || context.super_admin
+    ...(can("audit.read")
       ? [{ id: "/admin/audit", label: "Auditoría", icon: ShieldCheck }]
-      : []),
-    ...(context.super_admin
-      ? [{ id: "/admin/platform", label: "Estudios y usuarios", icon: Users }]
       : []),
     { id: "/admin/profile", label: "Mi cuenta", icon: UserRound },
   ].map((n) => ({ ...n, href: n.id }));
   const active =
     navigation.find((n) => n.id !== "/admin" && pathname.startsWith(n.id))
       ?.id || "/admin";
-  const change = (org: string, selectedSite?: string) => {
-    if (
-      !window.dispatchEvent(
-        new Event("leyer:before-navigate", { cancelable: true }),
-      )
-    )
-      return;
-    start(async () => {
-      const result = await selectWorkspace(org, selectedSite);
-      setError(result.error || "");
-      if (!result.error) {
-        router.push("/admin");
-        router.refresh();
-      }
-    });
-  };
   return (
     <AdminShell
       production
-      organization={organization?.name || "Leyer"}
+      siteName={site?.name || "ALBAR Abogados"}
       user={context.profile.display_name || "Mi cuenta"}
       navigation={navigation}
       activeSection={active}
-      workspaceControls={
-        <div className="workspace-selectors" aria-busy={pending}>
-          <Label htmlFor="organization-select">Estudio</Label>
-          <Select
-            id="organization-select"
-            value={organizationId || ""}
-            disabled={pending || !context.organizations.length}
-            onChange={(e) => change(e.target.value)}
-          >
-            {!organizationId && <option value="">Sin estudio asignado</option>}
-            {context.organizations
-              .filter((o) => o.status === "active")
-              .map((o) => (
-                <option key={o.id} value={o.id}>
-                  {o.name}
-                </option>
-              ))}
-          </Select>
-          {context.sites.some((s) => s.organization_id === organizationId) && (
-            <>
-              <Label htmlFor="site-select">Sitio</Label>
-              <Select
-                id="site-select"
-                value={siteId || ""}
-                disabled={pending}
-                onChange={(e) => change(organizationId!, e.target.value)}
-              >
-                {context.sites
-                  .filter((s) => s.organization_id === organizationId)
-                  .map((s) => (
-                    <option key={s.id} value={s.id}>
-                      {s.name}
-                    </option>
-                  ))}
-              </Select>
-            </>
-          )}
-        </div>
-      }
       breadcrumbs={
         <nav
           aria-label="Ruta de navegación"
@@ -195,7 +124,6 @@ export function AdminFrame({
         </>
       }
     >
-      {error && <Alert variant="error" title={error} />}
       {children}
     </AdminShell>
   );

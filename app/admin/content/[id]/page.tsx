@@ -55,12 +55,17 @@ export default async function EditorPage({
         terms: [],
         relations: [],
       };
+  const menuLinks = snapshot.template_key === "service-landing" && snapshot.template_version < 2
+    ? checked(await db.from("menu_items").select("external_url").eq("site_id", site.id)) || [] : [];
+  const serviceDefaults = {
+    contactPath: site.settings.contact_enabled === true ? String(site.settings.contact_path || "/contacto") : undefined,
+    whatsappHref: menuLinks.map(item => item.external_url).find(href => typeof href === "string" && /^https:\/\/wa\.me\/\d{8,15}$/.test(href)) || undefined,
+  };
   return (
     <ContentEditor
       key={`${id}-${site.id}`}
       entry={entry}
       initial={snapshot}
-      siteId={site.id}
       userId={user.id}
       permissions={site.permissions}
       entries={entries}
@@ -69,6 +74,7 @@ export default async function EditorPage({
       taxonomies={taxonomies as Row[]}
       revisions={revisions as Row[]}
       schedules={schedules as Row[]}
+      serviceDefaults={serviceDefaults}
     />
   );
 }

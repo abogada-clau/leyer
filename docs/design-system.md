@@ -24,6 +24,11 @@ lleva al formulario del sitio y, si está publicado en su menú, a su WhatsApp.
 La barra se oculta al entrar al formulario o abrir el menú para no tapar controles.
 Después del primer grupo de servicios se ofrece ayuda para elegir el siguiente
 paso. Estas salidas solo aparecen cuando el sitio tiene contacto habilitado.
+En la home, ese primer grupo presenta la introducción arriba y cuatro opciones
+comparables en dos columnas, con categoría, icono y un enlace que ocupa toda la
+tarjeta. Los accesos a todas las áreas de Personas y Empresas solo se muestran
+si sus destinos están publicados en el mismo sitio e idioma. En móvil las
+opciones se apilan; no se ocultan detrás de pestañas ni carruseles.
 Las entradas al desplazarse duran menos de medio segundo, se ejecutan una sola
 vez por sección y respetan movimiento reducido. El contenido permanece visible
 sin JavaScript. Los enlaces y tarjetas responden a hover y foco sin animaciones
@@ -82,7 +87,7 @@ circular; no definen otro radio para componentes rectangulares.
 | -------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
 | `Button`                               | Principal, outline, ghost, secondary, terracotta, destructive y link. Tamaños 32, 40 y 48 px; icono con nombre accesible. |
 | `Input`, `Textarea`, `Select`, `Label` | Formularios con etiqueta visible, ayuda, deshabilitado y `aria-invalid`.                                                  |
-| `Checkbox`                             | Selección independiente y múltiples roles.                                                                                |
+| `Checkbox`                             | Selección independiente de opciones.                                                                                |
 | `SegmentedControl`                     | Una vista activa entre varias; grupo de radios con teclado.                                                               |
 | `Badge`                                | Estados de contenido con texto y color; success, warning, info y neutral.                                                 |
 | `Alert`                                | Mensajes visibles con icono; success, warning, info y error.                                                              |
@@ -115,6 +120,34 @@ tenue, pasos en una secuencia vertical y preguntas frecuentes en acordeón. Los 
 de contenido agrupan etiqueta, título y explicación en una cabecera. Evitar una
 sucesión de títulos grandes con el mismo peso y rejillas con una tarjeta huérfana.
 
+La plantilla `service-landing` versión 2 presenta una composición editorial
+administrada por revisiones en BD. La portada, introducción, franja de beneficios,
+requisitos, materias, pasos, relacionados, preguntas y cierre son bloques normales
+del CMS: el renderizador respeta su orden, eliminación y visibilidad. No añade
+beneficios, notas, leyendas, imágenes ni botones de respaldo.
+
+Los campos `eyebrow`, `heading`, `lead`, `body`, `note`, `note_icon`, `aria_label`,
+`caption` y `actions` viven en `content_blocks.data`. La franja es un `card_grid`
+con `variant: benefits`; sus elementos admiten texto, icono, enlace e imagen.
+Las imágenes se guardan como asociaciones en `revision_assets`, con texto
+alternativo, espacio único y punto focal; los elementos de tarjetas referencian
+ese espacio mediante `asset_slot`, conservándolo al reordenarse.
+
+El editor permite elegir `visual` (sin apoyo, imagen, ilustración de marca o
+documentos), `tone` (superficie del sistema), `columns`, `hidden` y la distribución
+del texto enriquecido (`reading`, `intro` o `columns`). No cambiar una opción
+es distinto de vaciarla: `visual: none` no recupera la fotografía del autor ni
+una ilustración. Las acciones contienen su texto, destino, icono y estilo; WhatsApp
+es una acción editable, sin sincronización implícita con el menú. Los valores se
+validan tanto al guardar desde el panel como en PostgreSQL. La presentación usa
+los tokens del sistema y se adapta a móvil y oscuro.
+
+La vista previa utiliza el mismo renderizador y respeta imágenes y puntos focales.
+La actualización a versión 2 materializa una sola vez lo que antes añadía la
+plantilla; crea revisiones nuevas y conserva el historial. El editor ofrece la
+conversión para revisiones antiguas y una estructura inicial para servicios nuevos.
+Los datos iniciales de esa estructura son editables desde el momento de su guardado.
+
 `SectionHeading`, `ServiceCard`, `Checklist`, `FAQ` y `EmptyState` componen las
 páginas públicas y los estados de la aplicación. `AdminShell` proporciona la
 estructura de navegación, organización, usuario y contenido del panel.
@@ -136,7 +169,7 @@ ejemplo reutiliza el mismo componente.
 
 // Guardado real: requiere sesión, media.manage y configuración del servidor.
 <ImageUploader
-  target={{ siteId, bucket: "cms-private" }}
+  target={{ bucket: "cms-private" }}
   onChange={(image) => setCoverAssetId(image?.assetId ?? null)}
 />
 ```
@@ -198,7 +231,7 @@ Validación: `npm run test:media`, `npm run db:test`, `npm run db:lint`,
 
 Los ejemplos de home, landing, blog y administración son públicos y usan datos
 ilustrativos en memoria. Buscar, filtrar, crear, cambiar estados o eliminar dentro
-del preview no modifica Supabase ni roles reales. Los formularios no transmiten
+del preview no modifica Supabase ni accesos reales. Los formularios no transmiten
 datos. La demostración de imágenes sí envía el archivo al optimizador de este
 proyecto, pero no lo almacena en Supabase. Recargar restaura los ejemplos.
 
@@ -209,7 +242,7 @@ no cambia ni sustituye esos controles.
 ## Panel productivo
 
 `/admin` usa `AdminShell` con `production`, enlaces `href` por sección,
-`workspaceControls`, `userControls` y breadcrumbs. Los props originales de la
+`userControls` y breadcrumbs. Los props originales de la
 galería siguen disponibles para las demostraciones. Los tamaños del panel real
 se definen en `app/admin/panel.css`; no se trasladan los tamaños reducidos del
 preview a las pantallas productivas. La biblioteca y el editor reutilizan

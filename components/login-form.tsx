@@ -61,7 +61,7 @@ export function LoginForm({
         <CardHeader>
           <CardTitle className="text-2xl">Iniciar sesión</CardTitle>
           <CardDescription>
-            Accede al espacio de trabajo de tu estudio.
+            Administra el contenido de ALBAR Abogados.
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -100,15 +100,6 @@ export function LoginForm({
               <Button type="submit" className="w-full" disabled={isLoading}>
                 {isLoading ? "Ingresando…" : "Ingresar"}
               </Button>
-            </div>
-            <div className="mt-4 text-center text-sm">
-              ¿Todavía no tienes una cuenta?{" "}
-              <Link
-                href="/auth/sign-up"
-                className="underline underline-offset-4"
-              >
-                Crear cuenta
-              </Link>
             </div>
           </form>
         </CardContent>

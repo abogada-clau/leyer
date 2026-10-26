@@ -3,13 +3,17 @@ import { useEffect, useState } from "react";
 import { FileText } from "lucide-react";
 import { MediaImage, ImagePlaceholder } from "@/components/ui/media-image";
 import { Button } from "@/components/ui/button";
-import type { Asset } from "@/lib/admin/types";
+import type { Asset, Json } from "@/lib/admin/types";
 export function AssetPreview({
   asset,
   showLink = false,
+  fit = "contain",
+  focal,
 }: {
   asset: Asset;
   showLink?: boolean;
+  fit?: "cover" | "contain";
+  focal?: Json;
 }) {
   const [url, setUrl] = useState("");
   const [error, setError] = useState("");
@@ -20,7 +24,7 @@ export function AssetPreview({
     async function refresh() {
       try {
         const res = await fetch(
-          `/api/admin/media/${asset.id}?site=${asset.site_id}`,
+          `/api/admin/media/${asset.id}`,
           { cache: "no-store", signal: abort.signal },
         );
         const data = await res.json();
@@ -51,7 +55,7 @@ export function AssetPreview({
       clearInterval(timer);
       window.removeEventListener("focus", focus);
     };
-  }, [asset.id, asset.site_id, asset.bucket_id, attempt]);
+  }, [asset.id, asset.bucket_id, attempt]);
   return (
     <div className="space-y-2">
       {asset.mime_type === "application/pdf" ? (
@@ -71,7 +75,8 @@ export function AssetPreview({
           alt={asset.alt_text || asset.filename}
           width={asset.width || 1600}
           height={asset.height || 900}
-          fit="contain"
+          fit={fit}
+          imageStyle={focal && typeof focal === "object" && !Array.isArray(focal) ? { objectPosition: `${Math.max(0, Math.min(1, Number(focal.x) || 0)) * 100}% ${Math.max(0, Math.min(1, Number(focal.y) || 0)) * 100}%` } : undefined}
         />
       )}
       {error && (

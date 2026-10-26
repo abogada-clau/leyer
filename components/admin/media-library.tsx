@@ -19,11 +19,10 @@ import { formatBytes } from "@/lib/media/shared";
 import type { Asset, ActionResult } from "@/lib/admin/types";
 export function MediaLibrary({
   rows,
-  siteId,
   canManage,
 }: {
   rows: Asset[];
-  siteId: string;
+
   canManage: boolean;
 }) {
   const [upload, setUpload] = useState(false);
@@ -125,7 +124,7 @@ export function MediaLibrary({
           </div>
           <ImageUploader
             key={bucket}
-            target={{ siteId, bucket }}
+            target={{ bucket }}
             onChange={(image) => {
               if (image?.assetId) {
                 setResult({ message: "Imagen guardada en la biblioteca." });
@@ -138,7 +137,7 @@ export function MediaLibrary({
             onSubmit={(e) => {
               e.preventDefault();
               const form = new FormData(e.currentTarget);
-              form.set("siteId", siteId);
+
               form.set("bucket", bucket);
               start(async () => {
                 try {
@@ -211,7 +210,7 @@ export function MediaLibrary({
                   start(async () => {
                     const r = await mutate({
                       action: "media",
-                      siteId,
+
                       id: selected.id,
                       data,
                     });
@@ -274,7 +273,7 @@ export function MediaLibrary({
                           start(async () => {
                             const r = await mutate({
                               action: "media.delete",
-                              siteId,
+
                               id: selected.id,
                               data: {},
                             });
@@ -312,7 +311,7 @@ export function MediaLibrary({
                     disabled={pending}
                     onClick={() =>
                       start(async () => {
-                        const r = await createPublicCopy(siteId, selected.id);
+                        const r = await createPublicCopy(selected.id);
                         setResult(r);
                         if (!r.error) {
                           setPublicConfirm(false);

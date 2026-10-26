@@ -49,15 +49,6 @@
   max-width: 1600px;
   margin: auto;
 }
-.workspace-selectors {
-  display: grid;
-  gap: 8px;
-  margin: 28px 0 0;
-}
-.workspace-selectors label {
-  font-size: 12px;
-  color: hsl(var(--muted-foreground));
-}
 .panel-heading {
   display: flex;
   justify-content: space-between;
@@ -236,12 +227,7 @@
   .admin-production .admin-sidebar > .leyer-brand {
     display: inline-flex;
   }
-  .admin-production .workspace-selectors {
-    margin-top: 20px;
-    grid-template-columns: 70px minmax(0, 1fr);
-    align-items: center;
-  }
-  .admin-production .admin-sidebar nav {
+  .admin-production   .admin-production .admin-sidebar nav {
     display: flex;
     overflow: auto;
     margin-top: 16px;

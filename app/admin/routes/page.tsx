@@ -58,7 +58,6 @@ export default async function Routes() {
       <ResourceManager
         title="Redirecciones"
         action="redirect"
-        siteId={site.id}
         rows={redirects.map((r) => ({
           ...r,
           target_name: name(r.target_entry_id),

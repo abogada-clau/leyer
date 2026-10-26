@@ -11,7 +11,7 @@ async function main() {
   const sql = await readFile("supabase/seeds/albar/seed.sql", "utf8");
   const publish = process.argv.includes("--publish-demo");
   const config: Record<string, unknown> = {
-    actor_email: accounts.super.email, domain: "albar.test", demo: true,
+    actor_email: accounts.admin.email, domain: "albar.test", demo: true,
     publish, activate_site: publish, legal_review_confirmed: publish,
     privacy_review_confirmed: publish,
     privacy_controller: "Responsable de verificación local ALBAR (datos de demostración)",
@@ -22,7 +22,7 @@ async function main() {
   const db = createServerClient(url, process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!, {
     cookies: { getAll: () => Array.from(jar, ([name, value]) => ({ name, value })), setAll: values => values.forEach(c => jar.set(c.name, c.value)) },
   });
-  const login = await db.auth.signInWithPassword(accounts.super);
+  const login = await db.auth.signInWithPassword(accounts.admin);
   if (login.error) throw login.error;
   function seed(extra: Record<string, unknown> = {}) {
     const value = JSON.stringify({ ...config, ...extra });
@@ -32,14 +32,12 @@ async function main() {
       stdio: ["pipe", "pipe", "pipe"],
     });
   }
-  let org = await db.from("organizations").select("id").eq("slug", "albar-abogados").maybeSingle();
-  if (org.error) throw org.error;
-  if (!org.data) {
-    seed({ publish: false, activate_site: false });
-    org = await db.from("organizations").select("id").eq("slug", "albar-abogados").single();
-  }
-  const site = await db.from("sites").select("id").eq("organization_id", org.data!.id).eq("slug", "principal").single();
+  const site = await db.from("sites").select("id").single();
   if (site.error) throw site.error;
+  const registry = await db.rpc("get_cms_entries", { p_site_id: site.data.id });
+  if (registry.error) throw registry.error;
+  const hasContent = Boolean(registry.data?.length);
+  if (!hasContent) seed({ publish: false, activate_site: false });
   const media = await db.rpc("get_cms_media", { p_site_id: site.data.id });
   if (media.error) throw media.error;
   const sources: { key: string; filename: string; alt: string }[] = JSON.parse(await readFile("supabase/seeds/albar/assets/manifest.json", "utf8"));
@@ -48,7 +46,7 @@ async function main() {
     const existing = media.data.find((m: { filename: string; bucket_id: string }) => m.filename === source.filename && m.bucket_id === "cms-public");
     if (existing) { assets[source.key] = existing.id; continue; }
     const form = new FormData();
-    form.set("siteId", site.data.id); form.set("bucket", "cms-public"); form.set("alt", source.alt);
+    form.set("bucket", "cms-public"); form.set("alt", source.alt);
     const bytes = await readFile(`supabase/seeds/albar/assets/${source.filename}`);
     form.set("file", new File([new Uint8Array(bytes)], source.filename, { type: "image/webp" }));
     const response = await fetch(origin + "/api/media/images", {
@@ -58,8 +56,8 @@ async function main() {
     if (!response.ok) throw new Error(result.error || "No se pudo cargar la imagen.");
     assets[source.key] = result.assetId;
   }
-  seed({ assets });
-  const fixtures = { organizationId: org.data!.id, siteId: site.data.id, assets, published: publish, basePath: "/sitios/albar-abogados/principal" };
+  if (!hasContent) seed({ assets });
+  const fixtures = { siteId: site.data.id, assets, published: publish, basePath: "" };
   await writeFile(".local/albar-fixtures.json", JSON.stringify(fixtures, null, 2));
   console.log(`ALBAR local: ${origin}${fixtures.basePath} · ${publish ? "demostración publicada" : "contenido en revisión"}`);
 }

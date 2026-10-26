@@ -6,6 +6,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Select } from "@/components/ui/select";
 import { RichTextEditor } from "./rich-text-editor";
+import { iconOptions, visualOptions, toneOptions, actionStyles, richLayouts, blockVariants } from "@/lib/content/block-options";
+import { ContentIcon } from "@/components/public/content-icon";
 import { AssetPicker } from "./asset-picker";
 import type { Block, Json } from "@/lib/admin/types";
 
@@ -13,6 +15,7 @@ export const blockLabels: Record<string, string> = {
   hero: "Portada",
   split_content: "Texto e imagen",
   card_grid: "Tarjetas",
+  benefits: "Franja de beneficios",
   checklist: "Lista de requisitos",
   steps: "Etapas",
   faq: "Preguntas frecuentes",
@@ -23,16 +26,18 @@ export const blockLabels: Record<string, string> = {
   related_content: "Contenidos relacionados",
 };
 export function makeBlock(type: string): Block {
+  const benefits = type === "benefits";
+  if (benefits) type = "card_grid";
   const data: Record<string, Json> = (
     {
-      hero: { heading: "", body: "", actions: [] },
-      split_content: { heading: "", body: "" },
-      card_grid: { items: [{ heading: "", body: "" }] },
-      checklist: { items: [{ text: "" }] },
+      hero: { eyebrow: "", heading: "", lead: "", body: "", note: "", note_icon: "none", visual: "none", actions: [] },
+      split_content: { heading: "", body: "", visual: "none", actions: [] },
+      card_grid: { aria_label: "", items: [{ heading: "", body: "", icon: "none" }], ...(benefits ? { tone: "sage", columns: "4" } : {}) },
+      checklist: { visual: "none", items: [{ text: "" }] },
       steps: { items: [{ heading: "", body: "" }] },
       faq: { items: [{ question: "", answer: "" }] },
-      cta: { heading: "", actions: [{ label: "", href: "/contacto" }] },
-      rich_text: { document: { type: "doc", content: [] } },
+      cta: { heading: "", actions: [{ label: "", href: "/contacto", icon: "none", style: "primary" }] },
+      rich_text: { layout: "reading", visual: "none", document: { type: "doc", content: [] } },
       image: { caption: "" },
       quote: { text: "", attribution: "" },
       related_content: { heading: "También te puede interesar" },
@@ -42,7 +47,7 @@ export function makeBlock(type: string): Block {
     key: crypto.randomUUID(),
     type,
     schema_version: 1,
-    variant: "default",
+    variant: benefits ? "benefits" : "default",
     data,
     assets: [],
   };
@@ -52,11 +57,13 @@ function RepeatFields({
   fields,
   onChange,
   label,
+  media,
 }: {
   items: Json;
-  fields: { key: string; label: string }[];
+  fields: { key: string; label: string; options?: Record<string, string> }[];
   onChange: (items: Json[]) => void;
   label: string;
+  media?: { canUpload: boolean; assets: Block["assets"]; set: (index: number, id: string | null) => void };
 }) {
   const rows = Array.isArray(items) ? (items as Record<string, Json>[]) : [];
   return (
@@ -98,7 +105,8 @@ function RepeatFields({
           {fields.map((f) => (
             <label key={f.key} className="panel-field text-sm">
               {f.label}
-              <Textarea
+              {f.options ? <div className="flex items-center gap-3"><Select aria-label={f.label} value={String(r[f.key] || (f.key === "style" ? "primary" : "none"))} onChange={e => onChange(rows.map((v, i) => i === index ? { ...v, [f.key]: e.target.value } : v))}>{Object.entries(f.options).map(([value, label]) => <option key={value} value={value}>{label}</option>)}</Select>{f.key === "icon" && <ContentIcon name={r[f.key]} />}</div> : <Textarea
+                aria-label={f.label}
                 rows={f.key === "body" || f.key === "answer" ? 3 : 1}
                 value={String(r[f.key] || "")}
                 onChange={(e) =>
@@ -108,9 +116,11 @@ function RepeatFields({
                     ),
                   )
                 }
-              />
+              />}
             </label>
           ))}
+          {media && <AssetPicker canUpload={media.canUpload} label="Imagen del elemento" value={media.assets.find(asset => asset.slot === r.asset_slot)?.asset_id || null} onChange={id => media.set(index, id)} />}
+
         </div>
       ))}
       <Button
@@ -120,7 +130,7 @@ function RepeatFields({
         onClick={() =>
           onChange([
             ...rows,
-            Object.fromEntries(fields.map((f) => [f.key, ""])),
+            Object.fromEntries(fields.map((f) => [f.key, f.key === "icon" ? "none" : f.key === "style" ? "primary" : ""])),
           ])
         }
       >
@@ -134,7 +144,7 @@ export function BlockEditor({
   block,
   index,
   total,
-  siteId,
+
   canUpload,
   disabled = false,
   onChange,
@@ -145,7 +155,7 @@ export function BlockEditor({
   block: Block;
   index: number;
   total: number;
-  siteId: string;
+
   canUpload: boolean;
   disabled?: boolean;
   onChange: (b: Block) => void;
@@ -159,7 +169,7 @@ export function BlockEditor({
   return (
     <details open className="editor-block">
       <summary>
-        {index + 1}. {blockLabels[block.type] || block.type}
+        {index + 1}. {block.variant === "benefits" ? blockLabels.benefits : blockLabels[block.type] || block.type}
       </summary>
       <div className="mt-4 space-y-5">
         <div className="flex flex-wrap justify-between gap-2">
@@ -206,29 +216,15 @@ export function BlockEditor({
             value={block.variant}
             onChange={(e) => onChange({ ...block, variant: e.target.value })}
           >
-            {[
-              ...new Set([
-                "default",
-                "image-right",
-                "image-left",
-                "centered",
-                block.variant,
-              ]),
-            ].map((v) => (
-              <option key={v} value={v}>
-                {(
-                  {
-                    default: "Predeterminada",
-                    "image-right": "Imagen a la derecha",
-                    "image-left": "Imagen a la izquierda",
-                    centered: "Centrada",
-                  } as Record<string, string>
-                )[v] || v}
-              </option>
-            ))}
+            {Object.entries(blockVariants).filter(([value]) => value !== "benefits" || block.type === "card_grid").map(([value, label]) => <option key={value} value={value}>{label}</option>)}
           </Select>
         </div>
-        {["eyebrow", "heading", "body", "text", "caption", "attribution"]
+        <label className="flex items-center gap-3 text-sm"><input type="checkbox" checked={data.hidden === true} onChange={e => set("hidden", e.target.checked)} />Ocultar sección en la página</label>
+        <label className="panel-field">Superficie<Select aria-label="Superficie" value={String(data.tone || "default")} onChange={e => set("tone", e.target.value)}>{Object.entries(toneOptions).map(([value, label]) => <option key={value} value={value}>{label}</option>)}</Select></label>
+        {["hero", "split_content", "checklist", "rich_text", "cta"].includes(block.type) && <label className="panel-field">Apoyo visual<Select aria-label="Apoyo visual" value={String(data.visual || (block.assets.length ? "image" : "none"))} onChange={e => set("visual", e.target.value)}>{Object.entries(visualOptions).map(([value, label]) => <option key={value} value={value}>{label}</option>)}</Select></label>}
+        {["card_grid", "steps"].includes(block.type) && <label className="panel-field">Columnas en escritorio<Select aria-label="Columnas en escritorio" value={String(data.columns || "auto")} onChange={e => set("columns", e.target.value)}>{["auto", "1", "2", "3", "4"].map(value => <option key={value} value={value}>{value === "auto" ? "Automáticas" : value}</option>)}</Select></label>}
+        {block.type === "rich_text" && <label className="panel-field">Distribución del texto<Select aria-label="Distribución del texto" value={String(data.layout || "reading")} onChange={e => set("layout", e.target.value)}>{Object.entries(richLayouts).map(([value, label]) => <option key={value} value={value}>{label}</option>)}</Select></label>}
+        {["eyebrow", "heading", "lead", "body", "note", "aria_label", "text", "caption", "attribution"]
           .filter(
             (k) =>
               k in data ||
@@ -242,7 +238,7 @@ export function BlockEditor({
                 "cta",
                 "related_content",
               ].includes(block.type) &&
-                ["eyebrow", "heading", "body"].includes(k)),
+                ["eyebrow", "heading", "body", "aria_label", ...(block.type === "hero" ? ["lead", "note"] : [])].includes(k)),
           )
           .map((k) => (
             <div className="panel-field" key={k}>
@@ -251,6 +247,9 @@ export function BlockEditor({
                   (
                     {
                       eyebrow: "Antetítulo",
+                      lead: "Bajada destacada",
+                      note: "Nota de apoyo",
+                      aria_label: "Nombre accesible de la sección",
                       heading: "Encabezado",
                       body: "Texto",
                       text: "Cita",
@@ -268,6 +267,7 @@ export function BlockEditor({
               />
             </div>
           ))}
+        {block.type === "hero" && <label className="panel-field">Icono de la nota<Select aria-label="Icono de la nota" value={String(data.note_icon || "none")} onChange={e => set("note_icon", e.target.value)}>{Object.entries(iconOptions).map(([value, label]) => <option key={value} value={value}>{label}</option>)}</Select></label>}
         {block.type === "related_content" && (
           <div className="panel-field">
             <Label htmlFor={`${block.key}-source`}>
@@ -304,6 +304,8 @@ export function BlockEditor({
                       { key: "body", label: "Descripción" },
                       ...(block.type === "card_grid"
                         ? [
+                            { key: "icon", label: "Icono", options: iconOptions },
+                            { key: "link_label", label: "Texto del enlace" },
                             {
                               key: "href",
                               label: "Enlace del servicio · opcional",
@@ -312,16 +314,23 @@ export function BlockEditor({
                         : []),
                     ]
             }
-            onChange={(v) => set("items", v)}
+            media={block.type === "card_grid" ? { canUpload, assets: block.assets, set: (index, id) => {
+              const rows = Array.isArray(data.items) ? data.items as Record<string, Json>[] : [];
+              const slot = String(rows[index].asset_slot || `item-${crypto.randomUUID()}`);
+              onChange({ ...block, data: { ...data, items: rows.map((row, i) => i === index ? { ...row, asset_slot: id ? slot : "" } : row) }, assets: [...block.assets.filter(asset => asset.slot !== slot), ...(id ? [{ asset_id: id, slot, alt_text: "" }] : [])] });
+            } } : undefined}
+            onChange={items => onChange({ ...block, data: { ...data, items }, assets: block.assets.filter(asset => !asset.slot.startsWith("item-") || items.some(item => item && typeof item === "object" && !Array.isArray(item) && item.asset_slot === asset.slot)) })}
           />
         )}
-        {"actions" in data && (
+        {(["hero", "split_content", "cta"].includes(block.type) || "actions" in data) && (
           <RepeatFields
             label="Botones"
             items={data.actions}
             fields={[
               { key: "label", label: "Texto del botón" },
               { key: "href", label: "Destino · ruta, HTTPS, mailto o tel" },
+              { key: "icon", label: "Icono del botón", options: iconOptions },
+              { key: "style", label: "Estilo del botón", options: actionStyles },
             ]}
             onChange={(v) => set("actions", v)}
           />
@@ -366,8 +375,8 @@ export function BlockEditor({
                   }
                 />
               </label>
+              <div className="grid grid-cols-2 gap-3">{["x", "y"].map(axis => <label className="panel-field text-sm" key={axis}>Punto focal {axis === "x" ? "horizontal" : "vertical"} (%)<Input type="number" min="0" max="100" value={Math.round(Number((a.focal_point && typeof a.focal_point === "object" && !Array.isArray(a.focal_point) ? a.focal_point[axis] : undefined) ?? .5) * 100)} onChange={e => onChange({ ...block, assets: block.assets.map((asset, n) => n === i ? { ...asset, focal_point: { x: .5, y: .5, ...(asset.focal_point && typeof asset.focal_point === "object" && !Array.isArray(asset.focal_point) ? asset.focal_point : {}), [axis]: Number(e.target.value) / 100 } } : asset) })} /></label>)}</div>
               <AssetPicker
-                siteId={siteId}
                 canUpload={canUpload}
                 value={a.asset_id}
                 onChange={(id) =>
@@ -384,7 +393,6 @@ export function BlockEditor({
             </div>
           ))}
           <AssetPicker
-            siteId={siteId}
             canUpload={canUpload}
             value={null}
             label="Asociar recurso"

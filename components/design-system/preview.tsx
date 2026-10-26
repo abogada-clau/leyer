@@ -146,7 +146,7 @@ export function DesignSystemPreview() {
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
   const [confirmOpen, setConfirmOpen] = useState(false);
-  const [roles, setRoles] = useState<string[]>(["admin", "lawyer"]);
+  const [publicationOptions, setPublicationOptions] = useState<string[]>(["search", "navigation"]);
   const [email, setEmail] = useState("claudia@");
   const [sent, setSent] = useState(false);
   const saveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -816,34 +816,34 @@ export function DesignSystemPreview() {
               <Specimen title="Decisiones claras" caption="SELECCIÓN MÚLTIPLE">
                 <fieldset>
                   <legend className="mb-3 text-sm font-medium">
-                    Roles del usuario
+                    Opciones de publicación
                   </legend>
                   <div className="space-y-3">
                     {[
                       {
-                        key: "super_admin",
-                        name: "Superadministrador",
-                        detail: "Administración global",
+                        key: "search",
+                        name: "Visible en búsquedas",
+                        detail: "Permitir indexación",
                       },
                       {
-                        key: "admin",
-                        name: "Administrador",
-                        detail: "Contenido del estudio",
+                        key: "navigation",
+                        name: "Enlace en el menú",
+                        detail: "Mostrar en la navegación",
                       },
                       {
-                        key: "lawyer",
-                        name: "Abogado",
-                        detail: "Trabajo jurídico",
+                        key: "contact",
+                        name: "Formulario de contacto",
+                        detail: "Recibir consultas",
                       },
                     ].map((role) => (
                       <label className="ds-role-option" key={role.key}>
                         <Checkbox
-                          checked={roles.includes(role.key)}
+                          checked={publicationOptions.includes(role.key)}
                           onCheckedChange={(checked) =>
-                            setRoles(
+                            setPublicationOptions(
                               checked
-                                ? [...roles, role.key]
-                                : roles.filter((item) => item !== role.key),
+                                ? [...publicationOptions, role.key]
+                                : publicationOptions.filter((item) => item !== role.key),
                             )
                           }
                         />
@@ -855,9 +855,9 @@ export function DesignSystemPreview() {
                     ))}
                   </div>
                   <p className="ds-field-hint mt-4" aria-live="polite">
-                    {roles.length
-                      ? `${roles.length} de 3 roles seleccionados.`
-                      : "Sin roles asignados. Sin acceso a funciones internas."}
+                    {publicationOptions.length
+                      ? `${publicationOptions.length} de 3 opciones seleccionadas.`
+                      : "Sin opciones seleccionadas."}
                   </p>
                 </fieldset>
               </Specimen>

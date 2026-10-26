@@ -4,13 +4,13 @@ import { requireSite, checked } from "@/lib/admin/server";
 import { uuid, text } from "@/lib/admin/validation";
 import type { ActionResult } from "@/lib/admin/types";
 export async function updateContact(
-  siteId: string,
+
   id: string,
   status: string,
   notes: string,
 ): Promise<ActionResult> {
   try {
-    const { db, site } = await requireSite("contacts.manage", uuid(siteId));
+    const { db, site } = await requireSite("contacts.manage");
     if (!["new", "in_progress", "closed", "spam"].includes(status))
       throw new Error("Estado inválido.");
     checked(

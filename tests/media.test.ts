@@ -199,3 +199,13 @@ test("file and URL inputs cannot be combined ambiguously", async () => {
     /una opción/,
   );
 });
+
+test("same-origin media accepts the request Host when Next uses an internal URL", () => {
+  assert.doesNotThrow(() => assertSameOrigin(new Request("http://127.0.0.1:3000/api/media/images", { headers: { Origin: "http://localhost:3000", Host: "localhost:3000" } })));
+  const invalidHeaders: Record<string, string>[] = [
+    { Origin: "http://attacker.test", Host: "localhost:3000" },
+    { Origin: "http://attacker.test", Host: "localhost:3000", "X-Forwarded-Host": "attacker.test" },
+    { Origin: "http://attacker.test", Host: "user@attacker.test" },
+  ];
+  for (const headers of invalidHeaders) assert.throws(() => assertSameOrigin(new Request("http://127.0.0.1:3000/api/media/images", { headers })));
+});

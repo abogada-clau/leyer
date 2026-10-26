@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
-import { getSelection } from "@/lib/admin/server";
+import { getIdentity } from "@/lib/admin/server";
 import { AdminFrame } from "@/components/admin/frame";
 import "./panel.css";
 export const metadata: Metadata = {
@@ -19,7 +19,7 @@ export default function AdminLayout({
           className="flex min-h-screen items-center justify-center"
           role="status"
         >
-          Comprobando tu espacio de trabajo…
+          Comprobando tu acceso…
         </main>
       }
     >
@@ -32,12 +32,10 @@ async function AuthenticatedLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const { context, organization, site } = await getSelection();
+  const { context } = await getIdentity();
   return (
     <AdminFrame
       context={context}
-      organizationId={organization?.id}
-      siteId={site?.id}
     >
       {children}
     </AdminFrame>

@@ -1,9 +1,8 @@
 import "server-only";
 import { cache } from "react";
-import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import type { AdminContext, Site } from "./types";
+import type { AdminContext } from "./types";
 
 export const getIdentity = cache(async () => {
   const db = await createClient();
@@ -20,45 +19,13 @@ export const getIdentity = cache(async () => {
   return { db, user, context: data as AdminContext };
 });
 
-export const getSelection = cache(async () => {
-  const identity = await getIdentity();
-  const jar = await cookies();
-  const organizations = identity.context.organizations.filter(
-    (o) => o.status === "active",
-  );
-  const organization =
-    organizations.find((o) => o.id === jar.get("leyer-org")?.value) ||
-    organizations[0];
-  const sites = identity.context.sites.filter(
-    (s) => s.organization_id === organization?.id,
-  );
-  const site =
-    sites.find((s) => s.id === jar.get("leyer-site")?.value) || sites[0];
-  return { ...identity, organization, site };
-});
-
-export async function requireSite(
-  permission = "content.read",
-  siteId?: string,
-) {
-  const state = await getSelection();
-  const site = siteId
-    ? state.context.sites.find((s) => s.id === siteId)
-    : state.site;
-  if (
-    state.context.profile.status !== "active" ||
-    !site?.permissions.includes(permission)
-  )
-    throw new Error(
-      "No tienes permiso vigente para esta operación en el sitio seleccionado.",
-    );
-  return { ...state, site: site as Site };
-}
-export async function requireSuper() {
+export async function requireSite(permission = "content.read") {
   const state = await getIdentity();
-  if (!state.context.super_admin)
-    throw new Error("Esta función requiere un superadministrador activo.");
-  return state;
+  const site = state.context.site;
+  if (state.context.profile.status !== "active" || !state.context.is_admin ||
+      !site?.permissions.includes(permission))
+    throw new Error("No tienes acceso administrativo vigente.");
+  return { ...state, site };
 }
 export function checked<T>(result: {
   data: T;

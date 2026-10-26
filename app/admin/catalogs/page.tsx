@@ -23,7 +23,6 @@ export default async function Catalogs() {
         <ResourceManager
           title="Autores"
           action="author"
-          siteId={site.id}
           rows={authors}
           columns={[
             { key: "display_name", label: "Nombre" },
@@ -61,7 +60,6 @@ export default async function Catalogs() {
         <ResourceManager
           title="Taxonomías"
           action="taxonomy"
-          siteId={site.id}
           rows={taxonomies}
           columns={[
             { key: "name", label: "Nombre" },
@@ -81,7 +79,6 @@ export default async function Catalogs() {
         <ResourceManager
           title="Categorías y etiquetas"
           action="term"
-          siteId={site.id}
           rows={terms.map((t) => ({
             ...t,
             taxonomy_name: String(

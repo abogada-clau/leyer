@@ -10,13 +10,13 @@ import { searchAssets } from "@/app/admin/actions";
 import { AssetPreview } from "./asset-preview";
 import type { Asset } from "@/lib/admin/types";
 export function AssetPicker({
-  siteId,
+
   value,
   onChange,
   label = "Seleccionar recurso",
   canUpload = false,
 }: {
-  siteId: string;
+
   value: string | null;
   onChange: (id: string | null) => void;
   label?: string;
@@ -40,7 +40,7 @@ export function AssetPicker({
       () =>
         start(async () => {
           try {
-            const r = await searchAssets(siteId, query, page);
+            const r = await searchAssets(query, page);
             if (active) {
               setRows(r.data || []);
               setTotal(r.total);
@@ -59,7 +59,7 @@ export function AssetPicker({
       active = false;
       clearTimeout(timer);
     };
-  }, [siteId, query, page, open, reload]);
+  }, [query, page, open, reload]);
   return (
     <div>
       <div className="flex flex-wrap gap-2">
@@ -173,7 +173,7 @@ export function AssetPicker({
                   <option value="cms-public">Público · difusión abierta</option>
                 </Select>
                 <ImageUploader
-                  target={{ siteId, bucket }}
+                  target={{ bucket }}
                   onChange={(image) => {
                     if (image?.assetId) {
                       onChange(image.assetId);

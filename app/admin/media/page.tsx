@@ -73,7 +73,6 @@ export default async function MediaPage({
       </form>
       <MediaLibrary
         rows={rows}
-        siteId={site.id}
         canManage={site.permissions.includes("media.manage")}
       />
       <Pagination

@@ -108,7 +108,7 @@ export function SiteSettings({ site }: { site: Site }) {
             } = data;
             const r = await mutate({
               action: "site",
-              siteId: site.id,
+
               id: site.id,
               data: {
                 ...config,

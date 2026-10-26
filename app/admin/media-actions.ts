@@ -7,11 +7,11 @@ import { optimizeImage } from "@/lib/media/process-image";
 import { uuid } from "@/lib/admin/validation";
 import type { Asset, ActionResult } from "@/lib/admin/types";
 export async function createPublicCopy(
-  siteId: string,
+
   assetId: string,
 ): Promise<ActionResult> {
   try {
-    const { db, site, user } = await requireSite("media.manage", uuid(siteId));
+    const { db, site, user } = await requireSite("media.manage");
     const asset = checked(
       await db
         .rpc("get_cms_media", { p_site_id: site.id })
@@ -32,10 +32,10 @@ export async function createPublicCopy(
     const bytes = optimized?.data || original;
     const filename = optimized?.filename || asset.filename;
     const id = randomUUID();
-    const storagePath = `${site.organization_id}/${site.id}/${id}/${filename}`;
+    const storagePath = `${site.id}/${id}/${filename}`;
     // Revalidate after download/optimization, independently of cached render context.
     const context = checked(
-      await db.rpc("get_media_upload_context", { p_site_id: site.id }),
+      await db.rpc("get_media_upload_context"),
     );
     if (!context?.length)
       throw new Error("Tu acceso fue revocado antes de guardar.");
@@ -45,7 +45,6 @@ export async function createPublicCopy(
         .from("media_assets")
         .insert({
           id,
-          organization_id: site.organization_id,
           site_id: site.id,
           bucket_id: "cms-public",
           storage_path: storagePath,

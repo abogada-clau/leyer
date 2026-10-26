@@ -9,7 +9,7 @@ export default async function NewContentPage() {
         title="Crear contenido"
         description="El tipo y el idioma identifican el contenido y se mantienen durante todo su historial."
       />
-      <NewContent siteId={site.id} locale={site.default_locale} />
+      <NewContent locale={site.default_locale} />
     </>
   );
 }

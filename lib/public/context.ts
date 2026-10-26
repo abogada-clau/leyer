@@ -34,43 +34,11 @@ export async function resolveContext(
   if (!host || !publicPathValid(requestPath)) return null;
   const local = localHost(host);
   const parts = requestPath.split("/").filter(Boolean);
-  let basePath = "";
-  let site: PublicSite | null;
-  if (parts[0] === "sitios") {
-    if (
-      !local ||
-      process.env.ENABLE_LOCAL_SITES !== "true" ||
-      !parts[1] ||
-      !parts[2]
-    )
-      return null;
-    site = result(
-      await publicClient().rpc("resolve_public_site", {
-        p_domain: null,
-        p_organization_slug: parts[1],
-        p_site_slug: parts[2],
-      }),
-    );
-    basePath = `/sitios/${parts[1]}/${parts[2]}`;
-    parts.splice(0, 3);
-  } else if (local) {
-    const selection = (process.env.LOCAL_PUBLIC_SITE || "").split("/");
-    if (selection.length !== 2) return null;
-    site = result(
-      await publicClient().rpc("resolve_public_site", {
-        p_domain: null,
-        p_organization_slug: selection[0],
-        p_site_slug: selection[1],
-      }),
-    );
-  } else
-    site = result(
-      await publicClient().rpc("resolve_public_site", {
-        p_domain: host,
-        p_organization_slug: null,
-        p_site_slug: null,
-      }),
-    );
+  if (parts[0] === "sitios") return null;
+  const site: PublicSite | null = result(
+    await publicClient().rpc("get_public_site"),
+  );
+  if (site && !local && site.domain !== host) return null;
   if (!site) return null;
   let locale = site.default_locale;
   if (parts[0] === "idioma") {
@@ -95,7 +63,7 @@ export async function resolveContext(
   const origin = local
     ? `http://${rawHost}`
     : `${protocol === "http:" ? "http:" : "https:"}//${host}`;
-  return { site, basePath, origin, locale, path, requestPath, local };
+  return { site, origin, locale, path, requestPath, local };
 }
 export const requestContext = cache(async (requestPath: string) => {
   await connection();

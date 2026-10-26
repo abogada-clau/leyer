@@ -1,9 +1,6 @@
 import type { Json, Snapshot, Block } from "@/lib/admin/types";
 export type PublicSite = {
   id: string;
-  organization_id: string;
-  organization_slug: string;
-  slug: string;
   name: string;
   domain: string | null;
   default_locale: string;
@@ -11,7 +8,6 @@ export type PublicSite = {
 };
 export type PublicContext = {
   site: PublicSite;
-  basePath: string;
   origin: string;
   locale: string;
   path: string;
@@ -20,7 +16,6 @@ export type PublicContext = {
 };
 export type PublicEntry = {
   id: string;
-  organization_id: string;
   site_id: string;
   kind: string;
   locale: string;

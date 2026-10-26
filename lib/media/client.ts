@@ -19,7 +19,6 @@ export function uploadImage(
     if (source.file) body.set("file", source.file);
     else body.set("url", source.url);
     if (options.target) {
-      body.set("siteId", options.target.siteId);
       body.set("bucket", options.target.bucket);
       body.set("alt", options.alt || "");
     }

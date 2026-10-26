@@ -17,9 +17,8 @@ import type { Row, Json } from "@/lib/admin/types";
 export type Field = {
   key: string;
   label: string;
-  type?: "textarea" | "select" | "checkbox" | "number" | "email" | "roles";
+  type?: "textarea" | "select" | "checkbox" | "number" | "email";
   required?: boolean;
-  immutableOnEdit?: boolean;
   maxLength?: number;
   help?: string;
   options?: { value: string; label: string }[];
@@ -28,7 +27,6 @@ export type Field = {
 export function ResourceManager({
   title,
   action,
-  siteId,
   rows,
   fields,
   columns,
@@ -40,7 +38,7 @@ export function ResourceManager({
 }: {
   title: string;
   action: string;
-  siteId?: string;
+
   rows: Row[];
   fields: Field[];
   columns: { key: string; label: string }[];
@@ -71,7 +69,6 @@ export function ResourceManager({
       try {
         const r = await mutate({
           action,
-          siteId,
           id: remove ? deleting!.id : editing?.id,
           data,
         });
@@ -137,7 +134,7 @@ export function ResourceManager({
                 header: c.label,
                 cell: (r: Row) =>
                   Array.isArray(r[c.key])
-                    ? (r[c.key] as Json[]).join(", ") || "Sin roles"
+                    ? (r[c.key] as Json[]).join(", ") || "—"
                     : typeof r[c.key] === "boolean"
                       ? r[c.key]
                         ? "Sí"
@@ -278,7 +275,7 @@ export function RecordForm({
         f.key,
         initial[f.key] ??
           f.defaultValue ??
-          (f.type === "checkbox" ? false : f.type === "roles" ? [] : ""),
+          (f.type === "checkbox" ? false : ""),
       ]),
     ),
   );
@@ -300,31 +297,7 @@ export function RecordForm({
                 {f.label}
                 {f.required ? " *" : ""}
               </Label>
-              {f.type === "roles" ? (
-                <div className="space-y-2">
-                  {options.map((o) => (
-                    <label className="flex items-center gap-2" key={o.value}>
-                      <Checkbox
-                        checked={
-                          Array.isArray(data[f.key]) &&
-                          (data[f.key] as Json[]).includes(o.value)
-                        }
-                        onCheckedChange={(checked) =>
-                          setData({
-                            ...data,
-                            [f.key]: checked
-                              ? [...((data[f.key] as Json[]) || []), o.value]
-                              : (data[f.key] as Json[]).filter(
-                                  (v) => v !== o.value,
-                                ),
-                          })
-                        }
-                      />
-                      {o.label}
-                    </label>
-                  ))}
-                </div>
-              ) : f.type === "checkbox" ? (
+              {f.type === "checkbox" ? (
                 <Checkbox
                   id={id}
                   checked={data[f.key] === true}
@@ -335,7 +308,6 @@ export function RecordForm({
               ) : f.type === "select" ? (
                 <Select
                   id={id}
-                  disabled={Boolean(initial.id && f.immutableOnEdit)}
                   required={f.required}
                   value={String(data[f.key] ?? "")}
                   onChange={(e) =>

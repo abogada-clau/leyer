@@ -4,7 +4,7 @@ export const IMAGE_ACCEPT =
   "image/jpeg,image/png,image/webp,image/avif,image/gif";
 
 export type MediaBucket = "cms-public" | "cms-private";
-export type MediaTarget = { siteId: string; bucket: MediaBucket };
+export type MediaTarget = { bucket: MediaBucket };
 export type ImageUploadPhase =
   | "sending"
   | "downloading"

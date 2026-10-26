@@ -2,7 +2,16 @@ import { MediaError } from "./process-image";
 import { MAX_MEDIA_BYTES } from "./shared";
 
 export function assertSameOrigin(request: Request) {
-  if (request.headers.get("origin") !== new URL(request.url).origin) {
+  const origin = request.headers.get("origin");
+  const url = new URL(request.url);
+  // Next can expose its internal bind address in request.url. Host is the browser's
+  // request authority; forwarded host headers are deliberately not trusted here.
+  const host = request.headers.get("host");
+  let hostOrigin: string | undefined;
+  if (host && /^[a-zA-Z0-9.:[\]-]+$/.test(host)) {
+    try { hostOrigin = new URL(`${url.protocol}//${host}`).origin; } catch { /* invalid authority */ }
+  }
+  if (!origin || (origin !== url.origin && origin !== hostOrigin)) {
     throw new MediaError("La solicitud debe realizarse desde este sitio.", 403);
   }
 }

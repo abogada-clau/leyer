@@ -1,66 +1,31 @@
 import Link from "next/link";
-import { FileText, ImageIcon, Clock, Shield } from "lucide-react";
-import { getSelection, checked } from "@/lib/admin/server";
+import { FileText, ImageIcon, Clock } from "lucide-react";
+import { getIdentity, checked } from "@/lib/admin/server";
 import { Heading, StateBadge } from "@/components/admin/common";
 import { Button } from "@/components/ui/button";
 import { Alert } from "@/components/ui/alert";
 import { EmptyState } from "@/components/patterns/content";
 import { DataTable } from "@/components/ui/data-table";
-import { CreateSite } from "@/components/admin/create-site";
 import { dateTime } from "@/lib/admin/types";
 export default async function Dashboard() {
-  const { db, context, site, organization } = await getSelection();
+  const { db, context } = await getIdentity();
+  const site = context.site;
   if (context.profile.status !== "active")
     return (
       <>
         <Heading title="Cuenta suspendida" />
         <Alert variant="warning" title="El acceso está suspendido">
-          Contacta a un superadministrador para reactivar tu cuenta.
+          Contacta a la persona responsable para reactivar tu cuenta.
         </Alert>
       </>
     );
-  if (!site) {
-    const member = context.memberships.find(
-      (m) => m.organization_id === organization?.id && m.status === "active",
-    );
-    const canCreate = context.super_admin || member?.roles.includes("admin");
-    return (
-      <>
-        <Heading
-          title={`Hola${context.profile.display_name ? `, ${context.profile.display_name}` : ""}`}
-          description="Tu espacio de trabajo en Leyer."
-        />
-        <EmptyState
-          icon={Shield}
-          title={
-            member?.roles.includes("lawyer")
-              ? "Tu cuenta de abogado está activa"
-              : "Acceso pendiente"
-          }
-          description={
-            member?.roles.includes("lawyer")
-              ? "Tu membresía no incluye administración de contenidos. Puedes consultar tu cuenta. La gestión documental y los expedientes se habilitarán en una etapa posterior."
-              : "Todavía no tienes un sitio autorizado. Un superadministrador puede asignarte un estudio y los roles que correspondan."
-          }
-          action={
-            <Button asChild variant="outline">
-              <Link href="/admin/profile">Ver mi cuenta</Link>
-            </Button>
-          }
-        />
-        {organization && canCreate && (
-          <div className="mt-6">
-            <CreateSite organizationId={organization.id} />
-          </div>
-        )}
-        {context.super_admin && (
-          <Button asChild className="mt-6">
-            <Link href="/admin/platform">Gestionar estudios y usuarios</Link>
-          </Button>
-        )}
-      </>
-    );
-  }
+  if (!context.is_admin || !site) return (
+    <><Heading title="Acceso pendiente" />
+      <Alert title="Tu cuenta no tiene acceso administrativo">
+        Contacta a la persona responsable para habilitar tu acceso.
+      </Alert>
+    </>
+  );
   const [metricsResult, schedulesResult, activityResult] = await Promise.all([
     db.rpc("get_cms_dashboard", { p_site_id: site.id }),
     db
@@ -74,7 +39,6 @@ export default async function Dashboard() {
       ? db
           .from("audit_events")
           .select("id,action,table_name,created_at")
-          .eq("organization_id", site.organization_id)
           .order("created_at", { ascending: false })
           .limit(6)
       : Promise.resolve({ data: [], error: null }),
@@ -86,7 +50,7 @@ export default async function Dashboard() {
     <>
       <Heading
         title="Vista general"
-        description={`${organization?.name} · ${site.name}. La actividad y los indicadores reflejan los datos guardados.`}
+        description={`${site.name}. La actividad y los indicadores reflejan los datos guardados.`}
       >
         <div className="flex flex-wrap gap-2">
           {site.permissions.includes("content.edit") && (

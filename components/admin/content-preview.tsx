@@ -31,12 +31,13 @@ export function ContentPreview({
       "blog-index",
       "services-index",
       "legal",
-    ].includes(snapshot.template_key) && snapshot.template_version === 1;
+    ].includes(snapshot.template_key) && (snapshot.template_version === 1 || (snapshot.template_key === "service-landing" && snapshot.template_version === 2));
+  const serviceLayout = templateKnown && snapshot.template_key === "service-landing";
   const heroTitle =
     templateKnown &&
     ["home", "service-landing"].includes(snapshot.template_key) &&
-    snapshot.blocks[0]?.type === "hero" &&
-    snapshot.blocks[0].schema_version === 1;
+    snapshot.blocks.filter(block => block.data.hidden !== true)[0]?.type === "hero" &&
+    snapshot.blocks.filter(block => block.data.hidden !== true)[0]?.schema_version === 1;
   return (
     <div className="public-site">
       <article
@@ -72,12 +73,14 @@ export function ContentPreview({
         <ContentBlocks
           blocks={snapshot.blocks}
           firstHeroAsTitle={heroTitle}
+          serviceLayout={serviceLayout}
+          homeNavigation={snapshot.template_key === "home" && snapshot.template_version === 1}
           preview
           link={(href) => (safeHref(href) ? String(href) : null)}
-          image={(id, alt) => {
+          image={(id, alt, focal) => {
             const a = asset(id);
             return a ? (
-              <AssetPreview asset={{ ...a, alt_text: alt || a.alt_text }} />
+              <AssetPreview asset={{ ...a, alt_text: alt || a.alt_text }} fit="cover" focal={focal} />
             ) : null;
           }}
           related={(b) => {

@@ -1,15 +1,12 @@
 "use server";
 
-import { cookies } from "next/headers";
 import { reservedPath, publicPathValid } from "@/lib/public/paths";
 import { revalidatePath } from "next/cache";
 import {
   getIdentity,
   requireSite,
-  requireSuper,
   checked,
 } from "@/lib/admin/server";
-import { serviceClient } from "@/lib/admin/service";
 import {
   path,
   safeHref,
@@ -19,40 +16,6 @@ import {
 } from "@/lib/admin/validation";
 import type { ActionResult, Json, Snapshot, Asset } from "@/lib/admin/types";
 
-export async function selectWorkspace(
-  organizationId: string,
-  siteId?: string,
-): Promise<ActionResult> {
-  try {
-    const { context } = await getIdentity();
-    if (
-      !context.organizations.some(
-        (o) => o.id === organizationId && o.status === "active",
-      )
-    )
-      throw new Error("Estudio no autorizado.");
-    if (
-      siteId &&
-      !context.sites.some(
-        (s) => s.id === siteId && s.organization_id === organizationId,
-      )
-    )
-      throw new Error("Sitio no autorizado.");
-    const jar = await cookies();
-    const options = {
-      httpOnly: true,
-      sameSite: "lax" as const,
-      secure: process.env.NODE_ENV === "production",
-      path: "/",
-    };
-    jar.set("leyer-org", organizationId, options);
-    jar.set("leyer-site", siteId || "", options);
-    revalidatePath("/admin", "layout");
-    return {};
-  } catch (e) {
-    return failure(e);
-  }
-}
 function failure(e: unknown): ActionResult {
   const err = e as { message?: string; code?: string };
   if (err.code === "40001")
@@ -65,11 +28,6 @@ function failure(e: unknown): ActionResult {
     err.message || "No se pudo completar la operación. Intenta nuevamente.";
   if (message === "NEXT_REDIRECT")
     return { error: "Inicia sesión para continuar." };
-  if (message.includes("last active super admin"))
-    return {
-      error:
-        "No se puede retirar ni suspender al último superadministrador activo.",
-    };
   if (message.includes("immutable"))
     return {
       error:
@@ -78,7 +36,7 @@ function failure(e: unknown): ActionResult {
   if (err.code === "42501")
     return {
       error:
-        "Ya no tienes permiso vigente para esta operación. Comprueba tu cuenta y el estudio seleccionado.",
+        "Ya no tienes permiso vigente para esta operación. Comprueba el acceso de tu cuenta.",
     };
   if (err.code === "23505")
     return {
@@ -88,7 +46,7 @@ function failure(e: unknown): ActionResult {
   if (err.code === "23503")
     return {
       error:
-        "Hay una referencia a otro sitio o a un registro que todavía está en uso. Revisa las relaciones y los recursos seleccionados.",
+        "Hay una referencia a un registro que todavía está en uso. Revisa las relaciones y los recursos seleccionados.",
     };
   if (message.includes("Publishable assets"))
     return {
@@ -102,7 +60,7 @@ function failure(e: unknown): ActionResult {
   return { error: message };
 }
 export async function saveContent(input: {
-  siteId: string;
+
   entryId: string;
   expectedRevisionId: string | null;
   internalName: string;
@@ -110,7 +68,7 @@ export async function saveContent(input: {
   content: Snapshot;
 }): Promise<ActionResult> {
   try {
-    const { db, site } = await requireSite("content.edit", uuid(input.siteId));
+    const { db, site } = await requireSite("content.edit");
     const entryId = uuid(input.entryId);
     const entries = checked(
       await db.rpc("get_cms_entries", { p_site_id: site.id }).eq("id", entryId),
@@ -137,11 +95,11 @@ export async function saveContent(input: {
   }
 }
 export async function loadSnapshot(
-  siteId: string,
+
   entryId: string,
   revisionId: string,
 ) {
-  const { db, site } = await requireSite("content.read", uuid(siteId));
+  const { db, site } = await requireSite("content.read");
   const snapshot = checked(
     await db.rpc("get_cms_snapshot", { p_revision_id: uuid(revisionId) }),
   );
@@ -154,7 +112,7 @@ export async function loadSnapshot(
   return snapshot as Snapshot;
 }
 export async function contentOperation(input: {
-  siteId: string;
+
   entryId: string;
   revisionId?: string;
   operation: string;
@@ -164,7 +122,7 @@ export async function contentOperation(input: {
     const permission = ["draft", "in_review"].includes(input.operation)
       ? "content.edit"
       : "content.publish";
-    const { db, site } = await requireSite(permission, uuid(input.siteId));
+    const { db, site } = await requireSite(permission);
     const entryId = uuid(input.entryId);
     if (
       !checked(
@@ -177,7 +135,7 @@ export async function contentOperation(input: {
     const revisionId = input.revisionId ? uuid(input.revisionId) : null;
     if (!["unpublish", "archive", "cancel"].includes(input.operation)) {
       if (!revisionId) throw new Error("Guarda una revisión primero.");
-      await loadSnapshot(site.id, entryId, revisionId);
+      await loadSnapshot(entryId, revisionId);
     }
     if (["draft", "in_review", "approved"].includes(input.operation))
       checked(
@@ -203,7 +161,6 @@ export async function contentOperation(input: {
         throw new Error("Selecciona una fecha futura.");
       checked(
         await db.from("scheduled_publications").insert({
-          organization_id: site.organization_id,
           site_id: site.id,
           entry_id: entryId,
           revision_id: revisionId,
@@ -231,7 +188,7 @@ export async function contentOperation(input: {
 
 export async function mutate(input: {
   action: string;
-  siteId?: string;
+
   id?: string;
   data: Record<string, Json>;
 }): Promise<ActionResult> {
@@ -256,98 +213,6 @@ export async function mutate(input: {
           .select("id")
           .single(),
       );
-    } else if (input.action.startsWith("platform.")) {
-      const { db, user } = await requireSuper();
-      const action = input.action.slice(9);
-      if (action === "invite") {
-        const email = text(d.email, "Correo", 254);
-        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
-          throw new Error("Correo inválido.");
-        const admin = serviceClient();
-        const result = await admin.auth.admin.inviteUserByEmail(email, {
-          redirectTo: `${process.env.APP_URL || "http://localhost:3000"}/auth/update-password`,
-          data: { display_name: text(d.display_name, "Nombre", 200) },
-        });
-        if (result.error)
-          throw new Error(
-            `Supabase Auth rechazó la invitación: ${result.error.message}. Revisa SMTP y límites de correo en Supabase Auth; en local inicia el servicio de correo y consulta http://127.0.0.1:57324.`,
-          );
-        return {
-          message:
-            "Supabase Auth aceptó la invitación. La cuenta comienza sin roles.",
-        };
-      } else if (action === "organization") {
-        const row = {
-          name: text(d.name, "Nombre"),
-          slug: text(d.slug, "Identificador"),
-          status: String(d.status || "active"),
-        };
-        if (
-          !/^[a-z0-9]+(-[a-z0-9]+)*$/.test(row.slug) ||
-          !["active", "suspended", "archived"].includes(row.status)
-        )
-          throw new Error("Identificador o estado inválido.");
-        checked(
-          id
-            ? await db
-                .from("organizations")
-                .update(row)
-                .eq("id", id)
-                .select("id")
-                .single()
-            : await db.from("organizations").insert(row),
-        );
-      } else if (action === "status") {
-        const status = String(d.status);
-        if (!["active", "suspended"].includes(status))
-          throw new Error("Estado inválido.");
-        checked(
-          await db.rpc("set_user_status", {
-            p_user_id: uuid(id),
-            p_status: status,
-          }),
-        );
-      } else if (action === "super") {
-        if (d.enabled === true)
-          checked(
-            await db.from("platform_role_assignments").insert({
-              user_id: uuid(id),
-              role_code: "super_admin",
-              granted_by: user.id,
-            }),
-          );
-        else
-          checked(
-            await db
-              .from("platform_role_assignments")
-              .delete()
-              .eq("user_id", uuid(id))
-              .eq("role_code", "super_admin"),
-          );
-      } else if (action === "membership") {
-        const roles = Array.isArray(d.roles) ? d.roles.map(String) : [];
-        if (roles.some((r) => !["admin", "lawyer"].includes(r)))
-          throw new Error("Rol fuera de alcance.");
-        if (id)
-          checked(
-            await db.rpc("set_membership_access", {
-              p_membership_id: id,
-              p_status: String(d.status),
-              p_roles: roles,
-            }),
-          );
-        else {
-          const membershipId = checked(
-            await db.rpc("create_membership_access", {
-              p_organization_id: uuid(d.organization_id),
-              p_user_id: uuid(d.user_id),
-              p_status: String(d.status || "active"),
-              p_roles: roles,
-            }),
-          );
-          if (!membershipId) throw new Error("No se creó la membresía.");
-        }
-      } else throw new Error("Acción desconocida.");
     } else {
       const permission =
         input.action === "media" || input.action === "media.delete"
@@ -355,12 +220,8 @@ export async function mutate(input: {
           : ["site", "menu", "menu_item", "redirect"].includes(input.action)
             ? "sites.manage"
             : "content.edit";
-      const { db, site, organization } = await requireSite(
-        permission,
-        input.siteId ? uuid(input.siteId) : undefined,
-      );
-      const tenant = {
-        organization_id: site.organization_id,
+      const { db, site } = await requireSite(permission);
+      const scope = {
         site_id: site.id,
       };
       if (input.action === "entry") {
@@ -370,7 +231,7 @@ export async function mutate(input: {
           await db
             .from("content_entries")
             .insert({
-              ...tenant,
+              ...scope,
               internal_name: text(d.internal_name, "Nombre interno", 250),
               kind: d.kind,
               locale: text(d.locale || site.default_locale, "Idioma", 35),
@@ -441,25 +302,9 @@ export async function mutate(input: {
         };
         if (!["draft", "active", "archived"].includes(row.status))
           throw new Error("Estado de sitio inválido.");
-        if (id) {
-          if (id !== site.id)
-            throw new Error("Sitio fuera del contexto seleccionado.");
-          checked(
-            await db
-              .from("sites")
-              .update(row)
-              .eq("id", site.id)
-              .select("id")
-              .single(),
-          );
-        } else
-          checked(
-            await db.from("sites").insert({
-              ...row,
-              organization_id: organization!.id,
-              slug: text(d.slug, "Identificador"),
-            }),
-          );
+        checked(
+          await db.from("sites").update(row).eq("id", site.id).select("id").single(),
+        );
       } else if (input.action === "media") {
         checked(
           await db
@@ -604,7 +449,7 @@ export async function mutate(input: {
                   .eq("site_id", site.id)
                   .select("id")
                   .single()
-              : await db.from(table).insert({ ...tenant, ...row }),
+              : await db.from(table).insert({ ...scope, ...row }),
           );
         }
       }
@@ -616,53 +461,14 @@ export async function mutate(input: {
   }
 }
 
-export async function createSite(input: {
-  organizationId: string;
-  name: string;
-  slug: string;
-}): Promise<ActionResult> {
-  try {
-    const { db, context } = await getIdentity();
-    if (
-      !context.organizations.some(
-        (o) => o.id === input.organizationId && o.status === "active",
-      )
-    )
-      throw new Error("El estudio no está activo o no está autorizado.");
-    // Initial site has no selected site yet. Use the organization's current CMS grant.
-    const membership = context.memberships.find(
-      (m) =>
-        m.organization_id === input.organizationId &&
-        m.status === "active" &&
-        m.roles.includes("admin"),
-    );
-    if (
-      !context.super_admin &&
-      (!membership || context.profile.status !== "active")
-    )
-      throw new Error("No tienes permiso para crear sitios.");
-    checked(
-      await db.from("sites").insert({
-        organization_id: uuid(input.organizationId),
-        name: text(input.name, "Nombre"),
-        slug: text(input.slug, "Identificador"),
-      }),
-    );
-    revalidatePath("/admin", "layout");
-    return { message: "Sitio creado." };
-  } catch (e) {
-    return failure(e);
-  }
-}
-
 export async function searchAssets(
-  siteId: string,
+
   query: string,
   page = 1,
   bucket = "",
   type = "",
 ) {
-  const { db, site } = await requireSite("content.read", uuid(siteId));
+  const { db, site } = await requireSite("content.read");
   const currentPage = Math.max(1, Math.min(100000, Math.floor(page)));
   let request = db.rpc(
     "get_cms_media",
@@ -682,8 +488,8 @@ export async function searchAssets(
   return { data, total: result.count || 0 };
 }
 
-export async function latestSnapshot(siteId: string, entryId: string) {
-  const { db, site } = await requireSite("content.read", uuid(siteId));
+export async function latestSnapshot(entryId: string) {
+  const { db, site } = await requireSite("content.read");
   if (
     !checked(
       await db
@@ -699,15 +505,15 @@ export async function latestSnapshot(siteId: string, entryId: string) {
       .limit(1),
   );
   if (!revisions?.[0]) throw new Error("No hay revisiones.");
-  return loadSnapshot(site.id, entryId, revisions[0].id);
+  return loadSnapshot(entryId, revisions[0].id);
 }
 
 export async function revisionHistory(
-  siteId: string,
+
   entryId: string,
   offset: number,
 ) {
-  const { db, site } = await requireSite("content.read", uuid(siteId));
+  const { db, site } = await requireSite("content.read");
   if (
     !checked(
       await db

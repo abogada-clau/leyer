@@ -25,12 +25,13 @@ export async function PublicDocumentView({
       "blog-index",
       "services-index",
       "legal",
-    ].includes(doc.template_key) && doc.template_version === 1;
+    ].includes(doc.template_key) && (doc.template_version === 1 || (doc.template_key === "service-landing" && doc.template_version === 2));
+  const serviceLayout = knownTemplate && doc.template_key === "service-landing";
   const heroTitle =
     knownTemplate &&
     ["home", "service-landing", "default"].includes(doc.template_key) &&
-    doc.blocks[0]?.type === "hero" &&
-    doc.blocks[0].schema_version === 1;
+    doc.blocks.filter(block => block.data.hidden !== true)[0]?.type === "hero" &&
+    doc.blocks.filter(block => block.data.hidden !== true)[0]?.schema_version === 1;
   const sources = new Set(
     doc.blocks
       .filter((b) => b.type === "related_content")
@@ -62,6 +63,12 @@ export async function PublicDocumentView({
   const contactPath = sitePath(c.site, "contact_path", "/contacto");
   const contactHref = c.site.settings.contact_enabled === true && await sectionAvailable(c, contactPath)
     ? publicHref(c, contactPath) : undefined;
+  const homeNavigation = knownTemplate && doc.template_key === "home";
+  const overviewLinks = homeNavigation ? (await Promise.all([
+    { path: "/personas", label: "Todas las áreas para personas" },
+    { path: "/empresas", label: "Todas las áreas para empresas" },
+  ].map(async item => await sectionAvailable(c, item.path) ? { href: publicHref(c, item.path), label: item.label } : null)))
+    .filter((item): item is { href: string; label: string } => item !== null) : [];
   return (
     <article
       className={`public-document template-${knownTemplate ? doc.template_key : "default"}`}
@@ -137,6 +144,9 @@ export async function PublicDocumentView({
         blocks={doc.blocks}
         firstHeroAsTitle={heroTitle}
         contactHref={contactHref}
+        homeNavigation={homeNavigation}
+        serviceLayout={serviceLayout}
+        overviewLinks={overviewLinks}
         link={(href) => contentLink(c, href)}
         image={(id, alt, focal) => {
           const a = asset(id);

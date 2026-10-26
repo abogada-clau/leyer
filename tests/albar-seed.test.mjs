@@ -8,8 +8,8 @@ if(process.env.NEXT_PUBLIC_SUPABASE_URL!=='http://127.0.0.1:57321') throw Error(
 const accounts=JSON.parse(readFileSync('.local/admin-accounts.json','utf8'));
 const original=readFileSync('supabase/seeds/albar/seed.sql','utf8');
 const sql=original.replaceAll('albar-abogados-editorial-v1','albar-seed-verification-v1').replaceAll('"slug": "albar-abogados"','"slug": "albar-seed-verification"');
-const defaults={actor_email:accounts.super.email,domain:'albar-verification.test'};
-function config(extra={}){return `do $cfg$ begin perform set_config('leyer.albar_config',$json$${JSON.stringify({...defaults,...extra})}$json$,false);end;$cfg$;\n`;}
+const defaults={actor_email:accounts.admin.email,domain:'albar-verification.test'};
+function config(extra={}){return `begin;truncate public.sites cascade;insert into public.sites(name) values('ALBAR Abogados');do $cfg$ begin perform set_config('leyer.albar_config',$json$${JSON.stringify({...defaults,...extra})}$json$,false);end;$cfg$;\n`;}
 function run(input){return execFileSync('docker',['exec','-i','supabase_db_leyer','psql','-X','-q','-v','ON_ERROR_STOP=1','-U','postgres','-d','postgres'],{input,encoding:'utf8',maxBuffer:2*1024*1024,stdio:['pipe','pipe','pipe']});}
 function reject(input,pattern){const r=spawnSync('docker',['exec','-i','supabase_db_leyer','psql','-X','-q','-v','ON_ERROR_STOP=1','-U','postgres','-d','postgres'],{input,encoding:'utf8',maxBuffer:2*1024*1024});assert.notEqual(r.status,0);assert.match(r.stderr,pattern);}
 const finish=sql.replace(/commit;\s*$/i,'');
@@ -34,7 +34,7 @@ test('primera importación, jerarquías, revisiones y aislamiento anónimo',()=>
     check(`not exists(select 1 from public.content_entries where site_id=current_setting('leyer.test_site')::uuid and published_revision_id is not null)`,'No publicar por defecto')+
     check(`(select count(*)=25 from public.content_entries e join public.content_revisions r on r.entry_id=e.id where e.site_id=current_setting('leyer.test_site')::uuid and r.editorial_state='in_review')`,'Revisión editorial')+
     `set local role anon;`+check(`not exists(select 1 from public.content_entries where site_id=current_setting('leyer.test_site')::uuid)`,'RLS protege borradores')+`reset role;rollback;`);
-  assert.match(output,/albar-seed-verification/);
+  assert.match(output,/draft/);
 });
 test('repetir el SQL en una sesión no duplica revisiones ni menús',()=>{
   run(config()+finish+`drop table albar_seed_config,albar_seed_source;`+body+context+
@@ -42,7 +42,7 @@ test('repetir el SQL en una sesión no duplica revisiones ni menús',()=>{
     check(`(select count(*)=2 from public.menus where site_id=current_setting('leyer.test_site')::uuid)`,'Idempotencia de menús')+`rollback;`);
 });
 test('rehúsa actores sin rol y publicación sin revisión confirmada',()=>{
-  reject(config({actor_email:accounts.pending.email})+sql,/super_admin activo/);
+  reject(config({actor_email:accounts.pending.email})+sql,/administrador activo/);
   reject(config({publish:true,activate_site:true})+sql,/confirma revisión jurídica/);
 });
 test('una edición posterior del sitio aborta toda la reimportación',()=>{
@@ -50,7 +50,7 @@ test('una edición posterior del sitio aborta toda la reimportación',()=>{
 });
 test('una nueva revisión ajena se conserva y bloquea la reimportación',()=>{
   reject(config()+finish+context+`do $edit$ declare entry uuid;latest uuid;data jsonb;actor uuid;begin
-    select id into actor from public.profiles where id='${accounts.super.id}'::uuid;
+    select id into actor from public.profiles where id='${accounts.admin.id}'::uuid;
     perform set_config('request.jwt.claims',jsonb_build_object('sub',actor,'role','authenticated')::text,true);
     select e.id,r.id into entry,latest from public.content_entries e join public.content_revisions r on r.entry_id=e.id where e.site_id=current_setting('leyer.test_site')::uuid and r.path='/' order by r.revision_number desc limit 1;
     select pg_temp.albar_content(value,(select jsonb_object_agg(key,value->>'id') from private.cms_seed_registry r,jsonb_each(r.state->'entries') where r.seed_key='albar-seed-verification-v1'),(select state->'terms' from private.cms_seed_registry where seed_key='albar-seed-verification-v1'),(select (state->>'author_id')::uuid from private.cms_seed_registry where seed_key='albar-seed-verification-v1'),'{}',(select config from albar_seed_config)) into data from albar_seed_source,jsonb_array_elements(payload->'entries') where value->>'key'='home';
@@ -62,18 +62,17 @@ test('respeta cambios de estado editorial, menús y programación posteriores',(
   const next=`drop table albar_seed_config,albar_seed_source;`+body;
   reject(prepare+`update public.content_revisions set editorial_state='draft' where site_id=current_setting('leyer.test_site')::uuid and path='/';`+next,/estado de revisión cambió/);
   reject(prepare+`update public.menu_items set label='Etiqueta editada' where site_id=current_setting('leyer.test_site')::uuid;`+next,/menú primary editado/);
-  reject(prepare+`insert into public.scheduled_publications(organization_id,site_id,entry_id,revision_id,run_at,requested_by) select e.organization_id,e.site_id,e.id,r.id,now()+interval '30 days','${accounts.super.id}' from public.content_entries e join public.content_revisions r on r.entry_id=e.id where e.site_id=current_setting('leyer.test_site')::uuid and r.path='/';`+next,/publicación programada/);
+  reject(prepare+`insert into public.scheduled_publications(site_id,entry_id,revision_id,run_at,requested_by) select e.site_id,e.id,r.id,now()+interval '30 days','${accounts.admin.id}' from public.content_entries e join public.content_revisions r on r.entry_id=e.id where e.site_id=current_setting('leyer.test_site')::uuid and r.path='/';`+next,/publicación programada/);
 });
-test('rechaza recursos públicos de otro sitio y protege el registro privado',()=>{
-  const foreign=execFileSync('docker',['exec','supabase_db_leyer','psql','-X','-At','-U','postgres','-d','postgres','-c',"select id from public.media_assets where bucket_id='cms-public' limit 1"],{encoding:'utf8'}).trim();
-  assert(foreign);
+test('rechaza recursos inexistentes y protege el registro privado',()=>{
+  const foreign='ffffffff-ffff-4fff-8fff-ffffffffffff';
   reject(config({assets:{'claudia-perfil':foreign}})+sql,/pertenecer a ALBAR/);
   run(config()+finish+check(`not has_table_privilege('anon','private.cms_seed_registry','SELECT') and not has_table_privilege('authenticated','private.cms_seed_registry','SELECT') and not has_table_privilege('service_role','private.cms_seed_registry','SELECT')`,'Registro privado sin permisos API')+`rollback;`);
 });
-test('una membresía opcional es local al estudio y no concede roles globales',()=>{
+test('habilita administración opcional para una cuenta existente',()=>{
   run(config({admin_email:accounts.pending.email})+finish+context+
-    check(`exists(select 1 from public.organization_memberships m join public.membership_roles r on r.membership_id=m.id where m.user_id='${accounts.pending.id}' and m.organization_id=(select organization_id from public.sites where id=current_setting('leyer.test_site')::uuid) and r.role_code='admin')`,'Admin solo en ALBAR')+
-    check(`not exists(select 1 from public.platform_role_assignments where user_id='${accounts.pending.id}')`,'Sin ascenso global')+`rollback;`);
+    check(`exists(select 1 from public.profiles where id='${accounts.pending.id}' and is_admin)`,'Administrador habilitado')+
+    `rollback;`);
 });
 test('publicación explícita crea rutas reales y es repetible sin nuevas revisiones',()=>{
   run(config({publish:true,activate_site:true,legal_review_confirmed:true,privacy_review_confirmed:true,privacy_controller:'Responsable de prueba local',privacy_processors:'Supabase local; aplicación de prueba local',retention_days:90})+finish+context+

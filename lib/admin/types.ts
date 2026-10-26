@@ -1,17 +1,9 @@
 export type Json =
   null | boolean | number | string | Json[] | { [key: string]: Json };
 export type Row = { id: string; [key: string]: Json | undefined };
-export type Organization = {
-  id: string;
-  name: string;
-  slug: string;
-  status: string;
-};
 export type Site = {
   id: string;
-  organization_id: string;
   name: string;
-  slug: string;
   status: string;
   domain: string | null;
   default_locale: string;
@@ -25,15 +17,8 @@ export type AdminContext = {
     status: string;
     preferences: Record<string, Json>;
   };
-  super_admin: boolean;
-  organizations: Organization[];
-  memberships: {
-    id: string;
-    organization_id: string;
-    status: string;
-    roles: string[];
-  }[];
-  sites: Site[];
+  is_admin: boolean;
+  site: Site | null;
 };
 export type Entry = {
   id: string;
@@ -53,7 +38,6 @@ export type Entry = {
 export type Asset = {
   id: string;
   site_id: string;
-  organization_id: string;
   bucket_id: "cms-public" | "cms-private";
   storage_path: string;
   filename: string;

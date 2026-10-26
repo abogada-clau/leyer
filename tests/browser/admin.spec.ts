@@ -3,7 +3,7 @@ import { readFileSync } from "node:fs";
 const accounts = JSON.parse(
   readFileSync(".local/admin-accounts.json", "utf8"),
 ) as Record<string, { email: string; password: string }>;
-async function login(page: Page, who = "super") {
+async function login(page: Page, who = "admin") {
   await page.goto("/auth/login");
   await page.getByLabel("Correo electrónico").fill(accounts[who].email);
   await page
@@ -15,7 +15,7 @@ async function login(page: Page, who = "super") {
     page.getByRole("heading", { name: "Vista general", exact: true }),
   ).toBeVisible();
 }
-test("server reads, responsive navigation, catalogs, sites and platform pages", async ({
+test("server reads, responsive navigation, catalogs and settings", async ({
   page,
 }) => {
   const errors: string[] = [];
@@ -24,12 +24,11 @@ test("server reads, responsive navigation, catalogs, sites and platform pages", 
   for (const [route, title] of [
     ["content", "Contenidos"],
     ["media", "Biblioteca"],
-    ["settings", "Sitio y estudio"],
+    ["settings", "Configuración"],
     ["catalogs", "Autores y taxonomías"],
     ["navigation", "Navegación"],
     ["routes", "Rutas y redirecciones"],
     ["audit", "Auditoría"],
-    ["platform", "Estudios y usuarios"],
     ["profile", "Mi cuenta"],
   ]) {
     await page.goto(`/admin/${route}`);
@@ -39,7 +38,9 @@ test("server reads, responsive navigation, catalogs, sites and platform pages", 
   }
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/admin");
-  await expect(page.getByLabel("Estudio", { exact: true })).toBeVisible();
+  await expect(page.getByLabel("Estudio", { exact: true })).toHaveCount(0);
+  await expect(page.getByLabel("Sitio", { exact: true })).toHaveCount(0);
+  await expect(page.getByRole("link", { name: "Estudios y usuarios", exact: true })).toHaveCount(0);
   expect(
     await page.evaluate(() => document.documentElement.scrollWidth),
   ).toBeLessThanOrEqual(391);
@@ -249,11 +250,10 @@ test("two editors preserve a stale local draft and expose comparison recovery", 
   await contextA.close();
   await contextB.close();
 });
-test("lawyer and roleless account have clear limited access", async ({
+test("account without administrative access stays restricted", async ({
   browser,
 }) => {
   for (const [who, title] of [
-    ["lawyer", "Tu cuenta de abogado está activa"],
     ["pending", "Acceso pendiente"],
   ]) {
     const context = await browser.newContext();

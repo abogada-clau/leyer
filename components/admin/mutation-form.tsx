@@ -8,7 +8,6 @@ import { mutate } from "@/app/admin/actions";
 import type { Row, Json, ActionResult } from "@/lib/admin/types";
 export function MutationForm({
   action,
-  siteId,
   id,
   initial,
   fields,
@@ -16,7 +15,7 @@ export function MutationForm({
   title,
 }: {
   action: string;
-  siteId?: string;
+
   id?: string;
   initial?: Row;
   fields: Field[];
@@ -39,7 +38,7 @@ export function MutationForm({
         onSubmit={(data: Record<string, Json>) =>
           start(async () => {
             try {
-              const r = await mutate({ action, siteId, id, data });
+              const r = await mutate({ action, id, data });
               setResult(r);
               if (!r.error) {
                 if (action === "profile") setTheme(String(data.theme));

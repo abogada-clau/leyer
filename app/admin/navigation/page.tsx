@@ -22,7 +22,6 @@ export default async function Navigation() {
         <ResourceManager
           title="Menús"
           action="menu"
-          siteId={site.id}
           rows={menus}
           columns={[
             { key: "name", label: "Nombre" },
@@ -51,7 +50,6 @@ export default async function Navigation() {
         <ResourceManager
           title="Elementos del menú"
           action="menu_item"
-          siteId={site.id}
           rows={items.map((i) => ({
             ...i,
             menu_name: String(

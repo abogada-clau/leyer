@@ -652,7 +652,7 @@ function AdministrationPreview({
   return (
     <>
       <AdminShell
-        organization="Estudio de ejemplo"
+        siteName="Estudio de ejemplo"
         user="Claudia A."
         activeSection={section}
         onNavigate={setSection}
@@ -866,8 +866,8 @@ function AdministrationPreview({
                 {
                   name: "Nueva integrante",
                   initials: "NI",
-                  role: "Sin roles",
-                  description: "Pendiente de asignación",
+                  role: "Sin acceso",
+                  description: "Pendiente de habilitación",
                   variant: "neutral" as const,
                 },
               ].map((member) => (
@@ -883,8 +883,7 @@ function AdministrationPreview({
             </div>
             <p className="admin-help-note">
               <ShieldCheck size={13} />
-              Una persona puede tener varios roles o ninguno. Los cambios de
-              acceso corresponden al superadministrador.
+              El acceso administrativo lo habilita la persona responsable del sitio.
             </p>
           </>
         )}

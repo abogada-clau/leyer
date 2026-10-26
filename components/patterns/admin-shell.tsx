@@ -2,13 +2,13 @@
 
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { ChevronDown, Bell, type LucideIcon } from "lucide-react";
+import { Bell, type LucideIcon } from "lucide-react";
 import { Brand } from "@/components/design-system/brand";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 export function AdminShell({
-  organization,
+  siteName,
   user,
   navigation,
   activeSection,
@@ -16,11 +16,10 @@ export function AdminShell({
   onNotifications,
   children,
   production = false,
-  workspaceControls,
   userControls,
   breadcrumbs,
 }: {
-  organization: string;
+  siteName: string;
   user: string;
   navigation: { id: string; label: string; icon: LucideIcon; href?: string }[];
   activeSection: string;
@@ -28,7 +27,6 @@ export function AdminShell({
   onNotifications?: () => void;
   children: ReactNode;
   production?: boolean;
-  workspaceControls?: ReactNode;
   userControls?: ReactNode;
   breadcrumbs?: ReactNode;
 }) {
@@ -41,14 +39,13 @@ export function AdminShell({
         }
       >
         <Brand />
-        {workspaceControls || (
+        {(
           <div className="admin-org">
             <span>E</span>
             <div>
-              <strong>{organization}</strong>
-              <small>Espacio de trabajo</small>
+              <strong>{siteName}</strong>
+              <small>Administración</small>
             </div>
-            <ChevronDown size={12} />
           </div>
         )}
         <p className="admin-nav-label">TU ESTUDIO</p>
@@ -93,7 +90,7 @@ export function AdminShell({
         <div className="admin-topbar">
           {breadcrumbs || (
             <p>
-              {organization}
+              {siteName}
               <span>/</span>
               {navigation.find((item) => item.id === activeSection)?.label}
             </p>

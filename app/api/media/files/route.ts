@@ -19,18 +19,16 @@ export async function POST(request: Request) {
     if (!user) throw new MediaError("Inicia sesión.", 401);
     release = reserveMediaJob();
     const form = await readMediaForm(request);
-    const siteId = String(form.get("siteId") || "");
     const bucket = String(form.get("bucket") || "");
     if (!["cms-public", "cms-private"].includes(bucket))
       throw new MediaError("Destino inválido.");
-    const { data: context, error } = await db.rpc("get_media_upload_context", {
-      p_site_id: siteId,
-    });
+    const { data: context, error } = await db.rpc("get_media_upload_context");
     if (error || !context?.[0])
       throw new MediaError(
         "No tienes permiso para cargar archivos en este sitio.",
         403,
       );
+    const siteId = context[0].site_id;
     const file = form.get("file");
     if (
       !(file instanceof File) ||
@@ -41,9 +39,7 @@ export async function POST(request: Request) {
     const bytes = Buffer.from(await file.arrayBuffer());
     if (bytes.subarray(0, 5).toString() !== "%PDF-")
       throw new MediaError("El archivo no es un PDF válido.");
-    const { data: current } = await db.rpc("get_media_upload_context", {
-      p_site_id: siteId,
-    });
+    const { data: current } = await db.rpc("get_media_upload_context");
     if (!current?.[0])
       throw new MediaError("Tu permiso fue revocado durante la carga.", 403);
     const admin = serviceClient();
@@ -54,12 +50,11 @@ export async function POST(request: Request) {
         .replace(/[^a-zA-Z0-9_-]/g, "-")
         .slice(0, 120) || "documento"
     }.pdf`;
-    const storagePath = `${context[0].organization_id}/${siteId}/${id}/${filename}`;
+    const storagePath = `${siteId}/${id}/${filename}`;
     const { error: insertError } = await admin
       .from("media_assets")
       .insert({
         id,
-        organization_id: context[0].organization_id,
         site_id: siteId,
         bucket_id: bucket,
         storage_path: storagePath,

@@ -262,7 +262,7 @@ export async function publicPage(path: string, search: Search = {}) {
         <Team context={c} authors={await authorData(c)} />
       ) : null;
     const contact =
-      entry.template_version === 1 &&
+      (entry.template_version === 1 || (entry.template_key === "service-landing" && entry.template_version === 2)) &&
       (entry.template_key === "contact" ||
         (entry.template_key === "service-landing" &&
           c.site.settings.contact_on_landings === true));
