@@ -11,7 +11,8 @@ export async function publicRouteRedirect(request: NextRequest) {
   if (
     /^\/(admin|auth|api|protected|design-system|_next)(\/|$)/i.test(path) ||
     /^\/(sitemap\.xml|robots\.txt|icon\.svg)$/.test(path) ||
-    path === "/images/design-system-sample.webp"
+    path === "/images/design-system-sample.webp" ||
+    path === "/images/albar-logo.webp"
   )
     return null;
   try {

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
 import { ThemeSwitcher } from "@/components/theme-switcher";
 import { navigation, publicLocales, sectionAvailable } from "@/lib/public/data";
@@ -93,10 +94,15 @@ export async function PublicFrame({
             aria-label={`${name} · Inicio`}
             className="public-wordmark"
           >
-            <span className="wordmark-symbol" aria-hidden>
-              l<span>.</span>
-            </span>
-            <span>{name}</span>
+            <Image
+              src="/images/albar-logo.webp"
+              alt={name}
+              width={400}
+              height={90}
+              className="public-logo"
+              unoptimized
+              loading="eager"
+            />
           </Link>
           <PublicNavigation nodes={main}>
             {locales.length > 1 && (
@@ -154,7 +160,20 @@ export async function PublicFrame({
         <div className="public-container">
           <div className="public-footer-top">
             <div>
-              <p className="font-editorial">{name}</p>
+              <Link
+                href={publicHref(c, "/")}
+                aria-label={`${name} · Inicio`}
+                className="public-wordmark"
+              >
+                <Image
+                  src="/images/albar-logo.webp"
+                  alt={name}
+                  width={400}
+                  height={90}
+                  className="public-logo"
+                  unoptimized
+                />
+              </Link>
               {typeof c.site.settings.description === "string" && (
                 <p className="public-footer-description">
                   {c.site.settings.description}

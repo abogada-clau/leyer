@@ -54,24 +54,21 @@
   gap: 24px;
 }
 .public-wordmark {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  max-width: 250px;
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 1.35;
-  letter-spacing: -.015em;
+  display: block;
+  flex-shrink: 0;
+  width: 200px;
+  max-width: 100%;
 }
-.wordmark-symbol {
-  font-size: 38px;
-  line-height: 1;
-  font-weight: 500;
-  letter-spacing: -.08em;
-  padding-right: 16px;
-  border-right: 1px solid hsl(var(--border));
+.public-logo {
+  display: block;
+  width: 100%;
+  height: auto;
 }
-.wordmark-symbol > span { color: hsl(var(--terracotta)); }
+.dark .public-wordmark {
+  background: hsl(var(--brand-ivory));
+  padding: 6px 10px;
+  border-radius: var(--radius);
+}
 .public-desktop-nav { margin-left: auto; }
 .public-desktop-nav > ul { display: flex; align-items: center; gap: 23px; }
 .public-desktop-nav a, .public-desktop-nav summary {
@@ -403,7 +400,6 @@
 .contact-received p { margin-top: 18px; line-height: 1.8; }
 .public-footer { border-top: 1px solid hsl(var(--border)); background: var(--public-ivory); margin-top: 24px; }
 .public-footer-top { display: grid; grid-template-columns: 1.2fr .8fr 1fr; gap: 56px; padding: 48px 0 40px; }
-.public-footer-top > div > p:first-child { font-size: 20px; font-weight: 500; letter-spacing: -.02em; }
 .public-footer-description { max-width: 34ch; margin-top: 14px; color: hsl(var(--muted-foreground)); font-size: 14px; line-height: 1.8; }
 .public-footer nav { font-size: 13px; }
 .public-footer nav li { margin-bottom: 10px; }
@@ -501,7 +497,7 @@
 .public-contact-section { scroll-margin-top: 108px; }
 .public-contact-dock { display: none; }
 @media (max-width: 1100px) and (min-width: 821px) {
-  .public-wordmark { max-width: 160px; }
+  .public-header .public-wordmark { width: 160px; }
   .public-desktop-nav > ul { gap: 13px; }
   .public-desktop-nav a, .public-desktop-nav summary { font-size: 12px; }
 }
@@ -567,8 +563,7 @@
 @media (max-width: 600px) {
   .public-container { width: calc(100% - 40px); }
   .public-header-inner { min-height: 74px; gap: 12px; }
-  .public-wordmark { gap: 10px; max-width: 190px; font-size: 12px; }
-  .wordmark-symbol { font-size: 32px; padding-right: 12px; }
+  .public-header .public-wordmark { width: min(176px, 45vw); }
   .public-header-tools .public-languages { display: none; }
   .public-demo-note { font-size: 10px; }
   .public-mobile-nav > summary { font-size: 12px; }
