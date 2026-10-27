@@ -13,6 +13,20 @@ export type PublicContext = {
   path: string;
   requestPath: string;
   local: boolean;
+  route?: PublicRouteData;
+};
+export type PublicRouteData = {
+  site: PublicSite;
+  locale: string;
+  entry: PublicEntry | null;
+  redirect: { path: string; status: 301 | 308 } | null;
+  available: boolean;
+  ancestors: { id: string; title: string; path: string }[];
+  translations: { locale: string; path: string }[];
+  locales: string[];
+  author: PublicAuthor | null;
+  taxonomy: PublicTaxonomy | null;
+  term: PublicTerm | null;
 };
 export type PublicEntry = {
   id: string;
@@ -78,7 +92,6 @@ export type RenderData = {
   authors: PublicAuthor[];
   terms: PublicTerm[];
   taxonomies: PublicTaxonomy[];
-  related: PublicEntry[];
 };
 export type SharedRenderDocument = {
   title: string;

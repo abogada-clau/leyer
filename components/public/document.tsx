@@ -4,7 +4,7 @@ import { ContentBlocks } from "./content-blocks";
 import { EntryCards } from "./entry-cards";
 import { Team } from "./team";
 import { publicHref, contentLink, sitePath } from "@/lib/public/paths";
-import { authorData, listEntries, sectionAvailable } from "@/lib/public/data";
+import { authorData, listEntries, sectionAvailable, relatedEntries } from "@/lib/public/data";
 import type { PublicContext, RenderData } from "@/lib/public/types";
 export async function PublicDocumentView({
   data,
@@ -32,43 +32,33 @@ export async function PublicDocumentView({
     ["home", "service-landing", "default"].includes(doc.template_key) &&
     doc.blocks.filter(block => block.data.hidden !== true)[0]?.type === "hero" &&
     doc.blocks.filter(block => block.data.hidden !== true)[0]?.schema_version === 1;
+  const heroAssetIds = new Set(heroTitle
+    ? doc.blocks.find(block => block.data.hidden !== true)?.assets.map(asset => asset.asset_id)
+    : []);
   const sources = new Set(
     doc.blocks
-      .filter((b) => b.type === "related_content")
+      .filter((b) => b.type === "related_content" && b.data.hidden !== true && b.schema_version === 1)
       .map((b) => String(b.data.source || "related")),
   );
-  const [posts, services, team] = await Promise.all([
+  const usesRelations = [...sources].some(source => !["posts", "services", "team"].includes(source)) ||
+    (doc.kind === "post" && !doc.blocks.some(block => block.type === "related_content"));
+  const contactPath = sitePath(c.site, "contact_path", "/contacto");
+  const homeNavigation = knownTemplate && doc.template_key === "home";
+  const [posts, services, team, liveRelated, contactReady, overview] = await Promise.all([
     sources.has("posts") ? listEntries(c, { kind: "post" }) : null,
     sources.has("services") ? listEntries(c, { kind: "landing" }) : null,
     sources.has("team") ? authorData(c) : null,
+    usesRelations ? relatedEntries(c, doc.relations.map(r => r.entry_id)) : [],
+    c.site.settings.contact_enabled === true ? sectionAvailable(c, contactPath) : false,
+    homeNavigation ? Promise.all([
+      { path: "/personas", label: "Todas las áreas para personas" },
+      { path: "/empresas", label: "Todas las áreas para empresas" },
+    ].map(async item => await sectionAvailable(c, item.path) ? { href: publicHref(c, item.path), label: item.label } : null)) : [],
   ]);
-  const liveRelated = doc.relations.length
-    ? await Promise.all(
-        doc.relations.map(async (r) => {
-          const { publicClient, result } = await import("@/lib/public/db");
-          return result(
-            await publicClient()
-              .from("published_content")
-              .select("*")
-              .eq("site_id", c.site.id)
-              .eq("locale", c.locale)
-              .eq("id", r.entry_id)
-              .maybeSingle(),
-          );
-        }),
-      )
-    : [];
   const asset = (id: string) => data.assets.find((a) => a.id === id);
   const cover = asset(doc.cover_asset_id || "");
-  const contactPath = sitePath(c.site, "contact_path", "/contacto");
-  const contactHref = c.site.settings.contact_enabled === true && await sectionAvailable(c, contactPath)
-    ? publicHref(c, contactPath) : undefined;
-  const homeNavigation = knownTemplate && doc.template_key === "home";
-  const overviewLinks = homeNavigation ? (await Promise.all([
-    { path: "/personas", label: "Todas las áreas para personas" },
-    { path: "/empresas", label: "Todas las áreas para empresas" },
-  ].map(async item => await sectionAvailable(c, item.path) ? { href: publicHref(c, item.path), label: item.label } : null)))
-    .filter((item): item is { href: string; label: string } => item !== null) : [];
+  const contactHref = contactReady ? publicHref(c, contactPath) : undefined;
+  const overviewLinks = overview.flatMap(item => item ? [item] : []);
   return (
     <article
       className={`public-document template-${knownTemplate ? doc.template_key : "default"}`}
@@ -173,6 +163,8 @@ export async function PublicDocumentView({
               width={a.width || 1600}
               height={a.height || 1000}
               imageClassName="public-block-image"
+              loading={heroAssetIds.has(id) ? "eager" : "lazy"}
+              fetchPriority={heroAssetIds.has(id) ? "high" : undefined}
               fit="cover"
               imageStyle={
                 point

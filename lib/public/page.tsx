@@ -20,7 +20,7 @@ import { PublicListing } from "@/components/public/listing";
 import { ContactSection } from "@/components/public/contact-section";
 import { Team } from "@/components/public/team";
 import { MediaImage } from "@/components/ui/media-image";
-import type { PublicContext, PublicTerm, PublicTaxonomy } from "./types";
+import type { PublicContext } from "./types";
 
 type Search = Record<string, string | string[] | undefined>;
 const pageData = cache(async (path: string) => {
@@ -36,34 +36,7 @@ export async function publicMetadata(path: string): Promise<Metadata> {
       robots: { index: false, follow: false },
     };
   const { c, entry } = data;
-  let title = entry?.title || virtualTitle(c);
-  if (!entry && c.path.startsWith("/autores/")) {
-    const author = (await authorData(c, c.path.split("/")[2]))[0];
-    if (author) title = author.display_name;
-  }
-  if (!entry && c.path.startsWith("/taxonomias/")) {
-    const parts = c.path.split("/");
-    const tx = result(
-      await publicClient()
-        .from("taxonomies")
-        .select("id")
-        .eq("site_id", c.site.id)
-        .eq("code", parts[2])
-        .maybeSingle(),
-    );
-    if (tx) {
-      const term = result(
-        await publicClient()
-          .from("terms")
-          .select("name")
-          .eq("site_id", c.site.id)
-          .eq("taxonomy_id", tx.id)
-          .eq("slug", parts[3])
-          .maybeSingle(),
-      );
-      if (term) title = term.name;
-    }
-  }
+  let title = entry?.title || c.route?.author?.display_name || c.route?.term?.name || virtualTitle(c);
 
   let description = entry?.excerpt || String(c.site.settings.description || "");
   if (entry && typeof entry.seo.title === "string" && entry.seo.title.trim())
@@ -72,7 +45,7 @@ export async function publicMetadata(path: string): Promise<Metadata> {
     description = entry.seo.description;
   const canonical = canonicalUrl(c);
   const translations =
-    result(
+    c.route?.translations || result(
       await publicClient()
         .from("published_content")
         .select("locale,path")
@@ -175,28 +148,8 @@ function virtualTitle(c: PublicContext) {
     return "Conversemos";
   return siteName(c.site);
 }
-async function crumb(
-  c: PublicContext,
-  label: string,
-  parentId?: string | null,
-) {
-  const parents: { id: string; title: string; path: string }[] = [];
-  const seen = new Set<string>();
-  while (parentId && !seen.has(parentId) && parents.length < 8) {
-    seen.add(parentId);
-    const parent = result(
-      await publicClient()
-        .from("published_content")
-        .select("id,title,path,parent_id")
-        .eq("site_id", c.site.id)
-        .eq("locale", c.locale)
-        .eq("id", parentId)
-        .maybeSingle(),
-    );
-    if (!parent) break;
-    if (parent.path !== "/") parents.unshift(parent);
-    parentId = parent.parent_id;
-  }
+function crumb(c: PublicContext, label: string) {
+  const parents = c.route?.ancestors || [];
   return (
     <nav className="public-breadcrumbs" aria-label="Ruta de navegación">
       <Link href={publicHref(c, "/")}>Inicio</Link>
@@ -220,34 +173,7 @@ export async function publicPage(path: string, search: Search = {}) {
   // 301 vs 308 are preserved by Proxy before streaming (see lib/public/redirects.ts).
   if (!entry && !(await sectionAvailable(c))) notFound();
   let body: React.ReactNode;
-  let title = entry?.title || virtualTitle(c);
-  if (!entry && c.path.startsWith("/autores/")) {
-    const author = (await authorData(c, c.path.split("/")[2]))[0];
-    if (author) title = author.display_name;
-  }
-  if (!entry && c.path.startsWith("/taxonomias/")) {
-    const parts = c.path.split("/");
-    const tx = result(
-      await publicClient()
-        .from("taxonomies")
-        .select("id")
-        .eq("site_id", c.site.id)
-        .eq("code", parts[2])
-        .maybeSingle(),
-    );
-    if (tx) {
-      const term = result(
-        await publicClient()
-          .from("terms")
-          .select("name")
-          .eq("site_id", c.site.id)
-          .eq("taxonomy_id", tx.id)
-          .eq("slug", parts[3])
-          .maybeSingle(),
-      );
-      if (term) title = term.name;
-    }
-  }
+  let title = entry?.title || c.route?.author?.display_name || c.route?.term?.name || virtualTitle(c);
 
   if (entry) {
     const snapshot = await snapshotData(c.site.id, entry.id, entry.revision_id);
@@ -268,7 +194,7 @@ export async function publicPage(path: string, search: Search = {}) {
           c.site.settings.contact_on_landings === true));
     body = (
       <>
-        {c.path !== "/" && (await crumb(c, entry.title, entry.parent_id))}
+        {c.path !== "/" && crumb(c, entry.title)}
         <PublicDocumentView data={snapshot} context={c} />
         {extras}
         {contact && (
@@ -319,8 +245,7 @@ export async function publicPage(path: string, search: Search = {}) {
       </>
     );
   else if (c.path.startsWith("/autores/") && c.path.split("/").length === 3) {
-    const authors = await authorData(c, c.path.split("/")[2]);
-    const author = authors[0];
+    const author = c.route?.author;
     if (!author) notFound();
     title = author.display_name;
     const portrait = author.avatar_asset_id
@@ -328,7 +253,7 @@ export async function publicPage(path: string, search: Search = {}) {
       : null;
     body = (
       <>
-        {await crumb(c, "Equipo")}
+        {crumb(c, "Equipo")}
         <section className="public-author-profile">
           <p className="public-eyebrow">
             {author.professional_title || "Equipo del estudio"}
@@ -356,26 +281,8 @@ export async function publicPage(path: string, search: Search = {}) {
     c.path.startsWith("/taxonomias/") &&
     c.path.split("/").length === 4
   ) {
-    const [, , code, slug] = c.path.split("/");
-    const tx = result(
-      await publicClient()
-        .from("taxonomies")
-        .select("id,code,name")
-        .eq("site_id", c.site.id)
-        .eq("code", code)
-        .maybeSingle(),
-    ) as PublicTaxonomy | null;
-    const term = tx
-      ? (result(
-          await publicClient()
-            .from("terms")
-            .select("id,taxonomy_id,name,slug,parent_id")
-            .eq("site_id", c.site.id)
-            .eq("taxonomy_id", tx.id)
-            .eq("slug", slug)
-            .maybeSingle(),
-        ) as PublicTerm | null)
-      : null;
+    const tx = c.route?.taxonomy;
+    const term = c.route?.term;
     if (!tx || !term) notFound();
     title = term.name;
     body = (

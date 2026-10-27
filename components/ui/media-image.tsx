@@ -60,6 +60,7 @@ export type MediaImageProps = {
   imageClassName?: string;
   fit?: "cover" | "contain";
   loading?: "eager" | "lazy";
+  fetchPriority?: "high" | "low" | "auto";
   style?: CSSProperties;
   imageStyle?: CSSProperties;
 };
@@ -78,6 +79,7 @@ function ImageContent({
   imageClassName,
   fit = "cover",
   loading = "lazy",
+  fetchPriority,
   style,
   imageStyle,
 }: MediaImageProps) {
@@ -122,12 +124,12 @@ function ImageContent({
           width={width}
           height={height}
           loading={loading}
+          fetchPriority={fetchPriority}
           decoding="async"
           style={imageStyle}
           className={cn(
             "absolute inset-0 h-full w-full",
             fit === "contain" ? "object-contain" : "object-cover",
-            state !== "ready" && "opacity-0",
             imageClassName,
           )}
           onLoad={() => setState("ready")}

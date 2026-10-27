@@ -1,5 +1,6 @@
 import "server-only";
 import { cacheLife, cacheTag } from "next/cache";
+import { cache } from "react";
 import { publicClient, result } from "./db";
 import type {
   PublicContext,
@@ -15,17 +16,22 @@ import type {
 } from "./types";
 
 export async function publicEntry(c: PublicContext, path = c.path) {
+  if (c.route && path === c.path) return c.route.entry;
+  return entryByPath(c.site.id, c.locale, path);
+}
+const entryByPath = cache(async (siteId: string, locale: string, path: string) => {
   return result(
     await publicClient()
       .from("published_content")
       .select("*")
-      .eq("site_id", c.site.id)
-      .eq("locale", c.locale)
+      .eq("site_id", siteId)
+      .eq("locale", locale)
       .eq("path", path)
       .maybeSingle(),
   ) as PublicEntry | null;
-}
+});
 export async function publicRedirect(c: PublicContext) {
+  if (c.route) return c.route.redirect;
   const row = result(
     await publicClient()
       .from("redirects")
@@ -80,7 +86,7 @@ export async function snapshotData(
   assetIds.push(
     ...(authors.map((a) => a.avatar_asset_id).filter(Boolean) as string[]),
   );
-  const [media, terms, taxonomies, related] = await Promise.all([
+  const [media, terms, taxonomies] = await Promise.all([
     assetIds.length
       ? db
           .from("media_assets")
@@ -98,17 +104,8 @@ export async function snapshotData(
           .eq("site_id", siteId)
           .in("id", document.terms)
       : Promise.resolve({ data: [], error: null }),
-    db.from("taxonomies").select("id,code,name").eq("site_id", siteId),
-    document.relations.length
-      ? db
-          .from("published_content")
-          .select("*")
-          .eq("site_id", siteId)
-          .eq("locale", document.locale)
-          .in(
-            "id",
-            document.relations.map((r) => r.entry_id),
-          )
+    document.terms.length
+      ? db.from("taxonomies").select("id,code,name").eq("site_id", siteId)
       : Promise.resolve({ data: [], error: null }),
   ]);
   const assets = (result(media) || []).map((a) => ({
@@ -124,8 +121,21 @@ export async function snapshotData(
     ),
     terms: (result(terms) || []) as PublicTerm[],
     taxonomies: (result(taxonomies) || []) as PublicTaxonomy[],
-    related: (result(related) || []) as PublicEntry[],
   };
+}
+/** Resolve visibility live in one query; cached snapshots must not resurrect withdrawn relations. */
+export async function relatedEntries(c: PublicContext, ids: string[]) {
+  if (!ids.length) return [];
+  const entries = (result(
+    await publicClient()
+      .from("published_content")
+      .select("*")
+      .eq("site_id", c.site.id)
+      .eq("locale", c.locale)
+      .in("id", [...new Set(ids)]),
+  ) || []) as PublicEntry[];
+  const byId = new Map(entries.map(entry => [entry.id, entry]));
+  return ids.flatMap(id => byId.has(id) ? [byId.get(id)!] : []);
 }
 export async function navigation(siteId: string, locale: string) {
   "use cache";
@@ -197,16 +207,22 @@ export async function listEntries(
   return { rows: data.rows, total: data.total, page };
 }
 export async function authorData(c: PublicContext, slug?: string) {
+  return authorsBySlug(c.site.id, slug);
+}
+const authorsBySlug = cache(async (siteId: string, slug?: string) => {
   let query = publicClient()
     .from("authors")
     .select("*")
-    .eq("site_id", c.site.id);
+    .eq("site_id", siteId);
   if (slug) query = query.eq("slug", slug);
   else query = query.eq("is_public", true);
   return (result(await query.order("display_name")) || []) as PublicAuthor[];
-}
+});
 export async function publicAssets(siteId: string, ids: string[]) {
   if (!ids.length) return [];
+  return assetsByIds(siteId, [...new Set(ids)].sort().join(","));
+}
+const assetsByIds = cache(async (siteId: string, ids: string) => {
   const db = publicClient();
   return (
     result(
@@ -217,14 +233,14 @@ export async function publicAssets(siteId: string, ids: string[]) {
         )
         .eq("site_id", siteId)
         .eq("bucket_id", "cms-public")
-        .in("id", ids),
+        .in("id", ids.split(",")),
     ) || []
   ).map((a) => ({
     ...a,
     src: db.storage.from("cms-public").getPublicUrl(a.storage_path).data
       .publicUrl,
   })) as PublicAsset[];
-}
+});
 export async function publicLocales(siteId: string) {
   const rows = result(
     await publicClient()
@@ -236,13 +252,17 @@ export async function publicLocales(siteId: string) {
 }
 
 export async function sectionAvailable(c: PublicContext, path = c.path) {
+  if (c.route && path === c.path) return c.route.available;
+  return sectionByPath(c.site.id, c.locale, path);
+}
+const sectionByPath = cache(async (siteId: string, locale: string, path: string) => {
   return (
     result(
       await publicClient().rpc("public_section_available", {
-        p_site_id: c.site.id,
-        p_locale: c.locale,
+        p_site_id: siteId,
+        p_locale: locale,
         p_path: path,
       }),
     ) === true
   );
-}
+});

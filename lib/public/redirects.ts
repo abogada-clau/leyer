@@ -1,7 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { resolveContext } from "./context";
 import { publicEntry, publicRedirect, sectionAvailable } from "./data";
-import { publicClient, result } from "./db";
 import { publicHref, sitePath } from "./paths";
 import { publicMissing } from "./missing";
 /** Resolve status before rendering, so a streamed metadata boundary cannot turn a 404 into HTTP 200. */
@@ -16,7 +15,7 @@ export async function publicRouteRedirect(request: NextRequest) {
   )
     return null;
   try {
-    const c = await resolveContext(request.headers.get("host") || "", path);
+    const c = await resolveContext(request.headers.get("host") || "", path, "https:", "route");
     if (!c) return publicMissing(c);
     const redirect = await publicRedirect(c);
     if (redirect) {
@@ -47,37 +46,10 @@ export async function publicRouteRedirect(request: NextRequest) {
       return null;
     const parts = c.path.split("/");
     if (parts[1] === "autores" && parts.length === 3) {
-      const row = result(
-        await publicClient()
-          .from("authors")
-          .select("id")
-          .eq("site_id", c.site.id)
-          .eq("slug", parts[2])
-          .maybeSingle(),
-      );
-      return row ? null : publicMissing(c);
+      return c.route?.author ? null : publicMissing(c);
     }
     if (parts[1] === "taxonomias" && parts.length === 4) {
-      const tx = result(
-        await publicClient()
-          .from("taxonomies")
-          .select("id")
-          .eq("site_id", c.site.id)
-          .eq("code", parts[2])
-          .maybeSingle(),
-      );
-      const term = tx
-        ? result(
-            await publicClient()
-              .from("terms")
-              .select("id")
-              .eq("site_id", c.site.id)
-              .eq("taxonomy_id", tx.id)
-              .eq("slug", parts[3])
-              .maybeSingle(),
-          )
-        : null;
-      return term ? null : publicMissing(c);
+      return c.route?.term ? null : publicMissing(c);
     }
     return publicMissing(c);
   } catch {

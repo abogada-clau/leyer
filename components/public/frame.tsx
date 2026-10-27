@@ -19,9 +19,11 @@ export async function PublicFrame({
   context: PublicContext;
   children: React.ReactNode;
 }) {
-  const [nav, locales] = await Promise.all([
+  const contact = sitePath(c.site, "contact_path", "/contacto");
+  const [nav, locales, contactReady] = await Promise.all([
     navigation(c.site.id, c.locale),
-    publicLocales(c.site.id),
+    c.route?.locales || publicLocales(c.site.id),
+    c.site.settings.contact_enabled === true ? sectionAvailable(c, contact) : false,
   ]);
   function tree(
     items: MenuItem[],
@@ -65,10 +67,6 @@ export async function PublicFrame({
   const phone =
     typeof c.site.settings.phone === "string" ? c.site.settings.phone : null;
   const tel = phone?.replace(/[^+0-9]/g, "");
-  const contact = sitePath(c.site, "contact_path", "/contacto");
-  const contactReady =
-    c.site.settings.contact_enabled === true &&
-    (await sectionAvailable(c, contact));
   // Only reuse a WhatsApp destination already published in this site's menu.
   const whatsapp = nav.items.map((item) => contentLink(c, item.external_url)).find((href) => {
     if (!href) return false;

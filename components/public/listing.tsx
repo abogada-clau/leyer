@@ -27,23 +27,23 @@ export async function PublicListing({
     Math.min(100000, Math.floor(Number(search.page) || 1)),
   );
   const selected = termId || String(search.term || "");
-  const terms =
-    kind === "post"
-      ? result(
-          await publicClient()
-            .from("terms")
-            .select("id,name")
-            .eq("site_id", c.site.id)
-            .order("name"),
-        ) || []
-      : [];
-  const { rows, total } = await listEntries(c, {
-    kind,
-    q,
-    page,
-    termId: selected || undefined,
-    authorId,
-  });
+  const [terms, { rows, total }] = await Promise.all([
+    kind === "post" && !authorId && !termId
+      ? publicClient()
+          .from("terms")
+          .select("id,name")
+          .eq("site_id", c.site.id)
+          .order("name")
+          .then(response => result(response) || [])
+      : [],
+    listEntries(c, {
+      kind,
+      q,
+      page,
+      termId: selected || undefined,
+      authorId,
+    }),
+  ]);
   const pages = Math.max(1, Math.ceil(total / 9));
   const href = (n: number) =>
     publicHref(c, c.path) +
