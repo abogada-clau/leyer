@@ -93,10 +93,10 @@ export async function PublicFrame({
             className="public-wordmark"
           >
             <Image
-              src="/images/albar-logo.webp"
+              src="/images/albar-logo-hd.webp"
               alt={name}
-              width={400}
-              height={90}
+              width={2133}
+              height={451}
               className="public-logo"
               unoptimized
               loading="eager"
@@ -164,10 +164,10 @@ export async function PublicFrame({
                 className="public-wordmark"
               >
                 <Image
-                  src="/images/albar-logo.webp"
+                  src="/images/albar-logo-hd.webp"
                   alt={name}
-                  width={400}
-                  height={90}
+                  width={2133}
+                  height={451}
                   className="public-logo"
                   unoptimized
                 />

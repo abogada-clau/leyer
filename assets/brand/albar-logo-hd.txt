@@ -1,0 +1,10 @@
+ALBAR logo restoration
+
+Generated with the built-in image_gen tool, using public/images/albar-logo.webp as the reference.
+Original generation: 2204 × 713 px, transparent PNG.
+Trimmed master: albar-logo-hd.png, 2133 × 451 px, transparent PNG, 300 DPI metadata.
+Website: public/images/albar-logo-hd.webp, lossless WebP preserving all visible master pixels.
+The added resolution comes from reconstruction, not from changing the DPI metadata.
+
+Prompt:
+Use case: logo-brand, faithful high-resolution restoration of an existing logo. Asset type: production website logo with real transparent alpha background. Input image 1 is the exact logo edit target. Recreate this exact ALBAR ABOGADOS logo in extremely crisp high resolution, around 3200 x 720 pixels if possible, keeping the original very wide horizontal aspect ratio about 40:9 and minimal transparent margin. Preserve the original identity, layout, colors, and relative proportions precisely. Left: a tall elegant dark forest-green uppercase serif A integrated into a delicate symmetrical copper balance of justice; fine copper horizontal balance beam and thin triangular suspensions holding two small shallow copper bowls. Right: exact text 'ALBAR' on upper line in elegant high-contrast classic Roman serif uppercase, widely spaced, dark forest green. Lower line exact text 'ABOGADOS' in widely spaced small copper sans-serif capitals, centered below ALBAR, with a thin copper horizontal rule to the left and the right. Verbatim text only: 'ALBAR' and 'ABOGADOS'. Dark green approximately #1b352d, muted copper approximately #b58b77; closely follow reference colors. Reconstruct clean solid letter shapes and thin lines from reference, removing all JPEG/WebP ringing, pixelation, noise, mottled fills, and blurry gray edge artifacts. Flat vector-like professional identity artwork, precise sharp smooth contours, no shadows, no bevels, no gradients, no texture, no extra symbols, no new design elements, no mockup, no white background. Retain the large A mark on the left and identical hierarchy and layout. Transparent background is essential.
