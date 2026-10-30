@@ -1,0 +1,258 @@
+{
+  "method": "built-in image_gen",
+  "images": [
+    {
+      "topic": "alimentos",
+      "asset_id": "16ada221-60cb-4043-8706-b6b354fc7973",
+      "file": "alimentos.webp",
+      "public_url": "https://klzczztwyuvkxkgnirfp.supabase.co/storage/v1/object/public/cms-public/709bf171-8449-4177-a1f7-2facca7090a5/16ada221-60cb-4043-8706-b6b354fc7973/alimentos.webp",
+      "alt": "Padre acompañando a su hija con las tareas escolares en casa. Imagen ilustrativa generada con IA.",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 1534548,
+      "sha256": "699ea664165e415d7b00e5401c165bae1b206d931ea9f8e13e241bc4e97bfac8"
+    },
+    {
+      "topic": "cobro-alimentos",
+      "asset_id": "254395aa-921f-4357-be35-094cdda3200c",
+      "file": "cobro-alimentos.webp",
+      "public_url": "https://klzczztwyuvkxkgnirfp.supabase.co/storage/v1/object/public/cms-public/709bf171-8449-4177-a1f7-2facca7090a5/254395aa-921f-4357-be35-094cdda3200c/cobro-alimentos.webp",
+      "alt": "Persona organizando comprobantes de pago de una pensión de alimentos. Imagen ilustrativa generada con IA.",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 1442676,
+      "sha256": "c4b99966accb017228a031ea7d346f0881c2a02ce249a6b484f645804c486557"
+    },
+    {
+      "topic": "compensacion",
+      "asset_id": "75209e9c-15da-4cce-9e9a-12c786d3f9a2",
+      "file": "compensacion.webp",
+      "public_url": "https://klzczztwyuvkxkgnirfp.supabase.co/storage/v1/object/public/cms-public/709bf171-8449-4177-a1f7-2facca7090a5/75209e9c-15da-4cce-9e9a-12c786d3f9a2/compensacion.webp",
+      "alt": "Mujer revisando antecedentes para retomar su desarrollo profesional. Imagen ilustrativa generada con IA.",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 1506258,
+      "sha256": "c911c7c6756bfb1c1f59e51d76bcc826994d12e4e3b1d7bb55d9ca74f63f09c0"
+    },
+    {
+      "topic": "contacto",
+      "asset_id": "1826db79-2f34-41b0-8cfd-25c7ab1b612e",
+      "file": "contacto.webp",
+      "public_url": "https://klzczztwyuvkxkgnirfp.supabase.co/storage/v1/object/public/cms-public/709bf171-8449-4177-a1f7-2facca7090a5/1826db79-2f34-41b0-8cfd-25c7ab1b612e/contacto.webp",
+      "alt": "Sala de reunión ilustrativa con mesa de madera y sillas verdes. Imagen ilustrativa generada con IA.",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 1612664,
+      "sha256": "195dab7f452085470c59a577105823e370fdc699d5aafe2fccdf0e013f3f4b3c"
+    },
+    {
+      "topic": "corporativo",
+      "asset_id": "907e5ffc-6da1-49fd-bc5d-08ecdb777086",
+      "file": "corporativo.webp",
+      "public_url": "https://klzczztwyuvkxkgnirfp.supabase.co/storage/v1/object/public/cms-public/709bf171-8449-4177-a1f7-2facca7090a5/907e5ffc-6da1-49fd-bc5d-08ecdb777086/corporativo.webp",
+      "alt": "Socios revisando la organización y documentación de su empresa. Imagen ilustrativa generada con IA.",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 1460112,
+      "sha256": "637608b2fa7b5da0bd47b7869c365cdede4e2e1278e1f263da35b37b4b9550c7"
+    },
+    {
+      "topic": "cuidado-personal",
+      "asset_id": "a131d711-faa8-49a9-b44e-38460d654002",
+      "file": "cuidado-personal.webp",
+      "public_url": "https://klzczztwyuvkxkgnirfp.supabase.co/storage/v1/object/public/cms-public/709bf171-8449-4177-a1f7-2facca7090a5/a131d711-faa8-49a9-b44e-38460d654002/cuidado-personal.webp",
+      "alt": "Madre ayudando a su hijo a preparar la mochila escolar. Imagen ilustrativa generada con IA.",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 1555658,
+      "sha256": "0a1681641e556d2643c4190339f46951e27b44e9137cc7117660e91e5eba0bdd"
+    },
+    {
+      "topic": "derecho-civil",
+      "asset_id": "129ea40d-272b-4b79-962a-5a4cc682a157",
+      "file": "derecho-civil.webp",
+      "public_url": "https://klzczztwyuvkxkgnirfp.supabase.co/storage/v1/object/public/cms-public/709bf171-8449-4177-a1f7-2facca7090a5/129ea40d-272b-4b79-962a-5a4cc682a157/derecho-civil.webp",
+      "alt": "Adultos revisando un contrato relacionado con su vivienda y patrimonio. Imagen ilustrativa generada con IA.",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 1494730,
+      "sha256": "a8b756ee9440786a750f22ccc0116b9d484bbb4aeb4a14929c30bffa6c9a1b19"
+    },
+    {
+      "topic": "derecho-laboral",
+      "asset_id": "ad2f3646-623e-4885-8ba8-4de321577129",
+      "file": "derecho-laboral.webp",
+      "public_url": "https://klzczztwyuvkxkgnirfp.supabase.co/storage/v1/object/public/cms-public/709bf171-8449-4177-a1f7-2facca7090a5/ad2f3646-623e-4885-8ba8-4de321577129/derecho-laboral.webp",
+      "alt": "Trabajador revisando documentación de su relación laboral. Imagen ilustrativa generada con IA.",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 1437564,
+      "sha256": "961978b7ca94282fbc5a12a8f78de7bd5c8f000746d89ea7a5fad88d2bec99d8"
+    },
+    {
+      "topic": "deudas-personales",
+      "asset_id": "b246e209-0cc3-4909-aab2-ba811da29d2d",
+      "file": "deudas-personales.webp",
+      "public_url": "https://klzczztwyuvkxkgnirfp.supabase.co/storage/v1/object/public/cms-public/709bf171-8449-4177-a1f7-2facca7090a5/b246e209-0cc3-4909-aab2-ba811da29d2d/deudas-personales.webp",
+      "alt": "Hombre organizando documentos y gastos del hogar en una mesa. Imagen ilustrativa generada con IA.",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 1404578,
+      "sha256": "34b2924507f44d55470170a82ce3c565f6f9d15a3ea4d071fd9bedc36743ec4a"
+    },
+    {
+      "topic": "divorcio",
+      "asset_id": "f6edb258-9bad-4aba-ab51-8ed7dd8b21f6",
+      "file": "divorcio.webp",
+      "public_url": "https://klzczztwyuvkxkgnirfp.supabase.co/storage/v1/object/public/cms-public/709bf171-8449-4177-a1f7-2facca7090a5/f6edb258-9bad-4aba-ab51-8ed7dd8b21f6/divorcio.webp",
+      "alt": "Dos adultos revisando documentos y próximos pasos de su separación. Imagen ilustrativa generada con IA.",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 1308914,
+      "sha256": "cb7f7e79ce75d97427abee6019acc7a364e78d0d51f352546bc301e509ac03a7"
+    },
+    {
+      "topic": "empresas",
+      "asset_id": "bab81f9b-e833-4ff8-811a-61086cedb520",
+      "file": "empresas.webp",
+      "public_url": "https://klzczztwyuvkxkgnirfp.supabase.co/storage/v1/object/public/cms-public/709bf171-8449-4177-a1f7-2facca7090a5/bab81f9b-e833-4ff8-811a-61086cedb520/empresas.webp",
+      "alt": "Dos personas revisando antecedentes de su negocio. Imagen ilustrativa generada con IA.",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 1429490,
+      "sha256": "c4fc24b0a844af9741c7adf578bd90fab73a4699db82848f44c34a39d883f5db"
+    },
+    {
+      "topic": "escrituras",
+      "asset_id": "45f04214-07af-43c9-b2ac-245713a1954d",
+      "file": "escrituras.webp",
+      "public_url": "https://klzczztwyuvkxkgnirfp.supabase.co/storage/v1/object/public/cms-public/709bf171-8449-4177-a1f7-2facca7090a5/45f04214-07af-43c9-b2ac-245713a1954d/escrituras.webp",
+      "alt": "Manos firmando un documento preparado para su formalización. Imagen ilustrativa generada con IA.",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 1368894,
+      "sha256": "0fe5e59f16dfc141a48e30d86f42600df783b7c1f21b7fcd6a4669cf94d1c608"
+    },
+    {
+      "topic": "familia",
+      "asset_id": "870fa011-5947-4008-8ca9-1e74ec66ba59",
+      "file": "familia.webp",
+      "public_url": "https://klzczztwyuvkxkgnirfp.supabase.co/storage/v1/object/public/cms-public/709bf171-8449-4177-a1f7-2facca7090a5/870fa011-5947-4008-8ca9-1e74ec66ba59/familia.webp",
+      "alt": "Dos adultos organizando el calendario familiar y escolar. Imagen ilustrativa generada con IA.",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 1527056,
+      "sha256": "9b82af027a0ba65e3f75f81b4597437cb3d1248ad61b83033c3ab06947085c8a"
+    },
+    {
+      "topic": "fondos-afp",
+      "asset_id": "98b44040-82f6-4f0f-8498-da4c106019cb",
+      "file": "fondos-afp.webp",
+      "public_url": "https://klzczztwyuvkxkgnirfp.supabase.co/storage/v1/object/public/cms-public/709bf171-8449-4177-a1f7-2facca7090a5/98b44040-82f6-4f0f-8498-da4c106019cb/fondos-afp.webp",
+      "alt": "Adulto revisando documentos de planificación previsional y familiar. Imagen ilustrativa generada con IA.",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 1405692,
+      "sha256": "f18ccd21a48b7dfe2c88571c227cb378612074034ccdd2d08cdf0e74e092022f"
+    },
+    {
+      "topic": "gastos-hijos",
+      "asset_id": "19be4070-8c64-45d2-b939-1a50c118d855",
+      "file": "gastos-hijos.webp",
+      "public_url": "https://klzczztwyuvkxkgnirfp.supabase.co/storage/v1/object/public/cms-public/709bf171-8449-4177-a1f7-2facca7090a5/19be4070-8c64-45d2-b939-1a50c118d855/gastos-hijos.webp",
+      "alt": "Útiles escolares, calculadora y comprobantes para organizar los gastos de los hijos. Imagen ilustrativa generada con IA.",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 1539228,
+      "sha256": "e1075a86c7b305cc0542827c64bbd63946aece6192ccf53f7a1fdb50bbe748f0"
+    },
+    {
+      "topic": "insolvencia-empresas",
+      "asset_id": "d43a3f7c-79ec-46dc-870e-41843d288730",
+      "file": "insolvencia-empresas.webp",
+      "public_url": "https://klzczztwyuvkxkgnirfp.supabase.co/storage/v1/object/public/cms-public/709bf171-8449-4177-a1f7-2facca7090a5/d43a3f7c-79ec-46dc-870e-41843d288730/insolvencia-empresas.webp",
+      "alt": "Dueño de un negocio evaluando documentos financieros en su bodega. Imagen ilustrativa generada con IA.",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 1472104,
+      "sha256": "fb2750e3b357b0c7c01959d08edc044464771ab2d82274acff5cb16ba3863bf9"
+    },
+    {
+      "topic": "laboral-empresas",
+      "asset_id": "0e2d8e11-896e-4463-a2bc-4fb872a80af2",
+      "file": "laboral-empresas.webp",
+      "public_url": "https://klzczztwyuvkxkgnirfp.supabase.co/storage/v1/object/public/cms-public/709bf171-8449-4177-a1f7-2facca7090a5/0e2d8e11-896e-4463-a2bc-4fb872a80af2/laboral-empresas.webp",
+      "alt": "Equipo revisando documentación laboral y organización del personal. Imagen ilustrativa generada con IA.",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 1339284,
+      "sha256": "23c50fa13563e22abb036d3665740d8e83b5236dc9d23e8068af3782e6a2f2d1"
+    },
+    {
+      "topic": "licitaciones",
+      "asset_id": "078d3eae-0baa-4773-9fc7-6bb0389c6479",
+      "file": "licitaciones.webp",
+      "public_url": "https://klzczztwyuvkxkgnirfp.supabase.co/storage/v1/object/public/cms-public/709bf171-8449-4177-a1f7-2facca7090a5/078d3eae-0baa-4773-9fc7-6bb0389c6479/licitaciones.webp",
+      "alt": "Dos colegas revisando antecedentes de un proceso licitatorio. Imagen ilustrativa generada con IA.",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 1366496,
+      "sha256": "d0ea58d8021a53f822e8432664c87184df7bedb35a811f8ac523ef5308144ffd"
+    },
+    {
+      "topic": "marcas",
+      "asset_id": "f308223f-9bef-45e2-8e81-c1b149b1df3a",
+      "file": "marcas.webp",
+      "public_url": "https://klzczztwyuvkxkgnirfp.supabase.co/storage/v1/object/public/cms-public/709bf171-8449-4177-a1f7-2facca7090a5/f308223f-9bef-45e2-8e81-c1b149b1df3a/marcas.webp",
+      "alt": "Emprendedores revisando propuestas de identidad y envases de una marca. Imagen ilustrativa generada con IA.",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 1513922,
+      "sha256": "7714f00559e1771fd545351d862ca7fc7a696099d609879eef6a7baa4d01c595"
+    },
+    {
+      "topic": "mayoria-edad",
+      "asset_id": "17fb38d0-9e81-436f-9953-c25719427917",
+      "file": "mayoria-edad.webp",
+      "public_url": "https://klzczztwyuvkxkgnirfp.supabase.co/storage/v1/object/public/cms-public/709bf171-8449-4177-a1f7-2facca7090a5/17fb38d0-9e81-436f-9953-c25719427917/mayoria-edad.webp",
+      "alt": "Estudiante universitaria revisando antecedentes de sus estudios con su madre. Imagen ilustrativa generada con IA.",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 1450502,
+      "sha256": "9f8a306e02bdbf928b295746af1604c7ba13ae5aef98915c76b92f797a82c0fa"
+    },
+    {
+      "topic": "personas",
+      "asset_id": "730dfca3-c1b5-413f-aeb6-f524dcdf10eb",
+      "file": "personas.webp",
+      "public_url": "https://klzczztwyuvkxkgnirfp.supabase.co/storage/v1/object/public/cms-public/709bf171-8449-4177-a1f7-2facca7090a5/730dfca3-c1b5-413f-aeb6-f524dcdf10eb/personas.webp",
+      "alt": "Mujer organizando sus antecedentes personales en casa. Imagen ilustrativa generada con IA.",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 1438038,
+      "sha256": "de431ce6771bd7269e9ce08a41c20c3d9a38eae7b53146a5a38aac4312a5c1c4"
+    },
+    {
+      "topic": "prevencion",
+      "asset_id": "d6413573-990b-409a-8486-b003f7f786e8",
+      "file": "prevencion.webp",
+      "public_url": "https://klzczztwyuvkxkgnirfp.supabase.co/storage/v1/object/public/cms-public/709bf171-8449-4177-a1f7-2facca7090a5/d6413573-990b-409a-8486-b003f7f786e8/prevencion.webp",
+      "alt": "Organización de documentos y revisión de tareas preventivas de una empresa. Imagen ilustrativa generada con IA.",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 1508780,
+      "sha256": "eb28ef3f1f50e22a71796b0706236fdfb8d36136fecf7419dd9955875828dc93"
+    },
+    {
+      "topic": "relacion-familiar",
+      "asset_id": "5a59cd4a-d2d9-432b-ba89-71caa7aac2bf",
+      "file": "relacion-familiar.webp",
+      "public_url": "https://klzczztwyuvkxkgnirfp.supabase.co/storage/v1/object/public/cms-public/709bf171-8449-4177-a1f7-2facca7090a5/5a59cd4a-d2d9-432b-ba89-71caa7aac2bf/relacion-familiar.webp",
+      "alt": "Padre e hijo caminando juntos por un parque de Santiago. Imagen ilustrativa generada con IA.",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 2093248,
+      "sha256": "75e5c3fe35cc8c557982a9a5337b6d6866a9deeda4080ed7841c94c051ef5f8f"
+    }
+  ]
+}

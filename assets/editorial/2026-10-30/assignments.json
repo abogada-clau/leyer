@@ -1,0 +1,162 @@
+[
+  {
+    "path": "/blog/cobro-alimentos-fondos-afp",
+    "topic": "fondos-afp",
+    "asset_id": "98b44040-82f6-4f0f-8498-da4c106019cb"
+  },
+  {
+    "path": "/blog/pension-de-alimentos-mayoria-de-edad",
+    "topic": "mayoria-edad",
+    "asset_id": "17fb38d0-9e81-436f-9953-c25719427917"
+  },
+  {
+    "path": "/blog/post-de-prueba",
+    "topic": "derecho-laboral",
+    "asset_id": "ad2f3646-623e-4885-8ba8-4de321577129"
+  },
+  {
+    "path": "/contacto",
+    "topic": "contacto",
+    "asset_id": "1826db79-2f34-41b0-8cfd-25c7ab1b612e"
+  },
+  {
+    "path": "/empresas",
+    "topic": "empresas",
+    "asset_id": "bab81f9b-e833-4ff8-811a-61086cedb520"
+  },
+  {
+    "path": "/empresas/asesoria-preventiva-empresarial",
+    "topic": "prevencion",
+    "asset_id": "d6413573-990b-409a-8486-b003f7f786e8"
+  },
+  {
+    "path": "/empresas/contratacion-publica",
+    "topic": "licitaciones",
+    "asset_id": "078d3eae-0baa-4773-9fc7-6bb0389c6479"
+  },
+  {
+    "path": "/empresas/derecho-corporativo-y-comercial",
+    "topic": "corporativo",
+    "asset_id": "907e5ffc-6da1-49fd-bc5d-08ecdb777086"
+  },
+  {
+    "path": "/empresas/derecho-laboral",
+    "topic": "laboral-empresas",
+    "asset_id": "0e2d8e11-896e-4463-a2bc-4fb872a80af2"
+  },
+  {
+    "path": "/empresas/insolvencia-y-reemprendimiento",
+    "topic": "insolvencia-empresas",
+    "asset_id": "d43a3f7c-79ec-46dc-870e-41843d288730"
+  },
+  {
+    "path": "/empresas/propiedad-intelectual",
+    "topic": "marcas",
+    "asset_id": "f308223f-9bef-45e2-8e81-c1b149b1df3a"
+  },
+  {
+    "path": "/liquidacion-concursal",
+    "topic": "deudas-personales",
+    "asset_id": "b246e209-0cc3-4909-aab2-ba811da29d2d"
+  },
+  {
+    "path": "/personas",
+    "topic": "personas",
+    "asset_id": "730dfca3-c1b5-413f-aeb6-f524dcdf10eb"
+  },
+  {
+    "path": "/personas/derecho-civil",
+    "topic": "derecho-civil",
+    "asset_id": "129ea40d-272b-4b79-962a-5a4cc682a157"
+  },
+  {
+    "path": "/personas/derecho-de-familia",
+    "topic": "familia",
+    "asset_id": "870fa011-5947-4008-8ca9-1e74ec66ba59"
+  },
+  {
+    "path": "/personas/derecho-de-familia/compensacion-economica",
+    "topic": "compensacion",
+    "asset_id": "75209e9c-15da-4cce-9e9a-12c786d3f9a2"
+  },
+  {
+    "path": "/personas/derecho-de-familia/cuidado-personal",
+    "topic": "cuidado-personal",
+    "asset_id": "a131d711-faa8-49a9-b44e-38460d654002"
+  },
+  {
+    "path": "/personas/derecho-de-familia/divorcios",
+    "topic": "divorcio",
+    "asset_id": "f6edb258-9bad-4aba-ab51-8ed7dd8b21f6"
+  },
+  {
+    "path": "/personas/derecho-de-familia/divorcios/mutuo-acuerdo",
+    "topic": "divorcio",
+    "asset_id": "f6edb258-9bad-4aba-ab51-8ed7dd8b21f6"
+  },
+  {
+    "path": "/personas/derecho-de-familia/divorcios/por-culpa",
+    "topic": "personas",
+    "asset_id": "730dfca3-c1b5-413f-aeb6-f524dcdf10eb"
+  },
+  {
+    "path": "/personas/derecho-de-familia/divorcios/unilateral",
+    "topic": "personas",
+    "asset_id": "730dfca3-c1b5-413f-aeb6-f524dcdf10eb"
+  },
+  {
+    "path": "/personas/derecho-de-familia/pension-de-alimentos",
+    "topic": "alimentos",
+    "asset_id": "16ada221-60cb-4043-8706-b6b354fc7973"
+  },
+  {
+    "path": "/personas/derecho-de-familia/pension-de-alimentos/aumento",
+    "topic": "gastos-hijos",
+    "asset_id": "19be4070-8c64-45d2-b939-1a50c118d855"
+  },
+  {
+    "path": "/personas/derecho-de-familia/pension-de-alimentos/cese",
+    "topic": "mayoria-edad",
+    "asset_id": "17fb38d0-9e81-436f-9953-c25719427917"
+  },
+  {
+    "path": "/personas/derecho-de-familia/pension-de-alimentos/cobro",
+    "topic": "cobro-alimentos",
+    "asset_id": "254395aa-921f-4357-be35-094cdda3200c"
+  },
+  {
+    "path": "/personas/derecho-de-familia/pension-de-alimentos/cobro-deuda",
+    "topic": "fondos-afp",
+    "asset_id": "98b44040-82f6-4f0f-8498-da4c106019cb"
+  },
+  {
+    "path": "/personas/derecho-de-familia/pension-de-alimentos/rebaja",
+    "topic": "deudas-personales",
+    "asset_id": "b246e209-0cc3-4909-aab2-ba811da29d2d"
+  },
+  {
+    "path": "/personas/derecho-de-familia/pension-de-alimentos/solicitar",
+    "topic": "gastos-hijos",
+    "asset_id": "19be4070-8c64-45d2-b939-1a50c118d855"
+  },
+  {
+    "path": "/personas/derecho-de-familia/relacion-directa-y-regular",
+    "topic": "relacion-familiar",
+    "asset_id": "5a59cd4a-d2d9-432b-ba89-71caa7aac2bf"
+  },
+  {
+    "path": "/personas/derecho-laboral",
+    "topic": "derecho-laboral",
+    "asset_id": "ad2f3646-623e-4885-8ba8-4de321577129"
+  },
+  {
+    "path": "/personas/escrituras-publicas",
+    "topic": "escrituras",
+    "asset_id": "45f04214-07af-43c9-b2ac-245713a1954d"
+  },
+  {
+    "path": "/personas/insolvencia-y-reemprendimiento",
+    "topic": "deudas-personales",
+    "asset_id": "b246e209-0cc3-4909-aab2-ba811da29d2d"
+  }
+]
