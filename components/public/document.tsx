@@ -4,14 +4,17 @@ import { ContentBlocks } from "./content-blocks";
 import { EntryCards } from "./entry-cards";
 import { Team } from "./team";
 import { publicHref, contentLink, sitePath } from "@/lib/public/paths";
-import { authorData, listEntries, sectionAvailable, relatedEntries } from "@/lib/public/data";
+import { authorData, listEntries, sectionAvailable, relatedEntries, publicTestimonials } from "@/lib/public/data";
+import type { ReactNode } from "react";
 import type { PublicContext, RenderData } from "@/lib/public/types";
 export async function PublicDocumentView({
   data,
   context: c,
+  beforeFaq,
 }: {
   data: RenderData;
   context: PublicContext;
+  beforeFaq?: ReactNode;
 }) {
   const doc = data.document;
   const knownTemplate =
@@ -44,7 +47,7 @@ export async function PublicDocumentView({
     (doc.kind === "post" && !doc.blocks.some(block => block.type === "related_content"));
   const contactPath = sitePath(c.site, "contact_path", "/contacto");
   const homeNavigation = knownTemplate && doc.template_key === "home";
-  const [posts, services, team, liveRelated, contactReady, overview] = await Promise.all([
+  const [posts, services, team, liveRelated, contactReady, overview, testimonialItems] = await Promise.all([
     sources.has("posts") ? listEntries(c, { kind: "post" }) : null,
     sources.has("services") ? listEntries(c, { kind: "landing" }) : null,
     sources.has("team") ? authorData(c) : null,
@@ -54,6 +57,7 @@ export async function PublicDocumentView({
       { path: "/personas", label: "Todas las áreas para personas" },
       { path: "/empresas", label: "Todas las áreas para empresas" },
     ].map(async item => await sectionAvailable(c, item.path) ? { href: publicHref(c, item.path), label: item.label } : null)) : [],
+    doc.blocks.some(b => b.type === "testimonials" && b.data.hidden !== true) ? publicTestimonials(c.site.id) : [],
   ]);
   const asset = (id: string) => data.assets.find((a) => a.id === id);
   const cover = asset(doc.cover_asset_id || "");
@@ -132,6 +136,8 @@ export async function PublicDocumentView({
       )}
       <ContentBlocks
         blocks={doc.blocks}
+        beforeFaq={beforeFaq}
+        testimonialItems={testimonialItems}
         firstHeroAsTitle={heroTitle}
         contactHref={contactHref}
         homeNavigation={homeNavigation}

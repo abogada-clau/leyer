@@ -1,7 +1,7 @@
 "use server";
 
 import { reservedPath, publicPathValid } from "@/lib/public/paths";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import {
   getIdentity,
   requireSite,
@@ -22,7 +22,7 @@ function failure(e: unknown): ActionResult {
     return {
       conflict: true,
       error:
-        "Otro editor guardó una revisión nueva. Tu trabajo sigue aquí. Descárgalo o recupera los cambios para compararlos con la versión actual.",
+        err.message?.includes("Testimonial") ? "El testimonio cambió en otra sesión. Recarga la página antes de guardar; tu edición no ha sobrescrito los cambios." : "Otro editor guardó una revisión nueva. Tu trabajo sigue aquí. Descárgalo o recupera los cambios para compararlos con la versión actual.",
     };
   const message =
     err.message || "No se pudo completar la operación. Intenta nuevamente.";
@@ -241,6 +241,19 @@ export async function mutate(input: {
         );
         if (!row) throw new Error("No se creó el contenido.");
         return { id: row.id };
+      }
+      if (input.action === "testimonial") {
+        const position = Number(d.position);
+        const version = d.expected_version == null ? null : Number(d.expected_version);
+        if (!Number.isInteger(position) || position < 0 || position > 2147483647 || (id && (!Number.isInteger(version) || Number(version) < 1)) || typeof d.is_published !== "boolean") throw new Error("El orden, la versión o el estado del testimonio no son válidos.");
+        checked(await db.rpc("save_testimonial", {
+          p_site_id: site.id, p_id: id || null, p_expected_version: version,
+          p_author_name: text(d.author_name, "Nombre público", 160), p_quote: text(d.quote, "Testimonio", 3000),
+          p_context: text(d.context || "", "Referencia", 200, false), p_position: position, p_is_published: d.is_published,
+        }));
+        revalidateTag(`cms-site:${site.id}`, { expire: 0 });
+        revalidatePath("/", "layout");
+        return { message: "Testimonio guardado." };
       }
       if (input.action === "site") {
         const settings = d.settings;

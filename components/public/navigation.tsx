@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, Plus } from "lucide-react";
-import { useEffect, useRef, type ReactNode } from "react";
+import { useEffect, useId, useRef, useState, type ReactNode } from "react";
 export type NavNode = {
   id: string;
   label: string;
@@ -11,34 +11,36 @@ export type NavNode = {
 };
 function Tree({ nodes, depth = 0 }: { nodes: NavNode[]; depth?: number }) {
   const pathname = usePathname();
+  const prefix = useId();
+  const [openId, setOpenId] = useState<string | null>(null);
   if (depth > 8) return null;
   return (
-    <ul>
-      {nodes.map((n) => (
-        <li key={n.id}>
-          {n.children.length ? (
-            <details>
-              <summary>
-                {n.label}
-                <Plus size={13} aria-hidden />
-              </summary>
-              <div>
-                {n.href && (
-                  <Link href={n.href}>Ver {n.label.toLocaleLowerCase()}</Link>
-                )}
-                <Tree nodes={n.children} depth={depth + 1} />
-              </div>
-            </details>
-          ) : n.href ? (
-            <Link
-              href={n.href}
-              aria-current={pathname === n.href ? "page" : undefined}
-            >
-              {n.label}
-            </Link>
-          ) : null}
-        </li>
-      ))}
+    <ul onPointerLeave={(event) => { if (event.pointerType === "mouse") setOpenId(null); }}>
+      {nodes.map((n) => {
+        const open = n.id === openId;
+        const panelId = `${prefix}-${n.id}`;
+        return (
+          <li key={n.id}
+            onPointerEnter={(event) => { if (event.pointerType === "mouse") setOpenId(n.children.length ? n.id : null); }}
+            onBlur={(event) => { if (!event.currentTarget.contains(event.relatedTarget as Node | null) && open) setOpenId(null); }}
+            onKeyDown={(event) => {
+              if (event.key === "Escape" && open) {
+                event.preventDefault();
+                event.stopPropagation();
+                setOpenId(null);
+                event.currentTarget.querySelector<HTMLButtonElement>(":scope > .public-nav-trigger > button")?.focus();
+              }
+            }}
+          >
+            <div className="public-nav-trigger">
+              {n.href ? <Link href={n.href} aria-current={pathname === n.href ? "page" : undefined}>{n.label}</Link> : <span>{n.label}</span>}
+              {n.children.length > 0 && <button type="button" aria-label={`Subáreas de ${n.label}`} aria-expanded={open} aria-controls={panelId}
+                onClick={() => setOpenId(open ? null : n.id)}><Plus size={13} aria-hidden /></button>}
+            </div>
+            {n.children.length > 0 && open && <div id={panelId} className="public-nav-submenu"><Tree nodes={n.children} depth={depth + 1} /></div>}
+          </li>
+        );
+      })}
     </ul>
   );
 }
@@ -57,7 +59,7 @@ export function PublicNavigation({
   return (
     <>
       <nav aria-label="Navegación principal" className="public-desktop-nav">
-        <Tree nodes={nodes} />
+        <Tree key={path} nodes={nodes} />
       </nav>
       <details
         className="public-mobile-nav"
@@ -81,7 +83,7 @@ export function PublicNavigation({
               ref.current.open = false;
           }}
         >
-          <Tree nodes={nodes} />
+          <Tree key={path} nodes={nodes} />
           {children}
         </nav>
       </details>

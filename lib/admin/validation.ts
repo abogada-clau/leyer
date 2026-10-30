@@ -70,6 +70,7 @@ export function validateSnapshot(s: Snapshot) {
     faq: ["items"],
     image: [],
     related_content: [],
+    testimonials: ["heading"],
   };
   for (const b of s.blocks) {
     uuid(b.key);

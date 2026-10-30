@@ -1,4 +1,5 @@
-import { type ReactNode } from "react";
+import { Fragment, type ReactNode } from "react";
+import Link from "next/link";
 import { ArrowUpRight, ArrowRight, Building2, Check, Compass, HeartHandshake, MessageCircle, Users, WalletCards } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { FAQ } from "@/components/patterns/content";
@@ -6,7 +7,10 @@ import { Alert } from "@/components/ui/alert";
 import { RichText } from "./rich-text";
 import { ServiceVisual, ServiceRichText } from "./service-layout";
 import { ContentIcon } from "./content-icon";
+import { blockVariants } from "@/lib/content/block-options";
 import type { Block, Json } from "@/lib/admin/types";
+import type { Testimonial } from "@/lib/content/testimonials";
+import { Testimonials } from "./testimonials";
 export const supportedBlocks = new Set([
   "hero",
   "split_content",
@@ -19,6 +23,7 @@ export const supportedBlocks = new Set([
   "image",
   "quote",
   "related_content",
+  "testimonials",
 ]);
 function record(v: Json): Record<string, Json> {
   return v && typeof v === "object" && !Array.isArray(v) ? v : {};
@@ -45,6 +50,8 @@ export function ContentBlocks({
   homeNavigation = false,
   overviewLinks = [],
   serviceLayout = false,
+  beforeFaq,
+  testimonialItems = [],
 }: {
   blocks: Block[];
   link: (href: unknown) => string | null;
@@ -56,8 +63,11 @@ export function ContentBlocks({
   homeNavigation?: boolean;
   overviewLinks?: { href: string; label: string }[];
   serviceLayout?: boolean;
+  beforeFaq?: ReactNode;
+  testimonialItems?: Testimonial[];
 }) {
   const displayBlocks = blocks.filter(block => block.data.hidden !== true);
+  const firstFaq = displayBlocks.findIndex(block => block.type === "faq" && block.schema_version === 1);
   const introIndex = displayBlocks.findIndex(block => ["split_content", "rich_text"].includes(block.type) && block.schema_version === 1);
   const firstNavigation = displayBlocks.findIndex(block => block.type === "card_grid" && Array.isArray(block.data.items) && block.data.items.some(item => link(record(item).href)));
   return (
@@ -71,6 +81,7 @@ export function ContentBlocks({
             </Alert>
           ) : null;
         const d = b.data;
+        if (b.type === "testimonials" && !testimonialItems.length) return preview ? <Alert key={b.key} title="Testimonios"><p>Agrega y publica testimonios desde <Link href="/admin/testimonials" className="underline">el panel de Testimonios</Link>. La sección se oculta en el sitio mientras no haya testimonios publicados.</p></Alert> : null;
         const items = Array.isArray(d.items) ? d.items.map(record) : [];
         const decisions = homeNavigation && index === firstNavigation && items.length > 0 && items.every(item => link(item.href));
         const title = str(d.heading);
@@ -147,9 +158,10 @@ export function ContentBlocks({
                     <>
                       {category && Icon && <span className="decision-category"><span className="decision-icon"><Icon size={23} strokeWidth={1.6} aria-hidden /></span>{category.label}</span>}
                       {item.asset_slot && b.assets.filter(asset => asset.slot === item.asset_slot).map(asset => <figure className="service-item-image" key={asset.slot}>{image(asset.asset_id, asset.alt_text, asset.focal_point)}</figure>)}
-                      {serviceLayout ? (item.icon && item.icon !== "none" && <span className="service-marker" aria-hidden><ContentIcon name={item.icon} size={30} /></span>) : !href && <span className="service-marker" aria-hidden><Check size={17} strokeWidth={1.5} /></span>}
+                      {item.icon && item.icon !== "none" ? <span className="service-marker" aria-hidden><ContentIcon name={item.icon} size={30} /></span> : !serviceLayout && !href && <span className="service-marker" aria-hidden><Check size={17} strokeWidth={1.5} /></span>}
                       <h3 className="font-editorial">{str(item.heading)}</h3>
                       <p>{str(item.body)}</p>
+                      {str(item.detail) && <p className="service-item-detail">{str(item.detail)}</p>}
                       {href && (
                         <span className="service-more">
                           {str(item.link_label) || (!serviceLayout ? "Conocer el servicio" : "")}
@@ -243,6 +255,8 @@ export function ContentBlocks({
         else if (b.type === "rich_text")
           content = serviceLayout ? <><ServiceRichText document={d.document} link={link} layout={d.layout} visual={visual} />{d.layout !== "intro" && visual && <div className="service-rich-media block-visual">{visual}</div>}</> : <RichText document={d.document} link={link} />;
         else if (b.type === "image") content = <>{assets}</>;
+        else if (b.type === "testimonials")
+          content = <>{heading}<Testimonials items={testimonialItems} /></>;
         else if (b.type === "quote")
           content = (
             <blockquote>
@@ -258,18 +272,22 @@ export function ContentBlocks({
             </>
           );
         return (
-          <section key={b.key}
+          <Fragment key={b.key}>
+          {index === firstFaq && beforeFaq}
+          <section
             data-block={b.type}
             aria-label={str(d.aria_label) || undefined}
             data-tone={str(d.tone) || undefined}
             data-service-intro={serviceLayout && index === introIndex ? "true" : undefined}
             data-layout={b.type === "card_grid" ? (benefits ? "benefits" : decisions ? "decisions" : items.some(item => link(item.href)) ? "navigation" : "features") : undefined}
-            className={`public-block block-${b.type} variant-${["default", "image-right", "image-left", "centered", "benefits"].includes(b.variant) ? b.variant : "default"} ${(serviceLayout ? visual : assets.length) ? "has-media" : ""} ${benefits ? "service-benefits" : ""}`}
+            className={`public-block block-${b.type} variant-${Object.hasOwn(blockVariants, b.variant) ? b.variant : "default"} ${(serviceLayout ? visual : assets.length) ? "has-media" : ""} ${benefits ? "service-benefits" : ""}`}
           >
             {content}
           </section>
+          </Fragment>
         );
       })}
+      {firstFaq < 0 && beforeFaq}
     </div>
   );
 }

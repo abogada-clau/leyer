@@ -5,7 +5,7 @@
 | Entrada | Ruta | Capturas | Trabajo que ayuda a resolver |
 | --- | --- | --- | --- |
 | Asesoría jurídica para decidir con claridad | `/` | Complementario | Cuando enfrento un problema familiar o financiero, quiero identificar una vía y saber quién me acompañará para poder decidir con menor incertidumbre. |
-| Conoce a Claudia y a ALBAR | `/sobre-albar` | Complementario | Una práctica jurídica cercana, basada en los hechos y orientada a decisiones informadas. |
+| Conoce a ALBAR Abogados y Claudia | `/sobre-albar` | Complementario | Somos ALBAR Abogados: asesoramos y representamos a personas y empresas con una estrategia fundada en los hechos, un trato cercano y claridad para decidir. |
 | Soluciones legales para personas | `/personas` | Complementario | Encuentra una orientación según la situación que necesitas resolver. |
 | Orientación jurídica para decisiones de empresa | `/empresas` | Complementario | Evalúa la situación financiera de tu empresa y los pasos que conviene analizar antes de actuar. |
 | Derecho de familia: decisiones con claridad | `/personas/derecho-de-familia` | Complementario | Orientación para ordenar una separación y las obligaciones de alimentos. |
@@ -56,10 +56,10 @@
 - **Deseo:** Responsable visible, estrategia fundada, alcance acordado.
 - **Acción:** Solicitar evaluación del caso.
 
-### Conoce a Claudia y a ALBAR
+### Conoce a ALBAR Abogados y Claudia
 
-- **Trabajo:** Una práctica jurídica cercana, basada en los hechos y orientada a decisiones informadas.
-- **Atención:** Conoce a Claudia y a ALBAR
+- **Trabajo:** Somos ALBAR Abogados: asesoramos y representamos a personas y empresas con una estrategia fundada en los hechos, un trato cercano y claridad para decidir.
+- **Atención:** Conoce a ALBAR Abogados y Claudia
 - **Interés:** Ordenar las preguntas del visitante.
 - **Deseo:** Entender el siguiente paso.
 - **Acción:** Solicitar evaluación.

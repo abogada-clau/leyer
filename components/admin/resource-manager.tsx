@@ -35,6 +35,7 @@ export function ResourceManager({
   createLabel,
   allowCreate = true,
   confirmation,
+  versioned = false,
 }: {
   title: string;
   action: string;
@@ -47,6 +48,7 @@ export function ResourceManager({
   createLabel?: string;
   allowCreate?: boolean;
   confirmation?: string;
+  versioned?: boolean;
 }) {
   const [editing, setEditing] = useState<Row | null | undefined>(undefined);
   const [deleting, setDeleting] = useState<Row | null>(null);
@@ -70,7 +72,7 @@ export function ResourceManager({
         const r = await mutate({
           action,
           id: remove ? deleting!.id : editing?.id,
-          data,
+          data: versioned ? { ...data, expected_version: editing?.version ?? null } : data,
         });
         setResult(r);
         if (!r.error) {

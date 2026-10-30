@@ -636,7 +636,7 @@ insert into albar_complement_source values ($ALBAR_COMPLEMENT${
                   "content": [
                     {
                       "type": "text",
-                      "text": "Te asesoro para analizar los antecedentes de tu caso, preparar una estrategia y buscar una solución que resguarde adecuadamente los intereses de tus hijos e hijas."
+                      "text": "Te asesoramos para analizar los antecedentes de tu caso, preparar una estrategia y buscar una solución que resguarde adecuadamente los intereses de tus hijos e hijas."
                     }
                   ]
                 },
@@ -1026,7 +1026,7 @@ insert into albar_complement_source values ($ALBAR_COMPLEMENT${
                   "content": [
                     {
                       "type": "text",
-                      "text": "Te asesoro para evaluar tu situación, preparar los antecedentes necesarios y buscar una solución que permita mantener y fortalecer el vínculo con tus hijos."
+                      "text": "Te asesoramos para evaluar tu situación, preparar los antecedentes necesarios y buscar una solución que permita mantener y fortalecer el vínculo con tus hijos."
                     }
                   ]
                 },
@@ -1186,7 +1186,7 @@ insert into albar_complement_source values ($ALBAR_COMPLEMENT${
       "parent": "personas",
       "title": "Asesoría y representación legal para trabajadores",
       "label": "Derecho laboral",
-      "excerpt": "Si consideras que tus derechos como trabajador fueron vulnerados, recibirás asesoría para evaluar tu situación y ejercer las acciones legales que correspondan. Te represento frente a despidos, incumplimientos del empleador, vulneraciones de derechos fundamentales, accidentes laborales y otras situaciones que puedan afectar tus derechos en el trabajo.",
+      "excerpt": "Si consideras que tus derechos como trabajador fueron vulnerados, recibirás asesoría para evaluar tu situación y ejercer las acciones legales que correspondan. Te representamos frente a despidos, incumplimientos del empleador, vulneraciones de derechos fundamentales, accidentes laborales y otras situaciones que puedan afectar tus derechos en el trabajo.",
       "template_key": "service-landing",
       "terms": [
         "laboral"
@@ -1206,7 +1206,7 @@ insert into albar_complement_source values ($ALBAR_COMPLEMENT${
           "data": {
             "eyebrow": "Derecho Laboral",
             "heading": "Asesoría y representación legal para trabajadores",
-            "body": "Si consideras que tus derechos como trabajador fueron vulnerados, recibirás asesoría para evaluar tu situación y ejercer las acciones legales que correspondan. Te represento frente a despidos, incumplimientos del empleador, vulneraciones de derechos fundamentales, accidentes laborales y otras situaciones que puedan afectar tus derechos en el trabajo.",
+            "body": "Si consideras que tus derechos como trabajador fueron vulnerados, recibirás asesoría para evaluar tu situación y ejercer las acciones legales que correspondan. Te representamos frente a despidos, incumplimientos del empleador, vulneraciones de derechos fundamentales, accidentes laborales y otras situaciones que puedan afectar tus derechos en el trabajo.",
             "actions": [
               {
                 "label": "Evaluar mi caso",
@@ -1334,7 +1334,7 @@ insert into albar_complement_source values ($ALBAR_COMPLEMENT${
                   "content": [
                     {
                       "type": "text",
-                      "text": "¿En qué materias de Derecho Laboral puedo ayudarte?"
+                      "text": "¿En qué materias de Derecho Laboral podemos ayudarte?"
                     }
                   ]
                 },
@@ -1364,7 +1364,7 @@ insert into albar_complement_source values ($ALBAR_COMPLEMENT${
                   "content": [
                     {
                       "type": "text",
-                      "text": "Analizaré tu situación y, cuando corresponda, ejerceré las acciones judiciales necesarias para reclamar las indemnizaciones y prestaciones establecidas por la legislación laboral."
+                      "text": "Analizaremos tu situación y, cuando corresponda, ejerceremos las acciones judiciales necesarias para reclamar las indemnizaciones y prestaciones establecidas por la legislación laboral."
                     }
                   ]
                 },
@@ -1433,7 +1433,7 @@ insert into albar_complement_source values ($ALBAR_COMPLEMENT${
                   "content": [
                     {
                       "type": "text",
-                      "text": "Te asesoro para analizar los hechos, determinar las acciones disponibles y representarte durante el procedimiento correspondiente."
+                      "text": "Te asesoramos para analizar los hechos, determinar las acciones disponibles y representarte durante el procedimiento correspondiente."
                     }
                   ]
                 },
@@ -1463,7 +1463,7 @@ insert into albar_complement_source values ($ALBAR_COMPLEMENT${
                   "content": [
                     {
                       "type": "text",
-                      "text": "Te acompaño en las gestiones que correspondan y, cuando sea necesario, en las acciones ante los organismos competentes y Tribunales para buscar la protección y reparación que proceda de acuerdo con las circunstancias de tu caso."
+                      "text": "Te acompañamos en las gestiones que correspondan y, cuando sea necesario, en las acciones ante los organismos competentes y Tribunales para buscar la protección y reparación que proceda de acuerdo con las circunstancias de tu caso."
                     }
                   ]
                 },
@@ -1502,7 +1502,7 @@ insert into albar_complement_source values ($ALBAR_COMPLEMENT${
                   "content": [
                     {
                       "type": "text",
-                      "text": "Te acompaño durante el proceso para proteger tus derechos y enfrentar la situación con una estrategia jurídica adecuada."
+                      "text": "Te acompañamos durante el proceso para proteger tus derechos y enfrentar la situación con una estrategia jurídica adecuada."
                     }
                   ]
                 }
@@ -1573,7 +1573,7 @@ insert into albar_complement_source values ($ALBAR_COMPLEMENT${
           "variant": "default",
           "data": {
             "heading": "Asesoría laboral enfocada en proteger tus derechos como trabajador",
-            "body": "Enfrentar un conflicto con tu empleador puede generar incertidumbre respecto de qué hacer, dónde acudir o qué derechos puedes exigir.\n\nMi objetivo es ayudarte a comprender tu situación de manera clara, evaluar las alternativas disponibles y representarte cuando sea necesario, buscando una protección efectiva de tus derechos laborales.\n\nSi estás enfrentando un despido, un incumplimiento contractual, una vulneración de tus derechos fundamentales, una situación de acoso o un accidente relacionado con tu trabajo, podemos revisar los antecedentes de tu caso y determinar los pasos a seguir.",
+            "body": "Enfrentar un conflicto con tu empleador puede generar incertidumbre respecto de qué hacer, dónde acudir o qué derechos puedes exigir.\n\nNuestro objetivo es ayudarte a comprender tu situación de manera clara, evaluar las alternativas disponibles y representarte cuando sea necesario, buscando una protección efectiva de tus derechos laborales.\n\nSi estás enfrentando un despido, un incumplimiento contractual, una vulneración de tus derechos fundamentales, una situación de acoso o un accidente relacionado con tu trabajo, podemos revisar los antecedentes de tu caso y determinar los pasos a seguir.",
             "actions": [
               {
                 "label": "Solicitar asesoría legal",
@@ -1619,7 +1619,7 @@ insert into albar_complement_source values ($ALBAR_COMPLEMENT${
           "data": {
             "eyebrow": "Derecho Civil",
             "heading": "Asesoría legal para proteger tus derechos y tu patrimonio",
-            "body": "Muchas situaciones de la vida cotidiana pueden tener consecuencias jurídicas importantes. Recibir asesoría a tiempo permite proteger tus derechos, evitar conflictos futuros y tomar decisiones con mayor seguridad.\n\nTe acompaño en distintas materias de Derecho Civil, entregándote orientación clara y representación jurídica cuando sea necesario.",
+            "body": "Muchas situaciones de la vida cotidiana pueden tener consecuencias jurídicas importantes. Recibir asesoría a tiempo permite proteger tus derechos, evitar conflictos futuros y tomar decisiones con mayor seguridad.\n\nTe acompañamos en distintas materias de Derecho Civil, entregándote orientación clara y representación jurídica cuando sea necesario.",
             "actions": [
               {
                 "label": "Evaluar mi caso",
@@ -1747,7 +1747,7 @@ insert into albar_complement_source values ($ALBAR_COMPLEMENT${
                   "content": [
                     {
                       "type": "text",
-                      "text": "¿En qué materias de Derecho Civil puedo ayudarte?"
+                      "text": "¿En qué materias de Derecho Civil podemos ayudarte?"
                     }
                   ]
                 },
@@ -1777,7 +1777,7 @@ insert into albar_complement_source values ($ALBAR_COMPLEMENT${
                   "content": [
                     {
                       "type": "text",
-                      "text": "Te asesoro para evaluar tu situación, determinar la vía adecuada y preparar los antecedentes necesarios para realizar el cambio con respaldo jurídico."
+                      "text": "Te asesoramos para evaluar tu situación, determinar la vía adecuada y preparar los antecedentes necesarios para realizar el cambio con respaldo jurídico."
                     }
                   ]
                 },
@@ -1807,7 +1807,7 @@ insert into albar_complement_source values ($ALBAR_COMPLEMENT${
                   "content": [
                     {
                       "type": "text",
-                      "text": "Te acompaño en la tramitación de la posesión efectiva, ya sea ante el Registro Civil o ante los Tribunales correspondientes, según las características de la sucesión."
+                      "text": "Te acompañamos en la tramitación de la posesión efectiva, ya sea ante el Registro Civil o ante los Tribunales correspondientes, según las características de la sucesión."
                     }
                   ]
                 },
@@ -1846,7 +1846,7 @@ insert into albar_complement_source values ($ALBAR_COMPLEMENT${
                   "content": [
                     {
                       "type": "text",
-                      "text": "Te asesoro y represento durante el procedimiento, evaluando los antecedentes del accidente y las acciones que puedan corresponder para buscar la reparación de los daños ocasionados."
+                      "text": "Te asesoramos y representamos durante el procedimiento, evaluando los antecedentes del accidente y las acciones que puedan corresponder para buscar la reparación de los daños ocasionados."
                     }
                   ]
                 },
@@ -1885,7 +1885,7 @@ insert into albar_complement_source values ($ALBAR_COMPLEMENT${
                   "content": [
                     {
                       "type": "text",
-                      "text": "Analizo tus antecedentes y, cuando corresponda, te represento en el proceso judicial destinado a regularizar la situación jurídica del inmueble."
+                      "text": "Analizamos tus antecedentes y, cuando corresponda, te representamos en el proceso judicial destinado a regularizar la situación jurídica del inmueble."
                     }
                   ]
                 },
@@ -1924,7 +1924,7 @@ insert into albar_complement_source values ($ALBAR_COMPLEMENT${
                   "content": [
                     {
                       "type": "text",
-                      "text": "Te asesoro para determinar las responsabilidades existentes, evaluar los antecedentes disponibles y ejercer las acciones legales que correspondan para buscar una reparación adecuada."
+                      "text": "Te asesoramos para determinar las responsabilidades existentes, evaluar los antecedentes disponibles y ejercer las acciones legales que correspondan para buscar una reparación adecuada."
                     }
                   ]
                 },
@@ -1963,7 +1963,7 @@ insert into albar_complement_source values ($ALBAR_COMPLEMENT${
                   "content": [
                     {
                       "type": "text",
-                      "text": "Realizo una revisión detallada de los antecedentes para que puedas tomar una decisión informada y reducir riesgos antes de concretar tu inversión."
+                      "text": "Realizamos una revisión detallada de los antecedentes para que puedas tomar una decisión informada y reducir riesgos antes de concretar tu inversión."
                     }
                   ]
                 },
@@ -1993,7 +1993,7 @@ insert into albar_complement_source values ($ALBAR_COMPLEMENT${
                   "content": [
                     {
                       "type": "text",
-                      "text": "Te asesoro en la elaboración y revisión de contratos de arrendamiento, procurando que sus condiciones sean claras y que los intereses de las partes queden adecuadamente resguardados."
+                      "text": "Te asesoramos en la elaboración y revisión de contratos de arrendamiento, procurando que sus condiciones sean claras y que los intereses de las partes queden adecuadamente resguardados."
                     }
                   ]
                 },
@@ -2073,7 +2073,7 @@ insert into albar_complement_source values ($ALBAR_COMPLEMENT${
           "variant": "default",
           "data": {
             "heading": "Asesoría jurídica adaptada a cada situación",
-            "body": "Los conflictos civiles pueden involucrar aspectos personales, familiares y patrimoniales importantes.\n\nMi trabajo es ayudarte a comprender tu situación, explicarte las alternativas disponibles y acompañarte durante las gestiones o procedimientos que sean necesarios.\n\nSi necesitas realizar un trámite, resolver un conflicto, proteger tu patrimonio o evaluar una posible acción judicial, podemos revisar los antecedentes de tu caso y determinar los pasos a seguir.",
+            "body": "Los conflictos civiles pueden involucrar aspectos personales, familiares y patrimoniales importantes.\n\nNuestro trabajo es ayudarte a comprender tu situación, explicarte las alternativas disponibles y acompañarte durante las gestiones o procedimientos que sean necesarios.\n\nSi necesitas realizar un trámite, resolver un conflicto, proteger tu patrimonio o evaluar una posible acción judicial, podemos revisar los antecedentes de tu caso y determinar los pasos a seguir.",
             "actions": [
               {
                 "label": "Solicitar asesoría",
@@ -2101,7 +2101,7 @@ insert into albar_complement_source values ($ALBAR_COMPLEMENT${
       "parent": "personas",
       "title": "Asesoría y redacción de escrituras públicas",
       "label": "Escrituras públicas",
-      "excerpt": "Algunos de los actos jurídicos más importantes de tu vida requieren documentos correctamente redactados y formalizados. Te asesoro en la preparación y revisión de escrituras e instrumentos jurídicos, procurando que cada acuerdo resguarde adecuadamente tus intereses y te entregue la seguridad jurídica que necesitas.",
+      "excerpt": "Algunos de los actos jurídicos más importantes de tu vida requieren documentos correctamente redactados y formalizados. Te asesoramos en la preparación y revisión de escrituras e instrumentos jurídicos, procurando que cada acuerdo resguarde adecuadamente tus intereses y te entregue la seguridad jurídica que necesitas.",
       "template_key": "service-landing",
       "terms": [
         "civil"
@@ -2119,7 +2119,7 @@ insert into albar_complement_source values ($ALBAR_COMPLEMENT${
           "data": {
             "eyebrow": "Escrituras Públicas",
             "heading": "Asesoría y redacción de escrituras públicas",
-            "body": "Algunos de los actos jurídicos más importantes de tu vida requieren documentos correctamente redactados y formalizados. Te asesoro en la preparación y revisión de escrituras e instrumentos jurídicos, procurando que cada acuerdo resguarde adecuadamente tus intereses y te entregue la seguridad jurídica que necesitas.",
+            "body": "Algunos de los actos jurídicos más importantes de tu vida requieren documentos correctamente redactados y formalizados. Te asesoramos en la preparación y revisión de escrituras e instrumentos jurídicos, procurando que cada acuerdo resguarde adecuadamente tus intereses y te entregue la seguridad jurídica que necesitas.",
             "actions": [
               {
                 "label": "Evaluar mi caso",
@@ -2187,7 +2187,7 @@ insert into albar_complement_source values ($ALBAR_COMPLEMENT${
                   "content": [
                     {
                       "type": "text",
-                      "text": "Te asesoro desde la revisión de los antecedentes hasta la preparación del documento necesario, explicándote sus efectos jurídicos antes de su formalización."
+                      "text": "Te asesoramos desde la revisión de los antecedentes hasta la preparación del documento necesario, explicándote sus efectos jurídicos antes de su formalización."
                     }
                   ]
                 }
@@ -2247,7 +2247,7 @@ insert into albar_complement_source values ($ALBAR_COMPLEMENT${
                   "content": [
                     {
                       "type": "text",
-                      "text": "¿En qué materias puedo ayudarte?"
+                      "text": "¿En qué materias podemos ayudarte?"
                     }
                   ]
                 },
@@ -2277,7 +2277,7 @@ insert into albar_complement_source values ($ALBAR_COMPLEMENT${
                   "content": [
                     {
                       "type": "text",
-                      "text": "Te asesoro en la preparación y redacción de la escritura de compraventa, revisando los antecedentes necesarios para que las condiciones de la operación queden claramente establecidas y tus intereses adecuadamente protegidos."
+                      "text": "Te asesoramos en la preparación y redacción de la escritura de compraventa, revisando los antecedentes necesarios para que las condiciones de la operación queden claramente establecidas y tus intereses adecuadamente protegidos."
                     }
                   ]
                 },
@@ -2316,7 +2316,7 @@ insert into albar_complement_source values ($ALBAR_COMPLEMENT${
                   "content": [
                     {
                       "type": "text",
-                      "text": "Te asesoro en su elaboración y revisión, procurando establecer de forma clara aspectos como las condiciones de la futura compraventa, los plazos, las obligaciones asumidas y las consecuencias de un eventual incumplimiento."
+                      "text": "Te asesoramos en su elaboración y revisión, procurando establecer de forma clara aspectos como las condiciones de la futura compraventa, los plazos, las obligaciones asumidas y las consecuencias de un eventual incumplimiento."
                     }
                   ]
                 },
@@ -2355,7 +2355,7 @@ insert into albar_complement_source values ($ALBAR_COMPLEMENT${
                   "content": [
                     {
                       "type": "text",
-                      "text": "Te asesoro durante el proceso de liquidación y en la preparación de los instrumentos necesarios para formalizar los acuerdos alcanzados, procurando que la distribución quede correctamente establecida."
+                      "text": "Te asesoramos durante el proceso de liquidación y en la preparación de los instrumentos necesarios para formalizar los acuerdos alcanzados, procurando que la distribución quede correctamente establecida."
                     }
                   ]
                 },
@@ -2394,7 +2394,7 @@ insert into albar_complement_source values ($ALBAR_COMPLEMENT${
                   "content": [
                     {
                       "type": "text",
-                      "text": "Te asesoro respecto de sus efectos y te acompaño en la preparación y formalización de los instrumentos necesarios para realizar el cambio de régimen cuando corresponda."
+                      "text": "Te asesoramos respecto de sus efectos y te acompañamos en la preparación y formalización de los instrumentos necesarios para realizar el cambio de régimen cuando corresponda."
                     }
                   ]
                 },
@@ -2433,7 +2433,7 @@ insert into albar_complement_source values ($ALBAR_COMPLEMENT${
                   "content": [
                     {
                       "type": "text",
-                      "text": "Te asesoro para evaluar tu caso y preparar los instrumentos necesarios para formalizar la renuncia cuando corresponda."
+                      "text": "Te asesoramos para evaluar tu caso y preparar los instrumentos necesarios para formalizar la renuncia cuando corresponda."
                     }
                   ]
                 },
@@ -2463,7 +2463,7 @@ insert into albar_complement_source values ($ALBAR_COMPLEMENT${
                   "content": [
                     {
                       "type": "text",
-                      "text": "Te asesoro en la redacción del instrumento correspondiente, procurando que los términos del acuerdo queden establecidos con claridad y se cumplan las formalidades legales necesarias."
+                      "text": "Te asesoramos en la redacción del instrumento correspondiente, procurando que los términos del acuerdo queden establecidos con claridad y se cumplan las formalidades legales necesarias."
                     }
                   ]
                 },
@@ -2502,7 +2502,7 @@ insert into albar_complement_source values ($ALBAR_COMPLEMENT${
                   "content": [
                     {
                       "type": "text",
-                      "text": "Te asesoro para determinar la forma adecuada de realizar la cesión, preparar el instrumento correspondiente y establecer claramente los derechos que se transfieren y las condiciones de la operación."
+                      "text": "Te asesoramos para determinar la forma adecuada de realizar la cesión, preparar el instrumento correspondiente y establecer claramente los derechos que se transfieren y las condiciones de la operación."
                     }
                   ]
                 },
@@ -2550,7 +2550,7 @@ insert into albar_complement_source values ($ALBAR_COMPLEMENT${
                   "content": [
                     {
                       "type": "text",
-                      "text": "Te asesoro en la negociación y redacción del acuerdo para que sus términos reflejen correctamente lo convenido y otorguen seguridad jurídica frente a eventuales incumplimientos."
+                      "text": "Te asesoramos en la negociación y redacción del acuerdo para que sus términos reflejen correctamente lo convenido y otorguen seguridad jurídica frente a eventuales incumplimientos."
                     }
                   ]
                 }
@@ -2621,7 +2621,7 @@ insert into albar_complement_source values ($ALBAR_COMPLEMENT${
           "variant": "default",
           "data": {
             "heading": "Asesoría durante todo el proceso",
-            "body": "Cada escritura responde a una situación diferente y puede involucrar importantes decisiones personales o patrimoniales.\n\nTe acompaño desde la revisión inicial de los antecedentes y la elaboración del documento hasta su formalización, cuando corresponda, explicándote de manera clara cada etapa y sus efectos jurídicos.\n\nSi necesitas realizar una compraventa, una promesa, modificar tu régimen matrimonial, ceder derechos o formalizar otro acuerdo, podemos revisar tu situación y determinar el instrumento jurídico adecuado.",
+            "body": "Cada escritura responde a una situación diferente y puede involucrar importantes decisiones personales o patrimoniales.\n\nTe acompañamos desde la revisión inicial de los antecedentes y la elaboración del documento hasta su formalización, cuando corresponda, explicándote de manera clara cada etapa y sus efectos jurídicos.\n\nSi necesitas realizar una compraventa, una promesa, modificar tu régimen matrimonial, ceder derechos o formalizar otro acuerdo, podemos revisar tu situación y determinar el instrumento jurídico adecuado.",
             "actions": [
               {
                 "label": "Solicitar asesoría",
@@ -2735,7 +2735,7 @@ insert into albar_complement_source values ($ALBAR_COMPLEMENT${
                   "content": [
                     {
                       "type": "text",
-                      "text": "Te asesoro y represento frente a demandas y denuncias laborales, procurando reducir las contingencias legales y proteger los intereses de tu empresa durante todo el proceso."
+                      "text": "Te asesoramos y representamos frente a demandas y denuncias laborales, procurando reducir las contingencias legales y proteger los intereses de tu empresa durante todo el proceso."
                     }
                   ]
                 }
@@ -2795,7 +2795,7 @@ insert into albar_complement_source values ($ALBAR_COMPLEMENT${
                   "content": [
                     {
                       "type": "text",
-                      "text": "¿En qué materias de Derecho Laboral puedo representar a tu empresa?"
+                      "text": "¿En qué materias de Derecho Laboral podemos representar a tu empresa?"
                     }
                   ]
                 },
@@ -2825,7 +2825,7 @@ insert into albar_complement_source values ($ALBAR_COMPLEMENT${
                   "content": [
                     {
                       "type": "text",
-                      "text": "Analizo la carta de despido, la documentación laboral y las circunstancias que dieron origen al término de la relación para construir una estrategia de defensa acorde con el caso."
+                      "text": "Analizamos la carta de despido, la documentación laboral y las circunstancias que dieron origen al término de la relación para construir una estrategia de defensa acorde con el caso."
                     }
                   ]
                 },
@@ -2834,7 +2834,7 @@ insert into albar_complement_source values ($ALBAR_COMPLEMENT${
                   "content": [
                     {
                       "type": "text",
-                      "text": "Te represento durante el procedimiento judicial procurando proteger los intereses de tu empresa y reducir las contingencias económicas derivadas de la demanda."
+                      "text": "Te representamos durante el procedimiento judicial procurando proteger los intereses de tu empresa y reducir las contingencias económicas derivadas de la demanda."
                     }
                   ]
                 },
@@ -2873,7 +2873,7 @@ insert into albar_complement_source values ($ALBAR_COMPLEMENT${
                   "content": [
                     {
                       "type": "text",
-                      "text": "Te asesoro y represento ante el Juzgado del Trabajo, preparando una defensa destinada a controvertir los hechos alegados y resguardar los intereses legítimos de tu empresa."
+                      "text": "Te asesoramos y representamos ante el Juzgado del Trabajo, preparando una defensa destinada a controvertir los hechos alegados y resguardar los intereses legítimos de tu empresa."
                     }
                   ]
                 },
@@ -2912,7 +2912,7 @@ insert into albar_complement_source values ($ALBAR_COMPLEMENT${
                   "content": [
                     {
                       "type": "text",
-                      "text": "Te represento durante este procedimiento especial, desarrollando una estrategia jurídica basada en los antecedentes disponibles y orientada a proteger los intereses de tu organización."
+                      "text": "Te representamos durante este procedimiento especial, desarrollando una estrategia jurídica basada en los antecedentes disponibles y orientada a proteger los intereses de tu organización."
                     }
                   ]
                 },
@@ -2942,7 +2942,7 @@ insert into albar_complement_source values ($ALBAR_COMPLEMENT${
                   "content": [
                     {
                       "type": "text",
-                      "text": "Analizo los antecedentes del siniestro, la documentación disponible y las medidas de seguridad y prevención implementadas por la empresa para determinar la estrategia de defensa adecuada."
+                      "text": "Analizamos los antecedentes del siniestro, la documentación disponible y las medidas de seguridad y prevención implementadas por la empresa para determinar la estrategia de defensa adecuada."
                     }
                   ]
                 },
@@ -2951,7 +2951,7 @@ insert into albar_complement_source values ($ALBAR_COMPLEMENT${
                   "content": [
                     {
                       "type": "text",
-                      "text": "Te asesoro y represento durante el procedimiento correspondiente, procurando reducir las contingencias jurídicas derivadas del conflicto."
+                      "text": "Te asesoramos y representamos durante el procedimiento correspondiente, procurando reducir las contingencias jurídicas derivadas del conflicto."
                     }
                   ]
                 },
@@ -2990,7 +2990,7 @@ insert into albar_complement_source values ($ALBAR_COMPLEMENT${
                   "content": [
                     {
                       "type": "text",
-                      "text": "Te asesoro frente a denuncias realizadas dentro de la organización, investigaciones internas, procedimientos ante la Inspección del Trabajo y eventuales acciones judiciales, procurando reducir riesgos legales y reputacionales para tu empresa."
+                      "text": "Te asesoramos frente a denuncias realizadas dentro de la organización, investigaciones internas, procedimientos ante la Inspección del Trabajo y eventuales acciones judiciales, procurando reducir riesgos legales y reputacionales para tu empresa."
                     }
                   ]
                 }
@@ -3089,7 +3089,7 @@ insert into albar_complement_source values ($ALBAR_COMPLEMENT${
                   "content": [
                     {
                       "type": "text",
-                      "text": "Mi trabajo es ayudarte a comprender el conflicto, evaluar los riesgos existentes y construir una estrategia jurídica adecuada a las circunstancias de tu organización."
+                      "text": "Nuestro trabajo es ayudarte a comprender el conflicto, evaluar los riesgos existentes y construir una estrategia jurídica adecuada a las circunstancias de tu organización."
                     }
                   ]
                 },
@@ -3153,7 +3153,7 @@ insert into albar_complement_source values ($ALBAR_COMPLEMENT${
       "parent": "empresas",
       "title": "Asesoría legal para la creación, organización y desarrollo de tu empresa",
       "label": "Derecho corporativo y comercial",
-      "excerpt": "Una estructura jurídica sólida permite que tu empresa pueda crecer y tomar decisiones con mayor seguridad. Te asesoro en la constitución de sociedades, modificaciones societarias, incorporación o salida de socios y otros actos relevantes para la organización de tu negocio.",
+      "excerpt": "Una estructura jurídica sólida permite que tu empresa pueda crecer y tomar decisiones con mayor seguridad. Te asesoramos en la constitución de sociedades, modificaciones societarias, incorporación o salida de socios y otros actos relevantes para la organización de tu negocio.",
       "template_key": "service-landing",
       "terms": [
         "corporativo"
@@ -3171,7 +3171,7 @@ insert into albar_complement_source values ($ALBAR_COMPLEMENT${
           "data": {
             "eyebrow": "Derecho corporativo y comercial",
             "heading": "Asesoría legal para la creación, organización y desarrollo de tu empresa",
-            "body": "Una estructura jurídica sólida permite que tu empresa pueda crecer y tomar decisiones con mayor seguridad. Te asesoro en la constitución de sociedades, modificaciones societarias, incorporación o salida de socios y otros actos relevantes para la organización de tu negocio.",
+            "body": "Una estructura jurídica sólida permite que tu empresa pueda crecer y tomar decisiones con mayor seguridad. Te asesoramos en la constitución de sociedades, modificaciones societarias, incorporación o salida de socios y otros actos relevantes para la organización de tu negocio.",
             "actions": [
               {
                 "label": "Evaluar el caso de mi empresa",
@@ -3239,7 +3239,7 @@ insert into albar_complement_source values ($ALBAR_COMPLEMENT${
                   "content": [
                     {
                       "type": "text",
-                      "text": "Te asesoro para que cada modificación y decisión societaria se realice correctamente y sea coherente con las necesidades y objetivos de tu empresa."
+                      "text": "Te asesoramos para que cada modificación y decisión societaria se realice correctamente y sea coherente con las necesidades y objetivos de tu empresa."
                     }
                   ]
                 }
@@ -3299,7 +3299,7 @@ insert into albar_complement_source values ($ALBAR_COMPLEMENT${
                   "content": [
                     {
                       "type": "text",
-                      "text": "¿En qué materias de Derecho Corporativo y Comercial puedo ayudarte?"
+                      "text": "¿En qué materias de Derecho Corporativo y Comercial podemos ayudarte?"
                     }
                   ]
                 },
@@ -3329,7 +3329,7 @@ insert into albar_complement_source values ($ALBAR_COMPLEMENT${
                   "content": [
                     {
                       "type": "text",
-                      "text": "Te asesoro en la elección del tipo societario que mejor se adapte a las características y objetivos de tu proyecto, considerando alternativas como SpA, sociedades de responsabilidad limitada (Ltda.) y sociedades anónimas (S.A.), entre otras."
+                      "text": "Te asesoramos en la elección del tipo societario que mejor se adapte a las características y objetivos de tu proyecto, considerando alternativas como SpA, sociedades de responsabilidad limitada (Ltda.) y sociedades anónimas (S.A.), entre otras."
                     }
                   ]
                 },
@@ -3338,7 +3338,7 @@ insert into albar_complement_source values ($ALBAR_COMPLEMENT${
                   "content": [
                     {
                       "type": "text",
-                      "text": "También te acompaño en la preparación de los estatutos y demás antecedentes necesarios, procurando que aspectos relevantes de la relación entre los socios y el funcionamiento de la empresa queden correctamente regulados desde el comienzo."
+                      "text": "También te acompañamos en la preparación de los estatutos y demás antecedentes necesarios, procurando que aspectos relevantes de la relación entre los socios y el funcionamiento de la empresa queden correctamente regulados desde el comienzo."
                     }
                   ]
                 },
@@ -3377,7 +3377,7 @@ insert into albar_complement_source values ($ALBAR_COMPLEMENT${
                   "content": [
                     {
                       "type": "text",
-                      "text": "Te asesoro en la preparación y gestión de estas modificaciones, revisando los antecedentes de la sociedad y procurando que cada cambio se realice con seguridad jurídica."
+                      "text": "Te asesoramos en la preparación y gestión de estas modificaciones, revisando los antecedentes de la sociedad y procurando que cada cambio se realice con seguridad jurídica."
                     }
                   ]
                 },
@@ -3416,7 +3416,7 @@ insert into albar_complement_source values ($ALBAR_COMPLEMENT${
                   "content": [
                     {
                       "type": "text",
-                      "text": "Te asesoro durante el proceso para estructurar adecuadamente la operación, preparar la documentación necesaria y procurar que la transición se realice de manera ordenada, reduciendo posibles conflictos y protegiendo los intereses de la empresa y de las partes involucradas."
+                      "text": "Te asesoramos durante el proceso para estructurar adecuadamente la operación, preparar la documentación necesaria y procurar que la transición se realice de manera ordenada, reduciendo posibles conflictos y protegiendo los intereses de la empresa y de las partes involucradas."
                     }
                   ]
                 },
@@ -3455,7 +3455,7 @@ insert into albar_complement_source values ($ALBAR_COMPLEMENT${
                   "content": [
                     {
                       "type": "text",
-                      "text": "Te asesoro durante este proceso, revisando las características de la sociedad actual y gestionando los actos jurídicos necesarios para realizar la transformación con la rigurosidad que requiere."
+                      "text": "Te asesoramos durante este proceso, revisando las características de la sociedad actual y gestionando los actos jurídicos necesarios para realizar la transformación con la rigurosidad que requiere."
                     }
                   ]
                 },
@@ -3485,7 +3485,7 @@ insert into albar_complement_source values ($ALBAR_COMPLEMENT${
                   "content": [
                     {
                       "type": "text",
-                      "text": "Te asesoro en la preparación y redacción de actas de juntas ordinarias y extraordinarias de accionistas, procurando que los acuerdos adoptados queden claramente establecidos y correctamente formalizados."
+                      "text": "Te asesoramos en la preparación y redacción de actas de juntas ordinarias y extraordinarias de accionistas, procurando que los acuerdos adoptados queden claramente establecidos y correctamente formalizados."
                     }
                   ]
                 },
@@ -3494,7 +3494,7 @@ insert into albar_complement_source values ($ALBAR_COMPLEMENT${
                   "content": [
                     {
                       "type": "text",
-                      "text": "Cuando corresponda realizar actuaciones adicionales derivadas de estos acuerdos, te acompaño también durante su formalización."
+                      "text": "Cuando corresponda realizar actuaciones adicionales derivadas de estos acuerdos, te acompañamos también durante su formalización."
                     }
                   ]
                 }
@@ -3565,7 +3565,7 @@ insert into albar_complement_source values ($ALBAR_COMPLEMENT${
           "variant": "default",
           "data": {
             "heading": "Asesoría jurídica para acompañar el crecimiento de tu empresa",
-            "body": "Una empresa puede necesitar asesoría jurídica desde su constitución y durante las distintas etapas de su desarrollo.\n\nMi trabajo es ayudarte a comprender las implicancias legales de las decisiones societarias, preparar correctamente los instrumentos necesarios y acompañarte en su formalización.\n\nSi necesitas constituir una sociedad, modificar la estructura de una empresa existente, incorporar o retirar socios, realizar una transformación societaria o formalizar decisiones de sus accionistas, podemos revisar las necesidades de tu organización y determinar los pasos a seguir.",
+            "body": "Una empresa puede necesitar asesoría jurídica desde su constitución y durante las distintas etapas de su desarrollo.\n\nNuestro trabajo es ayudarte a comprender las implicancias legales de las decisiones societarias, preparar correctamente los instrumentos necesarios y acompañarte en su formalización.\n\nSi necesitas constituir una sociedad, modificar la estructura de una empresa existente, incorporar o retirar socios, realizar una transformación societaria o formalizar decisiones de sus accionistas, podemos revisar las necesidades de tu organización y determinar los pasos a seguir.",
             "actions": [
               {
                 "label": "Solicitar asesoría para mi empresa",
@@ -3593,7 +3593,7 @@ insert into albar_complement_source values ($ALBAR_COMPLEMENT${
       "parent": "empresas",
       "title": "Registro y protección de marcas en Chile",
       "label": "Propiedad intelectual",
-      "excerpt": "Tu marca representa la identidad de tu empresa y puede convertirse en uno de sus activos más importantes. Te asesoro durante el proceso de registro de marca ante INAPI, desde la revisión inicial hasta la obtención del registro, para que puedas proteger jurídicamente la identidad de tu negocio.",
+      "excerpt": "Tu marca representa la identidad de tu empresa y puede convertirse en uno de sus activos más importantes. Te asesoramos durante el proceso de registro de marca ante INAPI, desde la revisión inicial hasta la obtención del registro, para que puedas proteger jurídicamente la identidad de tu negocio.",
       "template_key": "service-landing",
       "terms": [
         "propiedad"
@@ -3611,7 +3611,7 @@ insert into albar_complement_source values ($ALBAR_COMPLEMENT${
           "data": {
             "eyebrow": "Propiedad intelectual",
             "heading": "Registro y protección de marcas en Chile",
-            "body": "Tu marca representa la identidad de tu empresa y puede convertirse en uno de sus activos más importantes. Te asesoro durante el proceso de registro de marca ante INAPI, desde la revisión inicial hasta la obtención del registro, para que puedas proteger jurídicamente la identidad de tu negocio.",
+            "body": "Tu marca representa la identidad de tu empresa y puede convertirse en uno de sus activos más importantes. Te asesoramos durante el proceso de registro de marca ante INAPI, desde la revisión inicial hasta la obtención del registro, para que puedas proteger jurídicamente la identidad de tu negocio.",
             "actions": [
               {
                 "label": "Evaluar mi caso",
@@ -3679,7 +3679,7 @@ insert into albar_complement_source values ($ALBAR_COMPLEMENT${
                   "content": [
                     {
                       "type": "text",
-                      "text": "Te asesoro durante el proceso de registro de tu marca en Chile, revisando los antecedentes y acompañándote en las distintas etapas necesarias para obtener su protección."
+                      "text": "Te asesoramos durante el proceso de registro de tu marca en Chile, revisando los antecedentes y acompañándote en las distintas etapas necesarias para obtener su protección."
                     }
                   ]
                 }
@@ -3793,7 +3793,7 @@ insert into albar_complement_source values ($ALBAR_COMPLEMENT${
                   "content": [
                     {
                       "type": "text",
-                      "text": "¿Cómo puedo ayudarte a registrar tu marca?"
+                      "text": "¿Cómo podemos ayudarte a registrar tu marca?"
                     }
                   ]
                 },
@@ -3823,7 +3823,7 @@ insert into albar_complement_source values ($ALBAR_COMPLEMENT${
                   "content": [
                     {
                       "type": "text",
-                      "text": "Te asesoro en esta etapa inicial para evaluar los antecedentes disponibles y determinar la estrategia adecuada antes de comenzar la tramitación."
+                      "text": "Te asesoramos en esta etapa inicial para evaluar los antecedentes disponibles y determinar la estrategia adecuada antes de comenzar la tramitación."
                     }
                   ]
                 },
@@ -3853,7 +3853,7 @@ insert into albar_complement_source values ($ALBAR_COMPLEMENT${
                   "content": [
                     {
                       "type": "text",
-                      "text": "Te asesoro en la preparación y presentación de la solicitud, procurando que sus antecedentes sean consistentes con la actividad y necesidades de tu empresa."
+                      "text": "Te asesoramos en la preparación y presentación de la solicitud, procurando que sus antecedentes sean consistentes con la actividad y necesidades de tu empresa."
                     }
                   ]
                 },
@@ -3883,7 +3883,7 @@ insert into albar_complement_source values ($ALBAR_COMPLEMENT${
                   "content": [
                     {
                       "type": "text",
-                      "text": "Te acompaño durante las distintas etapas del procedimiento y en las gestiones jurídicas que puedan ser necesarias hasta su resolución."
+                      "text": "Te acompañamos durante las distintas etapas del procedimiento y en las gestiones jurídicas que puedan ser necesarias hasta su resolución."
                     }
                   ]
                 },
@@ -3984,7 +3984,7 @@ insert into albar_complement_source values ($ALBAR_COMPLEMENT${
           "variant": "default",
           "data": {
             "heading": "Asesoría durante todo el proceso de registro",
-            "body": "Registrar una marca implica más que presentar una solicitud. Es importante evaluar previamente los antecedentes, determinar correctamente qué se busca proteger y realizar un seguimiento adecuado durante su tramitación.\n\nMi trabajo es acompañarte durante este proceso, explicarte cada etapa y realizar las gestiones necesarias para buscar la protección jurídica de la identidad comercial de tu negocio.\n\nSi tienes una empresa, estás desarrollando un nuevo proyecto o ya utilizas una marca que todavía no has registrado, podemos revisar tu situación y evaluar los pasos necesarios para iniciar su protección en Chile.",
+            "body": "Registrar una marca implica más que presentar una solicitud. Es importante evaluar previamente los antecedentes, determinar correctamente qué se busca proteger y realizar un seguimiento adecuado durante su tramitación.\n\nNuestro trabajo es acompañarte durante este proceso, explicarte cada etapa y realizar las gestiones necesarias para buscar la protección jurídica de la identidad comercial de tu negocio.\n\nSi tienes una empresa, estás desarrollando un nuevo proyecto o ya utilizas una marca que todavía no has registrado, podemos revisar tu situación y evaluar los pasos necesarios para iniciar su protección en Chile.",
             "actions": [
               {
                 "label": "Solicitar asesoría para registrar mi marca",
@@ -4030,7 +4030,7 @@ insert into albar_complement_source values ($ALBAR_COMPLEMENT${
           "data": {
             "eyebrow": "Contratación publica",
             "heading": "Asesoría legal para empresas en licitaciones y contratación pública",
-            "body": "Participar en procesos de contratación con organismos públicos requiere comprender las bases, cumplir correctamente sus exigencias y actuar oportunamente frente a decisiones que puedan afectar a tu empresa.\n\nTe asesoro durante las distintas etapas de los procesos licitatorios, desde la revisión de antecedentes y ofertas hasta la presentación de recursos e impugnaciones cuando sea necesario.",
+            "body": "Participar en procesos de contratación con organismos públicos requiere comprender las bases, cumplir correctamente sus exigencias y actuar oportunamente frente a decisiones que puedan afectar a tu empresa.\n\nTe asesoramos durante las distintas etapas de los procesos licitatorios, desde la revisión de antecedentes y ofertas hasta la presentación de recursos e impugnaciones cuando sea necesario.",
             "actions": [
               {
                 "label": "Evaluar el caso de mi empresa",
@@ -4158,7 +4158,7 @@ insert into albar_complement_source values ($ALBAR_COMPLEMENT${
                   "content": [
                     {
                       "type": "text",
-                      "text": "¿En qué materias de Contratación Pública puedo ayudarte?"
+                      "text": "¿En qué materias de Contratación Pública podemos ayudarte?"
                     }
                   ]
                 },
@@ -4188,7 +4188,7 @@ insert into albar_complement_source values ($ALBAR_COMPLEMENT${
                   "content": [
                     {
                       "type": "text",
-                      "text": "Te asesoro en la revisión de las bases administrativas y técnicas y en los aspectos jurídicos relacionados con la preparación de la oferta, procurando que la participación de tu empresa se ajuste a los requisitos establecidos."
+                      "text": "Te asesoramos en la revisión de las bases administrativas y técnicas y en los aspectos jurídicos relacionados con la preparación de la oferta, procurando que la participación de tu empresa se ajuste a los requisitos establecidos."
                     }
                   ]
                 },
@@ -4227,7 +4227,7 @@ insert into albar_complement_source values ($ALBAR_COMPLEMENT${
                   "content": [
                     {
                       "type": "text",
-                      "text": "Analizo los antecedentes de la decisión y el procedimiento para determinar las acciones que correspondan."
+                      "text": "Analizamos los antecedentes de la decisión y el procedimiento para determinar las acciones que correspondan."
                     }
                   ]
                 },
@@ -4236,7 +4236,7 @@ insert into albar_complement_source values ($ALBAR_COMPLEMENT${
                   "content": [
                     {
                       "type": "text",
-                      "text": "Cuando resulte procedente, preparo e interpongo los recursos administrativos necesarios, desarrollando los argumentos jurídicos y procurando actuar dentro de los plazos establecidos."
+                      "text": "Cuando resulte procedente, preparamos e interponemos los recursos administrativos necesarios, desarrollando los argumentos jurídicos y procurando actuar dentro de los plazos establecidos."
                     }
                   ]
                 },
@@ -4266,7 +4266,7 @@ insert into albar_complement_source values ($ALBAR_COMPLEMENT${
                   "content": [
                     {
                       "type": "text",
-                      "text": "Cuando existen antecedentes que permitan evaluar una impugnación, analizo el procedimiento y las circunstancias que dieron origen al conflicto para determinar la estrategia jurídica adecuada."
+                      "text": "Cuando existen antecedentes que permitan evaluar una impugnación, analizamos el procedimiento y las circunstancias que dieron origen al conflicto para determinar la estrategia jurídica adecuada."
                     }
                   ]
                 },
@@ -4275,7 +4275,7 @@ insert into albar_complement_source values ($ALBAR_COMPLEMENT${
                   "content": [
                     {
                       "type": "text",
-                      "text": "Te represento ante el Tribunal de Contratación Pública durante la tramitación del procedimiento, defendiendo los intereses comerciales de tu empresa con una estrategia basada en los antecedentes del caso."
+                      "text": "Te representamos ante el Tribunal de Contratación Pública durante la tramitación del procedimiento, defendiendo los intereses comerciales de tu empresa con una estrategia basada en los antecedentes del caso."
                     }
                   ]
                 },
@@ -4385,7 +4385,7 @@ insert into albar_complement_source values ($ALBAR_COMPLEMENT${
           "variant": "default",
           "data": {
             "heading": "Asesoría jurídica para empresas que contratan con organismos públicos",
-            "body": "Participar en procesos de contratación pública puede generar importantes oportunidades para una empresa, pero también exige desenvolverse dentro de procedimientos y reglas específicas.\n\nMi trabajo es acompañarte durante este proceso, ayudarte a comprender sus exigencias y defender los intereses de tu empresa cuando surjan controversias.\n\nSi tu organización participa o desea participar en una licitación pública, necesita revisar los antecedentes de una oferta o considera que una decisión de un organismo público la ha perjudicado, podemos analizar el caso y determinar los pasos a seguir.",
+            "body": "Participar en procesos de contratación pública puede generar importantes oportunidades para una empresa, pero también exige desenvolverse dentro de procedimientos y reglas específicas.\n\nNuestro trabajo es acompañarte durante este proceso, ayudarte a comprender sus exigencias y defender los intereses de tu empresa cuando surjan controversias.\n\nSi tu organización participa o desea participar en una licitación pública, necesita revisar los antecedentes de una oferta o considera que una decisión de un organismo público la ha perjudicado, podemos analizar el caso y determinar los pasos a seguir.",
             "actions": [
               {
                 "label": "Solicitar asesoría para mi empresa",
@@ -4413,7 +4413,7 @@ insert into albar_complement_source values ($ALBAR_COMPLEMENT${
       "parent": "empresas",
       "title": "Prevención legal y cumplimiento normativo para empresas",
       "label": "Asesoría preventiva empresarial",
-      "excerpt": "La mejor forma de enfrentar muchos conflictos legales es prevenirlos. Te asesoro para identificar riesgos, fortalecer el cumplimiento normativo de tu empresa y adoptar medidas que permitan reducir contingencias, fiscalizaciones, sanciones y futuros conflictos.",
+      "excerpt": "La mejor forma de enfrentar muchos conflictos legales es prevenirlos. Te asesoramos para identificar riesgos, fortalecer el cumplimiento normativo de tu empresa y adoptar medidas que permitan reducir contingencias, fiscalizaciones, sanciones y futuros conflictos.",
       "template_key": "service-landing",
       "terms": [
         "corporativo"
@@ -4431,7 +4431,7 @@ insert into albar_complement_source values ($ALBAR_COMPLEMENT${
           "data": {
             "eyebrow": "Asesoría preventiva empresarial",
             "heading": "Prevención legal y cumplimiento normativo para empresas",
-            "body": "La mejor forma de enfrentar muchos conflictos legales es prevenirlos. Te asesoro para identificar riesgos, fortalecer el cumplimiento normativo de tu empresa y adoptar medidas que permitan reducir contingencias, fiscalizaciones, sanciones y futuros conflictos.",
+            "body": "La mejor forma de enfrentar muchos conflictos legales es prevenirlos. Te asesoramos para identificar riesgos, fortalecer el cumplimiento normativo de tu empresa y adoptar medidas que permitan reducir contingencias, fiscalizaciones, sanciones y futuros conflictos.",
             "actions": [
               {
                 "label": "Evaluar el caso de mi empresa",
@@ -4559,7 +4559,7 @@ insert into albar_complement_source values ($ALBAR_COMPLEMENT${
                   "content": [
                     {
                       "type": "text",
-                      "text": "¿En qué materias puedo ayudar a tu empresa?"
+                      "text": "¿En qué materias podemos ayudar a tu empresa?"
                     }
                   ]
                 },
@@ -4589,7 +4589,7 @@ insert into albar_complement_source values ($ALBAR_COMPLEMENT${
                   "content": [
                     {
                       "type": "text",
-                      "text": "Te asesoro en la revisión, diseño e implementación de protocolos y medidas necesarias para que tu empresa pueda adecuarse a las exigencias aplicables."
+                      "text": "Te asesoramos en la revisión, diseño e implementación de protocolos y medidas necesarias para que tu empresa pueda adecuarse a las exigencias aplicables."
                     }
                   ]
                 },
@@ -4637,7 +4637,7 @@ insert into albar_complement_source values ($ALBAR_COMPLEMENT${
                   "content": [
                     {
                       "type": "text",
-                      "text": "Reviso y actualizo la documentación laboral de tu empresa para detectar posibles deficiencias, establecer con claridad los derechos y obligaciones de las partes y reducir el riesgo de conflictos futuros."
+                      "text": "Revisamos y actualizamos la documentación laboral de tu empresa para detectar posibles deficiencias, establecer con claridad los derechos y obligaciones de las partes y reducir el riesgo de conflictos futuros."
                     }
                   ]
                 },
@@ -4667,7 +4667,7 @@ insert into albar_complement_source values ($ALBAR_COMPLEMENT${
                   "content": [
                     {
                       "type": "text",
-                      "text": "Te acompaño en la revisión de las prácticas internas de tu empresa para identificar posibles incumplimientos y determinar las medidas necesarias para adecuarlas a la normativa vigente."
+                      "text": "Te acompañamos en la revisión de las prácticas internas de tu empresa para identificar posibles incumplimientos y determinar las medidas necesarias para adecuarlas a la normativa vigente."
                     }
                   ]
                 },
@@ -4706,7 +4706,7 @@ insert into albar_complement_source values ($ALBAR_COMPLEMENT${
                   "content": [
                     {
                       "type": "text",
-                      "text": "Realizo capacitaciones y asesorías dirigidas a empleadores, jefaturas y equipos de Recursos Humanos en materias relacionadas con obligaciones laborales, prevención y manejo de conflictos y buenas prácticas dentro de la organización."
+                      "text": "Realizamos capacitaciones y asesorías dirigidas a empleadores, jefaturas y equipos de Recursos Humanos en materias relacionadas con obligaciones laborales, prevención y manejo de conflictos y buenas prácticas dentro de la organización."
                     }
                   ]
                 },
@@ -4754,7 +4754,7 @@ insert into albar_complement_source values ($ALBAR_COMPLEMENT${
                   "content": [
                     {
                       "type": "text",
-                      "text": "Te asesoro en la revisión e implementación de modelos y medidas de prevención destinados a reducir la exposición de la empresa y de sus directivos frente a estas contingencias."
+                      "text": "Te asesoramos en la revisión e implementación de modelos y medidas de prevención destinados a reducir la exposición de la empresa y de sus directivos frente a estas contingencias."
                     }
                   ]
                 },
@@ -4784,7 +4784,7 @@ insert into albar_complement_source values ($ALBAR_COMPLEMENT${
                   "content": [
                     {
                       "type": "text",
-                      "text": "Realizo diagnósticos jurídicos destinados a detectar áreas de vulnerabilidad dentro de la organización y evaluar posibles contingencias asociadas a su funcionamiento."
+                      "text": "Realizamos diagnósticos jurídicos destinados a detectar áreas de vulnerabilidad dentro de la organización y evaluar posibles contingencias asociadas a su funcionamiento."
                     }
                   ]
                 },
@@ -4793,7 +4793,7 @@ insert into albar_complement_source values ($ALBAR_COMPLEMENT${
                   "content": [
                     {
                       "type": "text",
-                      "text": "A partir de este análisis, desarrollo estrategias preventivas adaptadas a las características, necesidades, industria y tamaño de tu empresa."
+                      "text": "A partir de este análisis, desarrollamos estrategias preventivas adaptadas a las características, necesidades, industria y tamaño de tu empresa."
                     }
                   ]
                 }
@@ -4864,7 +4864,7 @@ insert into albar_complement_source values ($ALBAR_COMPLEMENT${
           "variant": "default",
           "data": {
             "heading": "Una estrategia preventiva adaptada a tu empresa",
-            "body": "No todas las organizaciones enfrentan los mismos riesgos. El tamaño de la empresa, la cantidad de trabajadores, su estructura y la actividad que desarrolla pueden generar necesidades jurídicas diferentes.\n\nPor esta razón, la asesoría preventiva debe comenzar por comprender cómo funciona tu organización e identificar cuáles son sus principales áreas de exposición.\n\nMi trabajo es ayudarte a detectar estos riesgos y desarrollar medidas jurídicas que permitan fortalecer el funcionamiento de tu empresa y reducir futuras contingencias.\n\nSi quieres revisar el cumplimiento normativo de tu organización, actualizar documentación laboral, implementar medidas relacionadas con Ley Karin o identificar otros riesgos legales, podemos analizar las necesidades de tu empresa y definir los pasos a seguir.",
+            "body": "No todas las organizaciones enfrentan los mismos riesgos. El tamaño de la empresa, la cantidad de trabajadores, su estructura y la actividad que desarrolla pueden generar necesidades jurídicas diferentes.\n\nPor esta razón, la asesoría preventiva debe comenzar por comprender cómo funciona tu organización e identificar cuáles son sus principales áreas de exposición.\n\nNuestro trabajo es ayudarte a detectar estos riesgos y desarrollar medidas jurídicas que permitan fortalecer el funcionamiento de tu empresa y reducir futuras contingencias.\n\nSi quieres revisar el cumplimiento normativo de tu organización, actualizar documentación laboral, implementar medidas relacionadas con Ley Karin o identificar otros riesgos legales, podemos analizar las necesidades de tu empresa y definir los pasos a seguir.",
             "actions": [
               {
                 "label": "Solicitar asesoría para mi empresa",
@@ -5268,7 +5268,7 @@ insert into albar_complement_source values ($ALBAR_COMPLEMENT${
             "items": [
               {
                 "heading": "Derecho laboral",
-                "body": "Si consideras que tus derechos como trabajador fueron vulnerados, recibirás asesoría para evaluar tu situación y ejercer las acciones legales que correspondan. Te represento frente a despidos, incumplimientos del empleador, vulneraciones de derechos fundamentales, accidentes laborales y otras situaciones que puedan afectar tus derechos en el trabajo.",
+                "body": "Si consideras que tus derechos como trabajador fueron vulnerados, recibirás asesoría para evaluar tu situación y ejercer las acciones legales que correspondan. Te representamos frente a despidos, incumplimientos del empleador, vulneraciones de derechos fundamentales, accidentes laborales y otras situaciones que puedan afectar tus derechos en el trabajo.",
                 "href": "/personas/derecho-laboral",
                 "link_label": "Conocer el servicio"
               },
@@ -5280,7 +5280,7 @@ insert into albar_complement_source values ($ALBAR_COMPLEMENT${
               },
               {
                 "heading": "Escrituras públicas",
-                "body": "Algunos de los actos jurídicos más importantes de tu vida requieren documentos correctamente redactados y formalizados. Te asesoro en la preparación y revisión de escrituras e instrumentos jurídicos, procurando que cada acuerdo resguarde adecuadamente tus intereses y te entregue la seguridad jurídica que necesitas.",
+                "body": "Algunos de los actos jurídicos más importantes de tu vida requieren documentos correctamente redactados y formalizados. Te asesoramos en la preparación y revisión de escrituras e instrumentos jurídicos, procurando que cada acuerdo resguarde adecuadamente tus intereses y te entregue la seguridad jurídica que necesitas.",
                 "href": "/personas/escrituras-publicas",
                 "link_label": "Conocer el servicio"
               }
@@ -5307,13 +5307,13 @@ insert into albar_complement_source values ($ALBAR_COMPLEMENT${
               },
               {
                 "heading": "Derecho corporativo y comercial",
-                "body": "Una estructura jurídica sólida permite que tu empresa pueda crecer y tomar decisiones con mayor seguridad. Te asesoro en la constitución de sociedades, modificaciones societarias, incorporación o salida de socios y otros actos relevantes para la organización de tu negocio.",
+                "body": "Una estructura jurídica sólida permite que tu empresa pueda crecer y tomar decisiones con mayor seguridad. Te asesoramos en la constitución de sociedades, modificaciones societarias, incorporación o salida de socios y otros actos relevantes para la organización de tu negocio.",
                 "href": "/empresas/derecho-corporativo-y-comercial",
                 "link_label": "Conocer el servicio"
               },
               {
                 "heading": "Propiedad intelectual",
-                "body": "Tu marca representa la identidad de tu empresa y puede convertirse en uno de sus activos más importantes. Te asesoro durante el proceso de registro de marca ante INAPI, desde la revisión inicial hasta la obtención del registro, para que puedas proteger jurídicamente la identidad de tu negocio.",
+                "body": "Tu marca representa la identidad de tu empresa y puede convertirse en uno de sus activos más importantes. Te asesoramos durante el proceso de registro de marca ante INAPI, desde la revisión inicial hasta la obtención del registro, para que puedas proteger jurídicamente la identidad de tu negocio.",
                 "href": "/empresas/propiedad-intelectual",
                 "link_label": "Conocer el servicio"
               },
@@ -5325,7 +5325,7 @@ insert into albar_complement_source values ($ALBAR_COMPLEMENT${
               },
               {
                 "heading": "Asesoría preventiva empresarial",
-                "body": "La mejor forma de enfrentar muchos conflictos legales es prevenirlos. Te asesoro para identificar riesgos, fortalecer el cumplimiento normativo de tu empresa y adoptar medidas que permitan reducir contingencias, fiscalizaciones, sanciones y futuros conflictos.",
+                "body": "La mejor forma de enfrentar muchos conflictos legales es prevenirlos. Te asesoramos para identificar riesgos, fortalecer el cumplimiento normativo de tu empresa y adoptar medidas que permitan reducir contingencias, fiscalizaciones, sanciones y futuros conflictos.",
                 "href": "/empresas/asesoria-preventiva-empresarial",
                 "link_label": "Conocer el servicio"
               }
@@ -5377,7 +5377,7 @@ insert into albar_complement_source values ($ALBAR_COMPLEMENT${
         "entry": "home"
       },
       {
-        "label": "Conoce a Claudia",
+        "label": "Sobre ALBAR",
         "entry": "about"
       },
       {

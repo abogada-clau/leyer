@@ -64,7 +64,7 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
           "entry": "home"
         },
         {
-          "label": "Conoce a Claudia",
+          "label": "Sobre ALBAR",
           "entry": "about"
         },
         {
@@ -114,7 +114,7 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
       "name": "Navegación al pie",
       "items": [
         {
-          "label": "Conoce a Claudia",
+          "label": "Sobre ALBAR",
           "entry": "about"
         },
         {
@@ -199,16 +199,12 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
           "variant": "image-right",
           "data": {
             "eyebrow": "ALBAR Abogados · Personas y empresas",
-            "heading": "Cuando una decisión cambia tu vida, necesitas saber cómo avanzar.",
-            "body": "Si enfrentas una separación, una pensión de alimentos o deudas que ya no puedes sostener, revisemos tu situación. Te ayudaré a comprender tus opciones y a definir una estrategia con claridad y un trato cercano.",
+            "heading": "Cuando una decisión cambia tu vida, necesitas una estrategia diseñada a tu medida.",
+            "body": "¿Enfrentas un sobreendeudamiento, una separación, un asunto de alimentos u otro problema legal y no sabes por dónde empezar? En Albar revisamos tu situación, te explicamos tus opciones y definimos contigo los próximos pasos a partir de los antecedentes de tu caso, con un trato cercano y honesto.",
             "actions": [
               {
                 "label": "Solicitar evaluación de mi caso",
                 "href": "/contacto"
-              },
-              {
-                "label": "Explorar soluciones para personas",
-                "href": "/personas"
               }
             ]
           },
@@ -223,9 +219,9 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
             "heading": "¿Qué necesitas resolver hoy?",
             "items": [
               {
-                "heading": "Quiero ordenar mi separación",
-                "body": "Conoce las alternativas de divorcio y las decisiones familiares y patrimoniales que conviene anticipar.",
-                "href": "/personas/derecho-de-familia/divorcios",
+                "heading": "Mis deudas superan mi capacidad de pago",
+                "body": "Comprende qué alternativas pueden corresponderte y qué efectos tendrían sobre tus bienes y obligaciones.",
+                "href": "/personas/insolvencia-y-reemprendimiento",
                 "link_label": "Conocer mis opciones"
               },
               {
@@ -235,9 +231,9 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
                 "link_label": "Conocer mis opciones"
               },
               {
-                "heading": "Mis deudas superan mi capacidad de pago",
-                "body": "Comprende qué alternativas pueden corresponderte y qué efectos tendrían sobre tus bienes y obligaciones.",
-                "href": "/personas/insolvencia-y-reemprendimiento",
+                "heading": "Quiero ordenar mi separación",
+                "body": "Conoce las alternativas de divorcio y las decisiones familiares y patrimoniales que conviene anticipar.",
+                "href": "/personas/derecho-de-familia/divorcios",
                 "link_label": "Conocer mis opciones"
               },
               {
@@ -254,9 +250,9 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
           "schema_version": 1,
           "variant": "default",
           "data": {
-            "eyebrow": "Conoce a Claudia",
+            "eyebrow": "Conoce a ALBAR",
             "heading": "Una estrategia empieza por escuchar tu realidad.",
-            "body": "Soy Claudia Albiña Aros, abogada y fundadora de ALBAR. Mi forma de trabajar combina la revisión de los hechos, una explicación comprensible y la definición de un camino adecuado para cada persona o empresa. El primer objetivo es que sepas qué decisiones tienes por delante."
+            "body": "Somos ALBAR Abogados. Asesoramos y representamos a personas y empresas con una estrategia construida a partir de los hechos de cada caso. Nuestra fundadora, Claudia Albiña Aros, combina el análisis de los antecedentes con una explicación clara de las alternativas. Trabajamos para que comprendas tus opciones y puedas decidir cómo avanzar."
           },
           "asset_key": "claudia-perfil"
         },
@@ -288,32 +284,6 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
           }
         },
         {
-          "type": "steps",
-          "schema_version": 1,
-          "variant": "default",
-          "data": {
-            "heading": "Así podemos acompañarte",
-            "items": [
-              {
-                "heading": "Ordenamos el caso",
-                "body": "Identificamos qué necesitas resolver y revisamos los antecedentes relevantes."
-              },
-              {
-                "heading": "Definimos las alternativas",
-                "body": "Te explicamos las vías disponibles, sus condiciones y los puntos que requieren prueba."
-              },
-              {
-                "heading": "Acordamos el encargo",
-                "body": "Si decides avanzar, delimitamos las actuaciones y los honorarios antes de iniciar gestiones."
-              },
-              {
-                "heading": "Te acompañamos",
-                "body": "Realizamos las gestiones acordadas y te informamos sobre los hitos que correspondan."
-              }
-            ]
-          }
-        },
-        {
           "type": "related_content",
           "schema_version": 1,
           "variant": "default",
@@ -321,6 +291,15 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
             "eyebrow": "Información para empezar",
             "heading": "Lecturas que ayudan a ordenar tus preguntas",
             "source": "posts"
+          }
+        },
+        {
+          "type": "testimonials",
+          "schema_version": 1,
+          "variant": "default",
+          "data": {
+            "eyebrow": "Testimonios",
+            "heading": "Experiencias con ALBAR"
           }
         },
         {
@@ -346,15 +325,15 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
       "kind": "page",
       "path": "/sobre-albar",
       "parent": null,
-      "title": "Conoce a Claudia y a ALBAR",
-      "excerpt": "Una práctica jurídica cercana, basada en los hechos y orientada a decisiones informadas.",
+      "title": "Conoce a ALBAR Abogados y Claudia",
+      "excerpt": "Somos ALBAR Abogados: asesoramos y representamos a personas y empresas con una estrategia fundada en los hechos, un trato cercano y claridad para decidir.",
       "template_key": "default",
       "terms": [],
       "relations": [],
       "captures": [],
       "strategy": {
-        "job": "Una práctica jurídica cercana, basada en los hechos y orientada a decisiones informadas.",
-        "attention": "Conoce a Claudia y a ALBAR",
+        "job": "Somos ALBAR Abogados: asesoramos y representamos a personas y empresas con una estrategia fundada en los hechos, un trato cercano y claridad para decidir.",
+        "attention": "Conoce a ALBAR Abogados y Claudia",
         "interest": "Ordenar las preguntas del visitante.",
         "desire": "Entender el siguiente paso.",
         "action": "Solicitar evaluación."
@@ -365,58 +344,89 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
           "schema_version": 1,
           "variant": "default",
           "data": {
-            "eyebrow": "Claudia Albiña Aros",
-            "heading": "Detrás de cada consulta hay una decisión importante.",
-            "body": "ALBAR nace de una forma de entender el trabajo jurídico: escuchar a quien consulta, estudiar su situación y explicar las alternativas antes de proponer una estrategia. Claudia Albiña Aros es su abogada fundadora."
+            "eyebrow": "Nuestro estudio",
+            "heading": "El origen de ALBAR Abogados",
+            "body": "Somos un estudio jurídico que nace de una convicción: cada persona y cada empresa merecen una estrategia diseñada para su realidad. Detrás de una consulta hay decisiones que pueden cambiar una vida, una familia o el futuro de un negocio. Por eso, nuestro trabajo comienza por escuchar y comprender el contexto de cada caso.\n\nEn ALBAR basamos nuestras recomendaciones en los hechos y en los antecedentes disponibles. Explicamos las alternativas con honestidad y acordamos los próximos pasos con un trato cercano, tanto en la asesoría preventiva como en la representación judicial.\n\nNuestro nombre surge del de nuestra fundadora, Claudia Albiña Aros. Expresa una forma de ejercer el Derecho en la que la confianza, el estudio riguroso y el acompañamiento forman parte de cada asesoría."
+          }
+        },
+        {
+          "type": "split_content",
+          "schema_version": 1,
+          "variant": "image-left",
+          "data": {
+            "eyebrow": "Nuestra fundadora",
+            "heading": "Conoce a Claudia Albiña Aros",
+            "body": "ALBAR fue fundado por Claudia Albiña Aros, abogada formada en la Pontificia Universidad Católica de Chile. Su trayectoria incluye experiencia en estudios jurídicos y en materias del sector público y privado, una práctica profesional en la Fiscalía Metropolitana Sur y participación, a través de un estudio externo, en asesoría laboral para una empresa del sector retail.\n\nCon esa experiencia como base, en ALBAR asesoramos y representamos a personas y empresas en asuntos de familia, laborales, civiles, de insolvencia, corporativos y de contratación pública. Combinamos la revisión de antecedentes con una planificación jurídica ajustada a las necesidades de cada cliente."
           },
           "asset_key": "claudia-perfil"
         },
         {
           "type": "card_grid",
           "schema_version": 1,
-          "variant": "default",
+          "variant": "metrics",
           "data": {
-            "eyebrow": "Una estrategia para tu situación",
-            "heading": "Una forma de acompañarte",
+            "aria_label": "Experiencia y enfoque de ALBAR",
+            "columns": "4",
+            "tone": "primary",
             "items": [
               {
-                "heading": "Escuchar antes de recomendar",
-                "body": "Tu contexto y tus prioridades forman parte del análisis."
+                "icon": "users",
+                "heading": "+100",
+                "body": "Clientes asesorados y representados por nuestra fundadora durante su trayectoria."
               },
               {
-                "heading": "Trabajar con antecedentes",
-                "body": "Distinguimos lo que sabemos, lo que falta acreditar y las decisiones que dependen de ello."
+                "icon": "heart-handshake",
+                "heading": "Personas y empresas",
+                "body": "Asesoría jurídica integral y estrategias adaptadas a cada realidad."
               },
               {
-                "heading": "Explicar sin complicar",
-                "body": "Buscamos que entiendas el alcance de cada alternativa y puedas plantear tus dudas."
+                "icon": "scale",
+                "heading": "Litigación y asesoría jurídica",
+                "body": "Acompañamiento preventivo y representación en controversias."
               },
               {
-                "heading": "Acordar cómo avanzar",
-                "body": "El encargo, las actuaciones y los honorarios se definen antes de comenzar."
+                "icon": "book-open-check",
+                "heading": "Abogada PUC",
+                "body": "Formación de nuestra fundadora y compromiso con la actualización profesional."
               }
             ]
           }
         },
         {
-          "type": "rich_text",
+          "type": "card_grid",
           "schema_version": 1,
-          "variant": "default",
+          "variant": "credentials",
           "data": {
-            "document": {
-              "type": "doc",
-              "content": [
-                {
-                  "type": "paragraph",
-                  "content": [
-                    {
-                      "type": "text",
-                      "text": "Cada consulta comienza por comprender el contexto y las prioridades de quien necesita asesoría. El objetivo es que puedas evaluar las alternativas con una explicación de su alcance, de los antecedentes necesarios y de las decisiones que tienes por delante."
-                    }
-                  ]
-                }
-              ]
-            }
+            "eyebrow": "La preparación detrás de cada estrategia",
+            "heading": "Formación y actualización profesional",
+            "body": "La formación de nuestra fundadora y el estudio permanente respaldan nuestra forma de abordar cada caso.",
+            "columns": "4",
+            "items": [
+              {
+                "icon": "book-open-check",
+                "heading": "Abogada",
+                "body": "Pontificia Universidad Católica de Chile",
+                "detail": "Título profesional obtenido en 2023."
+              },
+              {
+                "icon": "file-check",
+                "heading": "Licenciada en Ciencias Sociales",
+                "body": "Pontificia Universidad Católica de Chile",
+                "detail": "Major en Derecho. Minor en Relaciones Internacionales."
+              },
+              {
+                "icon": "scale",
+                "heading": "Diplomado en Derecho Penal Económico",
+                "body": "Pontificia Universidad Católica de Chile",
+                "detail": "2025."
+              },
+              {
+                "icon": "file-text",
+                "heading": "Formación continua",
+                "body": "Actualización jurídica permanente",
+                "detail": "Participamos en diplomados, seminarios y programas de actualización en distintas áreas del Derecho."
+              }
+            ]
           }
         },
         {
@@ -424,22 +434,81 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
           "schema_version": 1,
           "variant": "default",
           "data": {
-            "eyebrow": "Una estrategia para tu situación",
-            "heading": "Encuentra el punto de partida para tu consulta",
+            "eyebrow": "Nuestra forma de trabajar",
+            "heading": "Una estrategia empieza por escuchar",
+            "columns": "4",
             "items": [
               {
-                "heading": "Una decisión familiar",
-                "body": "Divorcio, alimentos y cumplimiento de obligaciones.",
-                "href": "/personas/derecho-de-familia",
-                "link_label": "Conocer mis opciones"
+                "icon": "message-circle",
+                "heading": "Escuchamos antes de recomendar",
+                "body": "Comprendemos el contexto y las prioridades de cada cliente antes de proponer una vía."
               },
               {
-                "heading": "Una dificultad financiera",
-                "body": "Alternativas frente a la insolvencia de una persona o empresa.",
-                "href": "/liquidacion-concursal",
-                "link_label": "Conocer mis opciones"
+                "icon": "book-open-check",
+                "heading": "Trabajamos con antecedentes",
+                "body": "Distinguimos los hechos acreditados, la información pendiente y las decisiones que dependen de ella."
+              },
+              {
+                "icon": "heart-handshake",
+                "heading": "Explicamos con claridad",
+                "body": "Presentamos las alternativas, sus condiciones y sus posibles efectos para que puedas decidir con información."
+              },
+              {
+                "icon": "wallet-cards",
+                "heading": "Acordamos cómo avanzar",
+                "body": "Definimos el alcance del encargo, las actuaciones y los honorarios antes de iniciar las gestiones."
               }
             ]
+          }
+        },
+        {
+          "type": "card_grid",
+          "schema_version": 1,
+          "variant": "practice",
+          "data": {
+            "eyebrow": "Cómo podemos ayudarte",
+            "heading": "Áreas de práctica",
+            "columns": "4",
+            "body": "Asesoramos y representamos en distintas materias. El primer paso es revisar la situación y determinar qué vía corresponde.",
+            "items": [
+              {
+                "icon": "users",
+                "heading": "Derecho de familia",
+                "body": "Asesoramos en divorcios, alimentos, cuidado personal, relación directa y regular, compensación económica y medidas de protección.",
+                "href": "/personas/derecho-de-familia",
+                "link_label": "Conocer el área"
+              },
+              {
+                "icon": "wallet-cards",
+                "heading": "Derecho laboral",
+                "body": "Asesoramos y representamos ante despidos, conflictos laborales, vulneraciones de derechos y accidentes del trabajo.",
+                "href": "/personas/derecho-laboral",
+                "link_label": "Conocer el área"
+              },
+              {
+                "icon": "file-text",
+                "heading": "Derecho civil",
+                "body": "Revisamos contratos, arrendamientos, responsabilidad civil y cumplimiento de obligaciones, y representamos en litigios.",
+                "href": "/personas/derecho-civil",
+                "link_label": "Conocer el área"
+              },
+              {
+                "icon": "coins",
+                "heading": "Insolvencia y reemprendimiento",
+                "body": "Evaluamos alternativas de reorganización o liquidación para personas y empresas según sus antecedentes y los requisitos aplicables.",
+                "href": "/liquidacion-concursal",
+                "link_label": "Conocer el área"
+              }
+            ]
+          }
+        },
+        {
+          "type": "testimonials",
+          "schema_version": 1,
+          "variant": "default",
+          "data": {
+            "eyebrow": "Testimonios",
+            "heading": "Experiencias con ALBAR"
           }
         },
         {
@@ -447,13 +516,15 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
           "schema_version": 1,
           "variant": "default",
           "data": {
-            "eyebrow": "El primer paso es conocer tus opciones",
-            "heading": "Conversemos sobre lo que necesitas resolver.",
-            "body": "Una evaluación permite identificar el alcance de la asesoría y los antecedentes que conviene revisar.",
+            "eyebrow": "Conversemos sobre tu situación",
+            "heading": "Cada caso merece una estrategia diseñada para su realidad.",
+            "body": "En ALBAR revisamos los antecedentes, explicamos las alternativas y definimos contigo los próximos pasos. Cuéntanos qué necesitas resolver para comenzar.",
             "actions": [
               {
                 "label": "Solicitar evaluación de mi caso",
-                "href": "/contacto"
+                "href": "/contacto",
+                "style": "primary",
+                "icon": "arrow-up-right"
               }
             ]
           }
@@ -504,6 +575,12 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
             "heading": "¿Cuál es tu situación?",
             "items": [
               {
+                "heading": "No puedo seguir pagando mis deudas",
+                "body": "Evalúa tu situación antes de iniciar un procedimiento concursal.",
+                "href": "/personas/insolvencia-y-reemprendimiento",
+                "link_label": "Conocer mis opciones"
+              },
+              {
                 "heading": "Quiero poner término a mi matrimonio",
                 "body": "Identifica qué alternativa de divorcio puede ajustarse a tus antecedentes.",
                 "href": "/personas/derecho-de-familia/divorcios",
@@ -520,12 +597,6 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
                 "body": "Conoce las vías para solicitar el cumplimiento de una pensión fijada.",
                 "href": "/personas/derecho-de-familia/pension-de-alimentos/cobro",
                 "link_label": "Conocer mis opciones"
-              },
-              {
-                "heading": "No puedo seguir pagando mis deudas",
-                "body": "Evalúa tu situación antes de iniciar un procedimiento concursal.",
-                "href": "/personas/insolvencia-y-reemprendimiento",
-                "link_label": "Conocer mis opciones"
               }
             ]
           }
@@ -535,23 +606,23 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
           "schema_version": 1,
           "variant": "default",
           "data": {
-            "heading": "Así podemos acompañarte",
+            "heading": "¿Cómo trabajamos?",
             "items": [
               {
-                "heading": "Ordenamos el caso",
-                "body": "Identificamos qué necesitas resolver y revisamos los antecedentes relevantes."
+                "heading": "Conocemos tu caso",
+                "body": "Escuchamos tu situación y reunimos los antecedentes para entender tu caso."
               },
               {
-                "heading": "Definimos las alternativas",
-                "body": "Te explicamos las vías disponibles, sus condiciones y los puntos que requieren prueba."
-              },
-              {
-                "heading": "Acordamos el encargo",
-                "body": "Si decides avanzar, delimitamos las actuaciones y los honorarios antes de iniciar gestiones."
+                "heading": "Diseñamos la estrategia",
+                "body": "Analizamos las alternativas legales y diseñamos una estrategia ajustada a tu situación."
               },
               {
                 "heading": "Te acompañamos",
-                "body": "Realizamos las gestiones acordadas y te informamos sobre los hitos que correspondan."
+                "body": "Te representamos y asesoramos durante el proceso, con una comunicación cercana y constante."
+              },
+              {
+                "heading": "Buscamos la mejor solución posible",
+                "body": "Trabajamos para proteger tus intereses y buscar la solución más favorable que permitan los antecedentes de tu caso."
               }
             ]
           }
@@ -651,7 +722,8 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
               {
                 "text": "Juicios, cobranzas y obligaciones laborales, cuando existan."
               }
-            ]
+            ],
+            "hidden": true
           }
         },
         {
@@ -847,7 +919,7 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
           "data": {
             "eyebrow": "Asesoría y representación",
             "heading": "Divorcio en Chile",
-            "body": "Si estás pensando en divorciarte, te ayudaré a distinguir qué vía puede corresponder a tu situación y qué materias familiares o económicas conviene abordar.",
+            "body": "Si estás pensando en divorciarte, te ayudaremos a distinguir qué vía puede corresponder a tu situación y qué materias familiares o económicas conviene abordar.",
             "actions": [
               {
                 "label": "Solicitar evaluación de mi caso",
@@ -1096,7 +1168,7 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
           "data": {
             "eyebrow": "Asesoría y representación",
             "heading": "Divorcio de mutuo acuerdo",
-            "body": "Te acompaño a revisar los requisitos y a ordenar las materias del acuerdo, con una explicación clara de lo que se propone y de lo que aún debe resolverse.",
+            "body": "Te acompañamos a revisar los requisitos y a ordenar las materias del acuerdo, con una explicación clara de lo que se propone y de lo que aún debe resolverse.",
             "actions": [
               {
                 "label": "Solicitar evaluación de mi caso",
@@ -1567,7 +1639,7 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
           "data": {
             "eyebrow": "Asesoría y representación",
             "heading": "Divorcio por culpa",
-            "body": "Te ayudo a comprender si esta causal puede corresponder a tu situación y qué antecedentes se necesitan, con un trato reservado y una estrategia fundada.",
+            "body": "Te ayudamos a comprender si esta causal puede corresponder a tu situación y qué antecedentes se necesitan, con un trato reservado y una estrategia fundada.",
             "actions": [
               {
                 "label": "Solicitar evaluación de mi caso",
@@ -1889,7 +1961,7 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
           "variant": "default",
           "data": {
             "eyebrow": "Una estrategia para tu situación",
-            "heading": "Te acompaño según tu situación",
+            "heading": "Te acompañamos según tu situación",
             "items": [
               {
                 "heading": "Solicitar una pensión",
@@ -2118,7 +2190,7 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
           "data": {
             "eyebrow": "Asesoría y representación",
             "heading": "Solicitar una pensión de alimentos",
-            "body": "Te ayudo a organizar las necesidades de tus hijos y los antecedentes para evaluar una solicitud de alimentos y las etapas que correspondan.",
+            "body": "Te ayudamos a organizar las necesidades de tus hijos y los antecedentes para evaluar una solicitud de alimentos y las etapas que correspondan.",
             "actions": [
               {
                 "label": "Solicitar evaluación de mi caso",
@@ -2318,7 +2390,7 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
           "data": {
             "eyebrow": "Asesoría y representación",
             "heading": "Aumento de pensión de alimentos",
-            "body": "Te acompaño a ordenar los nuevos gastos y antecedentes para evaluar una solicitud fundada, sin dar por hecho un monto ni un resultado.",
+            "body": "Te acompañamos a ordenar los nuevos gastos y antecedentes para evaluar una solicitud fundada, sin dar por hecho un monto ni un resultado.",
             "actions": [
               {
                 "label": "Solicitar evaluación de mi caso",
@@ -2570,7 +2642,7 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
           "data": {
             "eyebrow": "Asesoría y representación",
             "heading": "Rebaja de pensión de alimentos",
-            "body": "Una caída de ingresos puede generar incertidumbre. Te ayudo a revisar los antecedentes para evaluar una solicitud de rebaja sin desconocer las necesidades de tus hijos.",
+            "body": "Una caída de ingresos puede generar incertidumbre. Te ayudamos a revisar los antecedentes para evaluar una solicitud de rebaja sin desconocer las necesidades de tus hijos.",
             "actions": [
               {
                 "label": "Solicitar evaluación de mi caso",
@@ -2822,7 +2894,7 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
           "data": {
             "eyebrow": "Asesoría y representación",
             "heading": "Cese de pensión de alimentos",
-            "body": "Te ayudo a evaluar edad, estudios, autonomía y demás antecedentes relevantes para saber si corresponde solicitar el cese y cómo plantearlo.",
+            "body": "Te ayudamos a evaluar edad, estudios, autonomía y demás antecedentes relevantes para saber si corresponde solicitar el cese y cómo plantearlo.",
             "actions": [
               {
                 "label": "Solicitar evaluación de mi caso",
@@ -3074,7 +3146,7 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
           "data": {
             "eyebrow": "Asesoría y representación",
             "heading": "Cobro de pensión de alimentos",
-            "body": "Te acompaño a revisar la resolución o acuerdo, los pagos registrados y el estado del procedimiento para determinar qué gestiones pueden corresponder.",
+            "body": "Te acompañamos a revisar la resolución o acuerdo, los pagos registrados y el estado del procedimiento para determinar qué gestiones pueden corresponder.",
             "actions": [
               {
                 "label": "Solicitar evaluación de mi caso",
@@ -3293,7 +3365,7 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
           "data": {
             "eyebrow": "Asesoría y representación",
             "heading": "Cobro de deuda de alimentos y fondos AFP",
-            "body": "Te ayudo a entender el estado de la deuda y a evaluar medidas sobre recursos del deudor, incluido el mecanismo sobre fondos previsionales cuando se cumplan sus condiciones.",
+            "body": "Te ayudamos a entender el estado de la deuda y a evaluar medidas sobre recursos del deudor, incluido el mecanismo sobre fondos previsionales cuando se cumplan sus condiciones.",
             "actions": [
               {
                 "label": "Solicitar evaluación de mi caso",
@@ -4111,7 +4183,7 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
               "data": {
                 "eyebrow": "Liquidación concursal",
                 "heading": "Cuando las deudas superan tu capacidad de pago, conoce las alternativas legales.",
-                "body": "Te acompaño a determinar qué vía podría corresponder y qué consecuencias debes comprender antes de avanzar.",
+                "body": "Te acompañamos a determinar qué vía podría corresponder y qué consecuencias debes comprender antes de avanzar.",
                 "actions": [
                   {
                     "label": "Solicitar evaluación de mi caso",
@@ -4905,7 +4977,7 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
           "data": {
             "eyebrow": "Asesoría y representación",
             "heading": "Insolvencia y liquidación para empresas",
-            "body": "Te ayudo a ordenar la situación financiera, patrimonial y procesal de la empresa antes de recomendar una vía, con atención a sus obligaciones y efectos.",
+            "body": "Te ayudamos a ordenar la situación financiera, patrimonial y procesal de la empresa antes de recomendar una vía, con atención a sus obligaciones y efectos.",
             "actions": [
               {
                 "label": "Solicitar evaluación de mi caso",

@@ -63,6 +63,8 @@ import {
   spacing,
 } from "@/lib/design-system/tokens";
 import { cn } from "@/lib/utils";
+import { Testimonials } from "@/components/public/testimonials";
+import { testimonialExamples } from "@/lib/content/testimonials";
 
 const navIcons: Record<string, LucideIcon> = {
   overview: Grid2X2,
@@ -968,6 +970,11 @@ export function DesignSystemPreview() {
           aside={<Badge variant="outline">Ejemplos interactivos</Badge>}
         >
           <ContextPreviews notify={setNotice} />
+          <div id="testimonial-example" className="public-site mt-10 rounded-lg border p-6 md:p-8">
+            <h3 className="mb-2 text-2xl font-medium">Testimonios · demostración</h3>
+            <p className="mb-6 text-sm text-muted-foreground">Textos ficticios de ejemplo para revisar el componente. El carrusel pausa al recibir foco o pasar el cursor, y respeta la preferencia de movimiento reducido.</p>
+            <Testimonials items={testimonialExamples} />
+          </div>
         </Section>
         <section id="guidelines" data-ds-section className="ds-guidelines">
           <div>

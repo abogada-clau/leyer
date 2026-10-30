@@ -9,9 +9,9 @@ test("home decisions: four clear destinations, complete area links and keyboard 
   test.skip(base == null, "Requiere el seed local de ALBAR.");
   await page.emulateMedia({ reducedMotion: "reduce" });
   const destinations = [
-    "/personas/derecho-de-familia/divorcios",
-    "/personas/derecho-de-familia/pension-de-alimentos",
     "/personas/insolvencia-y-reemprendimiento",
+    "/personas/derecho-de-familia/pension-de-alimentos",
+    "/personas/derecho-de-familia/divorcios",
     "/empresas/insolvencia-y-reemprendimiento",
   ];
   for (const width of [1440, 820, 390]) {

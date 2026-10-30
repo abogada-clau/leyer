@@ -2,6 +2,8 @@ import "server-only";
 import { cacheLife, cacheTag } from "next/cache";
 import { cache } from "react";
 import { publicClient, result } from "./db";
+import type { Testimonial } from "@/lib/content/testimonials";
+
 import type {
   PublicContext,
   PublicEntry,
@@ -14,6 +16,11 @@ import type {
   MenuItem,
   RenderData,
 } from "./types";
+
+export async function publicTestimonials(siteId: string): Promise<Testimonial[]> {
+  return result(await publicClient().from("testimonials").select("id,author_name,quote,context")
+    .eq("site_id", siteId).eq("is_published", true).order("position").order("created_at").order("id")) || [];
+}
 
 export async function publicEntry(c: PublicContext, path = c.path) {
   if (c.route && path === c.path) return c.route.entry;

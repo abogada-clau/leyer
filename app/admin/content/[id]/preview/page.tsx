@@ -6,6 +6,7 @@ import type { Entry, Asset, Row, Snapshot } from "@/lib/admin/types";
 import { ContentPreview } from "@/components/admin/content-preview";
 import { Alert } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
+import type { Testimonial } from "@/lib/content/testimonials";
 export default async function Preview({
   params,
   searchParams,
@@ -36,7 +37,7 @@ export default async function Preview({
     snapshot.site_id !== site.id
   )
     notFound();
-  const [media, authors, publicEntries] = await Promise.all([
+  const [media, authors, publicEntries, testimonials] = await Promise.all([
     db.rpc("get_cms_media", { p_site_id: site.id }),
     db.from("authors").select("*").eq("site_id", site.id),
     db
@@ -45,6 +46,7 @@ export default async function Preview({
       .eq("site_id", site.id)
       .eq("locale", entry.locale)
       .order("first_published_at", { ascending: false }),
+    snapshot.blocks.some((b: { type: string }) => b.type === "testimonials") ? db.from("testimonials").select("id,author_name,quote,context").eq("site_id", site.id).eq("is_published", true).order("position").order("created_at").order("id") : Promise.resolve({ data: [], error: null }),
   ]);
   return (
     <div className="space-y-8">
@@ -56,6 +58,7 @@ export default async function Preview({
         </Button>
       </Alert>
       <ContentPreview
+        testimonialItems={(checked(testimonials) || []) as Testimonial[]}
         publishedEntries={(checked(publicEntries) || []) as PublicEntry[]}
         snapshot={snapshot as Snapshot}
         entries={entries}

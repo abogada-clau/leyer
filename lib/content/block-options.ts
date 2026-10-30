@@ -9,4 +9,4 @@ export const visualOptions = { none: "Sin apoyo visual", image: "Imagen de la bi
 export const toneOptions = { default: "Predeterminado", ivory: "Marfil", sage: "Salvia", sand: "Arena", primary: "Pino", terracotta: "Terracota" } as const;
 export const actionStyles = { primary: "Botón principal", secondary: "Botón secundario", text: "Enlace de texto" } as const;
 export const richLayouts = { reading: "Lectura continua", intro: "Introducción en columnas", columns: "Subapartados en columnas" } as const;
-export const blockVariants = { default: "Predeterminada", "image-right": "Imagen a la derecha", "image-left": "Imagen a la izquierda", centered: "Centrada", benefits: "Franja de beneficios" } as const;
+export const blockVariants = { default: "Predeterminada", "image-right": "Imagen a la derecha", "image-left": "Imagen a la izquierda", centered: "Centrada", benefits: "Franja de beneficios", metrics: "Franja de experiencia", credentials: "Formación profesional", practice: "Áreas de práctica" } as const;

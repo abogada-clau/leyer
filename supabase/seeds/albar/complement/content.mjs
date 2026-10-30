@@ -1,6 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { editableService } from '../service-content.mjs';
 import { manifest as base } from '../content.mjs';
+import { institutionalVoice } from '../institutional-voice.mjs';
 
 export const source = JSON.parse(readFileSync(new URL('./source.json', import.meta.url), 'utf8'));
 const labels = {
@@ -80,7 +81,7 @@ export const originalEntries = source.pages.map(page => {
     source_url: page.source_url, source_html_sha256: page.html_sha256, blocks: entryBlocks,
   };
 });
-export const entries = originalEntries.map(editableService);
+export const entries = originalEntries.map(entry => institutionalVoice(editableService(entry)));
 const byKey = new Map([...base.entries, ...entries].map(e => [e.key, e]));
 const menuItem = key => ({ entry: key, label: entries.find(e => e.key === key)?.label || ({ familia: 'Derecho de familia', divorcios: 'Divorcios', alimentos: 'Pensión de alimentos', liquidacion_persona: 'Insolvencia y reemprendimiento', liquidacion_empresa: 'Insolvencia y reemprendimiento' })[key] });
 const primary = structuredClone(base.menus.find(m => m.code === 'primary'));

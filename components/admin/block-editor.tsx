@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import { ArrowUp, ArrowDown, Copy, Trash2, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -24,6 +25,7 @@ export const blockLabels: Record<string, string> = {
   image: "Imagen",
   quote: "Cita",
   related_content: "Contenidos relacionados",
+  testimonials: "Testimonios",
 };
 export function makeBlock(type: string): Block {
   const benefits = type === "benefits";
@@ -41,6 +43,7 @@ export function makeBlock(type: string): Block {
       image: { caption: "" },
       quote: { text: "", attribution: "" },
       related_content: { heading: "También te puede interesar" },
+      testimonials: { eyebrow: "Testimonios", heading: "Experiencias con ALBAR" },
     } as Record<string, Record<string, Json>>
   )[type];
   return {
@@ -90,6 +93,20 @@ function RepeatFields({
                 }}
               >
                 <ArrowUp />
+              </Button>
+              <Button
+                size="icon"
+                variant="ghost"
+                type="button"
+                disabled={index === rows.length - 1}
+                aria-label="Bajar elemento"
+                onClick={() => {
+                  const next = [...rows];
+                  [next[index], next[index + 1]] = [next[index + 1], next[index]];
+                  onChange(next);
+                }}
+              >
+                <ArrowDown />
               </Button>
               <Button
                 size="icon"
@@ -216,10 +233,11 @@ export function BlockEditor({
             value={block.variant}
             onChange={(e) => onChange({ ...block, variant: e.target.value })}
           >
-            {Object.entries(blockVariants).filter(([value]) => value !== "benefits" || block.type === "card_grid").map(([value, label]) => <option key={value} value={value}>{label}</option>)}
+            {Object.entries(blockVariants).filter(([value]) => !["benefits", "metrics", "credentials", "practice"].includes(value) || block.type === "card_grid").map(([value, label]) => <option key={value} value={value}>{label}</option>)}
           </Select>
         </div>
         <label className="flex items-center gap-3 text-sm"><input type="checkbox" checked={data.hidden === true} onChange={e => set("hidden", e.target.checked)} />Ocultar sección en la página</label>
+        {block.type === "testimonials" && <p className="rounded-lg bg-muted p-4 text-sm">Los testimonios se administran una sola vez en <Link href="/admin/testimonials" className="underline">Testimonios</Link> y se comparten en todas las páginas que incluyan este bloque. Si no hay testimonios publicados, la sección se oculta automáticamente.</p>}
         <label className="panel-field">Superficie<Select aria-label="Superficie" value={String(data.tone || "default")} onChange={e => set("tone", e.target.value)}>{Object.entries(toneOptions).map(([value, label]) => <option key={value} value={value}>{label}</option>)}</Select></label>
         {["hero", "split_content", "checklist", "rich_text", "cta"].includes(block.type) && <label className="panel-field">Apoyo visual<Select aria-label="Apoyo visual" value={String(data.visual || (block.assets.length ? "image" : "none"))} onChange={e => set("visual", e.target.value)}>{Object.entries(visualOptions).map(([value, label]) => <option key={value} value={value}>{label}</option>)}</Select></label>}
         {["card_grid", "steps"].includes(block.type) && <label className="panel-field">Columnas en escritorio<Select aria-label="Columnas en escritorio" value={String(data.columns || "auto")} onChange={e => set("columns", e.target.value)}>{["auto", "1", "2", "3", "4"].map(value => <option key={value} value={value}>{value === "auto" ? "Automáticas" : value}</option>)}</Select></label>}
@@ -237,6 +255,7 @@ export function BlockEditor({
                 "faq",
                 "cta",
                 "related_content",
+                "testimonials",
               ].includes(block.type) &&
                 ["eyebrow", "heading", "body", "aria_label", ...(block.type === "hero" ? ["lead", "note"] : [])].includes(k)),
           )
@@ -305,6 +324,7 @@ export function BlockEditor({
                       ...(block.type === "card_grid"
                         ? [
                             { key: "icon", label: "Icono", options: iconOptions },
+                            { key: "detail", label: "Detalle adicional · opcional" },
                             { key: "link_label", label: "Texto del enlace" },
                             {
                               key: "href",

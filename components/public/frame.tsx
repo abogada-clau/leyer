@@ -64,9 +64,6 @@ export async function PublicFrame({
     /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(c.site.settings.email)
       ? c.site.settings.email
       : null;
-  const phone =
-    typeof c.site.settings.phone === "string" ? c.site.settings.phone : null;
-  const tel = phone?.replace(/[^+0-9]/g, "");
   // Only reuse a WhatsApp destination already published in this site's menu.
   const whatsapp = nav.items.map((item) => contentLink(c, item.external_url)).find((href) => {
     if (!href) return false;
@@ -183,11 +180,10 @@ export async function PublicFrame({
             </nav>
             <address>
               {email && <a href={`mailto:${email}`}>{email}</a>}
-              {phone && tel && <a href={`tel:${tel}`}>{phone}</a>}
               {typeof c.site.settings.address === "string" && (
                 <p>{c.site.settings.address}</p>
               )}
-              {!email && !phone && (
+              {!email && (
                 <p>Los datos de contacto todavía no están disponibles.</p>
               )}
             </address>

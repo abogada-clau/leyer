@@ -195,9 +195,9 @@ export async function publicPage(path: string, search: Search = {}) {
     body = (
       <>
         {c.path !== "/" && crumb(c, entry.title)}
-        <PublicDocumentView data={snapshot} context={c} />
+        <PublicDocumentView data={snapshot} context={c} beforeFaq={contact && entry.template_key === "contact" ? <ContactSection context={c} entryId={entry.id} /> : undefined} />
         {extras}
-        {contact && (
+        {contact && entry.template_key !== "contact" && (
           <ContactSection
             context={c}
             entryId={entry.id}

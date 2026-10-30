@@ -12,6 +12,7 @@ import {
   ShieldCheck,
   UserRound,
   MessagesSquare,
+  Quote,
 } from "lucide-react";
 import { AdminShell } from "@/components/patterns/admin-shell";
 import { Button } from "@/components/ui/button";
@@ -38,6 +39,7 @@ export function AdminFrame({
       ? [
           { id: "/admin/content", label: "Contenidos", icon: FileText },
           { id: "/admin/media", label: "Biblioteca", icon: Images },
+          { id: "/admin/testimonials", label: "Testimonios", icon: Quote },
         ]
       : []),
     ...(can("content.edit")

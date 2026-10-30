@@ -5,18 +5,21 @@ import { Alert } from "@/components/ui/alert";
 import type { Asset, Snapshot, Entry, Row } from "@/lib/admin/types";
 import type { PublicEntry } from "@/lib/public/types";
 import { safeHref } from "@/lib/admin/validation";
+import type { Testimonial } from "@/lib/content/testimonials";
 export function ContentPreview({
   snapshot,
   assets,
   entries,
   authors,
   publishedEntries = [],
+  testimonialItems = [],
 }: {
   snapshot: Snapshot;
   assets: Asset[];
   entries: Entry[];
   authors: Row[];
   publishedEntries?: PublicEntry[];
+  testimonialItems?: Testimonial[];
 }) {
   const asset = (id: string | null) => assets.find((a) => a.id === id);
   const cover = asset(snapshot.cover_asset_id);
@@ -76,6 +79,8 @@ export function ContentPreview({
           serviceLayout={serviceLayout}
           homeNavigation={snapshot.template_key === "home" && snapshot.template_version === 1}
           preview
+          testimonialItems={testimonialItems}
+          beforeFaq={snapshot.template_key === "contact" ? <Alert title="Formulario de consulta">Se muestra públicamente cuando está habilitado en el sitio y hay una política de privacidad publicada.</Alert> : undefined}
           link={(href) => (safeHref(href) ? String(href) : null)}
           image={(id, alt, focal) => {
             const a = asset(id);
@@ -142,7 +147,7 @@ export function ContentPreview({
             );
           }}
         />
-        {["contact", "service-landing"].includes(snapshot.template_key) && (
+        {snapshot.template_key === "service-landing" && (
           <Alert title="Formulario de consulta">
             Se muestra públicamente cuando está habilitado en el sitio y hay una
             política de privacidad publicada.

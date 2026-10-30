@@ -15,7 +15,7 @@ export function validatePresentation(block: Block) {
   if (Array.isArray(d.items)) for (const item of d.items) {
     if (!item || typeof item !== "object" || Array.isArray(item)) continue;
     choice(item.icon, iconOptions, "icono");
-    for (const field of ["asset_slot", "link_label"]) if (item[field] !== undefined && typeof item[field] !== "string") throw new Error(`${field} debe ser texto.`);
+    for (const field of ["asset_slot", "link_label", "detail"]) if (item[field] !== undefined && typeof item[field] !== "string") throw new Error(`${field} debe ser texto.`);
     if (item.asset_slot && !block.assets.some(asset => asset.slot === item.asset_slot)) throw new Error("La imagen de un elemento debe estar asociada al bloque.");
   }
   if (Array.isArray(d.actions)) for (const action of d.actions) {
