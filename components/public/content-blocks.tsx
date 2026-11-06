@@ -99,7 +99,7 @@ export function ContentBlocks({
         if (b.type === "split_content" && b.variant === "studio-origin" && !assets.length)
           assets.push(
             <figure key="studio-origin">
-              <Image src="/images/albar-diosa-justicia.webp" width={720} height={720} alt="Estatuilla de bronce de la diosa de la justicia sosteniendo una balanza." />
+              <Image src="/images/albar-diosa-justicia.webp" width={720} height={720} sizes="(max-width: 360px) calc(100vw - 40px), 320px" alt="Estatuilla de bronce de la diosa de la justicia sosteniendo una balanza." />
               <figcaption>ALBAR Abogados</figcaption>
             </figure>,
           );

@@ -931,7 +931,10 @@
   text-align: center;
 }
 .block-card_grid.variant-studio-benefits[data-layout="features"] > .block-heading,
+.variant-studio-benefits .block-heading > h2,
 .variant-step-cards .block-heading > h2 { max-width: none; }
+.variant-studio-benefits .block-heading > h2,
+.variant-step-cards .block-heading > h2 { color: hsl(var(--primary)); }
 .block-card_grid.variant-studio-benefits[data-layout="features"] .public-service-grid {
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 24px;
