@@ -10,11 +10,11 @@ import type { PublicContext, RenderData } from "@/lib/public/types";
 export async function PublicDocumentView({
   data,
   context: c,
-  beforeFaq,
+  beforeBlocks,
 }: {
   data: RenderData;
   context: PublicContext;
-  beforeFaq?: ReactNode;
+  beforeBlocks?: ReactNode;
 }) {
   const doc = data.document;
   const knownTemplate =
@@ -134,9 +134,9 @@ export async function PublicDocumentView({
           )}
         </header>
       )}
+      {beforeBlocks}
       <ContentBlocks
         blocks={doc.blocks}
-        beforeFaq={beforeFaq}
         testimonialItems={testimonialItems}
         firstHeroAsTitle={heroTitle}
         contactHref={contactHref}

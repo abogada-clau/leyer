@@ -72,20 +72,22 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
           "entry": "personas",
           "children": [
             {
-              "label": "Derecho de familia",
-              "entry": "familia"
-            },
-            {
-              "label": "Divorcio",
-              "entry": "divorcios"
-            },
-            {
-              "label": "Pensión de alimentos",
-              "entry": "alimentos"
-            },
-            {
-              "label": "Insolvencia",
+              "label": "Insolvencia y reemprendimiento",
               "entry": "liquidacion_persona"
+            },
+            {
+              "label": "Derecho de familia",
+              "entry": "familia",
+              "children": [
+                {
+                  "label": "Divorcio",
+                  "entry": "divorcios"
+                },
+                {
+                  "label": "Pensión de alimentos",
+                  "entry": "alimentos"
+                }
+              ]
             }
           ]
         },
@@ -299,7 +301,7 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
           "variant": "default",
           "data": {
             "eyebrow": "Testimonios",
-            "heading": "Experiencias con ALBAR"
+            "heading": "Reseñas de nuestros clientes"
           }
         },
         {
@@ -325,7 +327,7 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
       "kind": "page",
       "path": "/sobre-albar",
       "parent": null,
-      "title": "Conoce a ALBAR Abogados y Claudia",
+      "title": "Conoce a ALBAR Abogados y a Claudia",
       "excerpt": "Somos ALBAR Abogados: asesoramos y representamos a personas y empresas con una estrategia fundada en los hechos, un trato cercano y claridad para decidir.",
       "template_key": "default",
       "terms": [],
@@ -333,7 +335,7 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
       "captures": [],
       "strategy": {
         "job": "Somos ALBAR Abogados: asesoramos y representamos a personas y empresas con una estrategia fundada en los hechos, un trato cercano y claridad para decidir.",
-        "attention": "Conoce a ALBAR Abogados y Claudia",
+        "attention": "Conoce a ALBAR Abogados y a Claudia",
         "interest": "Ordenar las preguntas del visitante.",
         "desire": "Entender el siguiente paso.",
         "action": "Solicitar evaluación."
@@ -342,7 +344,7 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
         {
           "type": "split_content",
           "schema_version": 1,
-          "variant": "default",
+          "variant": "studio-origin",
           "data": {
             "eyebrow": "Nuestro estudio",
             "heading": "El origen de ALBAR Abogados",
@@ -352,7 +354,7 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
         {
           "type": "split_content",
           "schema_version": 1,
-          "variant": "image-left",
+          "variant": "studio-profile",
           "data": {
             "eyebrow": "Nuestra fundadora",
             "heading": "Conoce a Claudia Albiña Aros",
@@ -472,6 +474,13 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
             "body": "Asesoramos y representamos en distintas materias. El primer paso es revisar la situación y determinar qué vía corresponde.",
             "items": [
               {
+                "icon": "coins",
+                "heading": "Insolvencia y reemprendimiento",
+                "body": "Evaluamos alternativas de reorganización o liquidación para personas y empresas según sus antecedentes y los requisitos aplicables.",
+                "href": "/liquidacion-concursal",
+                "link_label": "Conocer el área"
+              },
+              {
                 "icon": "users",
                 "heading": "Derecho de familia",
                 "body": "Asesoramos en divorcios, alimentos, cuidado personal, relación directa y regular, compensación económica y medidas de protección.",
@@ -491,13 +500,6 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
                 "body": "Revisamos contratos, arrendamientos, responsabilidad civil y cumplimiento de obligaciones, y representamos en litigios.",
                 "href": "/personas/derecho-civil",
                 "link_label": "Conocer el área"
-              },
-              {
-                "icon": "coins",
-                "heading": "Insolvencia y reemprendimiento",
-                "body": "Evaluamos alternativas de reorganización o liquidación para personas y empresas según sus antecedentes y los requisitos aplicables.",
-                "href": "/liquidacion-concursal",
-                "link_label": "Conocer el área"
               }
             ]
           }
@@ -508,7 +510,7 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
           "variant": "default",
           "data": {
             "eyebrow": "Testimonios",
-            "heading": "Experiencias con ALBAR"
+            "heading": "Reseñas de nuestros clientes"
           }
         },
         {
@@ -569,6 +571,37 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
         {
           "type": "card_grid",
           "schema_version": 1,
+          "variant": "studio-benefits",
+          "data": {
+            "heading": "¿Por qué trabajar con ALBAR?",
+            "tone": "sand",
+            "items": [
+              {
+                "icon": "users",
+                "heading": "Estrategias personalizadas",
+                "body": "Cada caso merece una solución diseñada para su realidad."
+              },
+              {
+                "icon": "message-circle",
+                "heading": "Comunicación cercana",
+                "body": "Te mantenemos informado en cada etapa del proceso."
+              },
+              {
+                "icon": "file-check",
+                "heading": "Estudio riguroso",
+                "body": "Cada estrategia nace del análisis detallado de los antecedentes."
+              },
+              {
+                "icon": "heart-handshake",
+                "heading": "Acompañamiento integral",
+                "body": "Estamos contigo desde la primera consulta hasta el cierre del caso."
+              }
+            ]
+          }
+        },
+        {
+          "type": "card_grid",
+          "schema_version": 1,
           "variant": "default",
           "data": {
             "eyebrow": "Una estrategia para tu situación",
@@ -604,7 +637,7 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
         {
           "type": "steps",
           "schema_version": 1,
-          "variant": "default",
+          "variant": "step-cards",
           "data": {
             "heading": "¿Cómo trabajamos?",
             "items": [
@@ -683,6 +716,37 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
         {
           "type": "card_grid",
           "schema_version": 1,
+          "variant": "studio-benefits",
+          "data": {
+            "heading": "¿Por qué trabajar con ALBAR?",
+            "tone": "ivory",
+            "items": [
+              {
+                "icon": "file-check",
+                "heading": "Prevención",
+                "body": "Anticipamos riesgos antes de que se transformen en conflictos."
+              },
+              {
+                "icon": "heart-handshake",
+                "heading": "Estrategia",
+                "body": "Soluciones jurídicas alineadas con los objetivos de tu empresa."
+              },
+              {
+                "icon": "message-circle",
+                "heading": "Respuesta oportuna",
+                "body": "Comunicación rápida y acompañamiento permanente."
+              },
+              {
+                "icon": "users",
+                "heading": "Visión integral",
+                "body": "Asesoría preventiva y representación jurídica cuando se requiere."
+              }
+            ]
+          }
+        },
+        {
+          "type": "card_grid",
+          "schema_version": 1,
           "variant": "default",
           "data": {
             "eyebrow": "Una estrategia para tu situación",
@@ -729,25 +793,29 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
         {
           "type": "steps",
           "schema_version": 1,
-          "variant": "default",
+          "variant": "step-cards",
           "data": {
-            "heading": "Así podemos acompañarte",
+            "heading": "Así trabajamos con las empresas",
             "items": [
               {
-                "heading": "Ordenamos el caso",
-                "body": "Identificamos qué necesitas resolver y revisamos los antecedentes relevantes."
+                "heading": "Diagnóstico",
+                "body": "Entendemos tu negocio y sus necesidades legales."
               },
               {
-                "heading": "Definimos las alternativas",
-                "body": "Te explicamos las vías disponibles, sus condiciones y los puntos que requieren prueba."
+                "heading": "Análisis jurídico",
+                "body": "Evaluamos riesgos y oportunidades."
               },
               {
-                "heading": "Acordamos el encargo",
-                "body": "Si decides avanzar, delimitamos las actuaciones y los honorarios antes de iniciar gestiones."
+                "heading": "Diseño de la estrategia",
+                "body": "Proponemos soluciones legales a medida."
               },
               {
-                "heading": "Te acompañamos",
-                "body": "Realizamos las gestiones acordadas y te informamos sobre los hitos que correspondan."
+                "heading": "Implementación",
+                "body": "Te acompañamos en la ejecución de la estrategia."
+              },
+              {
+                "heading": "Seguimiento",
+                "body": "Monitoreamos y ajustamos la estrategia para proteger tu empresa."
               }
             ]
           }
@@ -5229,19 +5297,21 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
           }
         },
         {
-          "type": "cta",
+          "type": "split_content",
           "schema_version": 1,
-          "variant": "default",
+          "variant": "image-right",
           "data": {
-            "heading": "También puedes escribir por correo.",
-            "body": "Si prefieres este canal, comparte una descripción general y un medio de respuesta. No envíes documentos sensibles sin acordar antes cómo hacerlo.",
+            "eyebrow": "Nuestro estudio",
+            "heading": "Conoce a ALBAR Abogados",
+            "body": "Somos ALBAR Abogados. Asesoramos y representamos a personas y empresas con una estrategia construida a partir de los hechos de cada caso. Nuestra fundadora, Claudia Albiña Aros, combina el análisis de los antecedentes con una explicación clara de las alternativas. Trabajamos para que comprendas tus opciones y puedas decidir cómo avanzar.",
             "actions": [
               {
-                "label": "Escribir a ALBAR",
-                "href": "mailto:contacto@abogadaclaudia.com"
+                "label": "Conocer el estudio",
+                "href": "/sobre-albar"
               }
             ]
-          }
+          },
+          "asset_key": "claudia-perfil"
         },
         {
           "type": "faq",

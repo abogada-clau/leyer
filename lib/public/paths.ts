@@ -1,4 +1,4 @@
-import type { PublicContext, PublicSite } from "./types";
+import type { MenuItem, PublicContext, PublicSite } from "./types";
 export const reservedPath =
   /^\/(admin|auth|api|protected|site-unavailable|design-system|sitios|idioma|autores|taxonomias|_next)(\/|$)|^\/(sitemap\.xml|robots\.txt|favicon\.ico|icon\.svg|opengraph-image|twitter-image)(\/|$)/i;
 export function publicPathValid(path: unknown): path is string {
@@ -56,4 +56,13 @@ export function siteName(site: PublicSite) {
     site.settings.public_name.trim()
     ? site.settings.public_name
     : site.name;
+}
+
+export function publicContactLinks(site: PublicSite, items: MenuItem[]) {
+  const email = typeof site.settings.email === "string" && /^[^\s@?#]+@[^\s@?#]+\.[^\s@?#]+$/.test(site.settings.email)
+    ? site.settings.email : undefined;
+  const whatsapp = items.map(item => item.external_url).find(
+    (href): href is string => typeof href === "string" && /^https:\/\/wa\.me\/\d{8,15}\/?$/.test(href),
+  );
+  return { email, whatsapp };
 }

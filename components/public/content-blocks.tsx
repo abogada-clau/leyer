@@ -1,6 +1,7 @@
 import { Fragment, type ReactNode } from "react";
+import Image from "next/image";
 import Link from "next/link";
-import { ArrowUpRight, ArrowRight, Building2, Check, Compass, HeartHandshake, MessageCircle, Users, WalletCards } from "lucide-react";
+import { ArrowUpRight, ArrowRight, Award, Building2, Check, Compass, HeartHandshake, MessageCircle, MessageCircleMore, ShieldCheck, Users, WalletCards } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { FAQ } from "@/components/patterns/content";
 import { Alert } from "@/components/ui/alert";
@@ -11,6 +12,7 @@ import { blockVariants } from "@/lib/content/block-options";
 import type { Block, Json } from "@/lib/admin/types";
 import type { Testimonial } from "@/lib/content/testimonials";
 import { Testimonials } from "./testimonials";
+const studioIcons = { "file-check": ShieldCheck, "heart-handshake": Award, "message-circle": MessageCircleMore };
 export const supportedBlocks = new Set([
   "hero",
   "split_content",
@@ -94,6 +96,13 @@ export function ContentBlocks({
             {d.caption && <figcaption>{str(d.caption)}</figcaption>}
           </figure>
         ));
+        if (b.type === "split_content" && b.variant === "studio-origin" && !assets.length)
+          assets.push(
+            <figure key="studio-origin">
+              <Image src="/images/albar-diosa-justicia.webp" width={720} height={720} alt="Estatuilla de bronce de la diosa de la justicia sosteniendo una balanza." />
+              <figcaption>ALBAR Abogados</figcaption>
+            </figure>,
+          );
         const visual = d.visual === "none" ? null : d.visual === "brand" || d.visual === "requirements" ? <ServiceVisual variant={d.visual} /> : assets.length ? assets : null;
         const actions = Array.isArray(d.actions) ? (
           <div className="public-actions">
@@ -154,11 +163,14 @@ export function ContentBlocks({
                   const href = link(item.href);
                   const category = decisions && href ? decisionCategory(href) : null;
                   const Icon = category?.Icon;
+                  const icon = str(item.icon);
+                  const StudioIcon = b.variant === "studio-benefits" && Object.hasOwn(studioIcons, icon)
+                    ? studioIcons[icon as keyof typeof studioIcons] : null;
                   const inner = (
                     <>
                       {category && Icon && <span className="decision-category"><span className="decision-icon"><Icon size={23} strokeWidth={1.6} aria-hidden /></span>{category.label}</span>}
                       {item.asset_slot && b.assets.filter(asset => asset.slot === item.asset_slot).map(asset => <figure className="service-item-image" key={asset.slot}>{image(asset.asset_id, asset.alt_text, asset.focal_point)}</figure>)}
-                      {item.icon && item.icon !== "none" ? <span className="service-marker" aria-hidden><ContentIcon name={item.icon} size={30} /></span> : !serviceLayout && !href && <span className="service-marker" aria-hidden><Check size={17} strokeWidth={1.5} /></span>}
+                      {icon && icon !== "none" ? <span className="service-marker" aria-hidden>{StudioIcon ? <StudioIcon size={30} strokeWidth={1.6} /> : <ContentIcon name={icon} size={30} />}</span> : !serviceLayout && !href && <span className="service-marker" aria-hidden><Check size={17} strokeWidth={1.5} /></span>}
                       <h3 className="font-editorial">{str(item.heading)}</h3>
                       <p>{str(item.body)}</p>
                       {str(item.detail) && <p className="service-item-detail">{str(item.detail)}</p>}
@@ -219,7 +231,7 @@ export function ContentBlocks({
               <ol className="public-steps" data-columns={str(d.columns) || undefined}>
                 {items.map((item, i) => (
                   <li key={i}>
-                    <span>{String(i + 1).padStart(2, "0")}</span>
+                    <span>{b.variant === "step-cards" ? i + 1 : String(i + 1).padStart(2, "0")}</span>
                     <div>
                       <h3>{str(item.heading)}</h3>
                       <p>{str(item.body)}</p>

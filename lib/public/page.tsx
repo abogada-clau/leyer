@@ -17,7 +17,7 @@ import { sitePath, publicHref, siteName, publicPathValid } from "./paths";
 import { PublicFrame } from "@/components/public/frame";
 import { PublicDocumentView } from "@/components/public/document";
 import { PublicListing } from "@/components/public/listing";
-import { ContactSection } from "@/components/public/contact-section";
+import { ContactChannels, ContactSection } from "@/components/public/contact-section";
 import { Team } from "@/components/public/team";
 import { MediaImage } from "@/components/ui/media-image";
 import type { PublicContext } from "./types";
@@ -195,7 +195,12 @@ export async function publicPage(path: string, search: Search = {}) {
     body = (
       <>
         {c.path !== "/" && crumb(c, entry.title)}
-        <PublicDocumentView data={snapshot} context={c} beforeFaq={contact && entry.template_key === "contact" ? <ContactSection context={c} entryId={entry.id} /> : undefined} />
+        <PublicDocumentView data={snapshot} context={c} beforeBlocks={contact && entry.template_key === "contact" ? (
+          <>
+            <ContactChannels context={c} />
+            <ContactSection context={c} entryId={entry.id} />
+          </>
+        ) : undefined} />
         {extras}
         {contact && entry.template_key !== "contact" && (
           <ContactSection
@@ -241,6 +246,7 @@ export async function publicPage(path: string, search: Search = {}) {
     body = (
       <>
         <PublicHeading title={title} eyebrow="Estamos para escucharte" />
+        <ContactChannels context={c} />
         <ContactSection context={c} />
       </>
     );

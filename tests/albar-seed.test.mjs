@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {readFileSync,existsSync} from 'node:fs';
 import {execFileSync,spawnSync} from 'node:child_process';
 import {manifest} from '../supabase/seeds/albar/content.mjs';
+import {entries as complementEntries} from '../supabase/seeds/albar/complement/content.mjs';
 
 if(process.env.NEXT_PUBLIC_SUPABASE_URL!=='http://127.0.0.1:57321') throw Error('Solo se admiten pruebas con Supabase local.');
 const accounts=JSON.parse(readFileSync('.local/admin-accounts.json','utf8'));
@@ -20,6 +21,7 @@ const check=(condition,message)=>`do $assert$ begin if not (${condition}) then r
 test('el catálogo cubre las 13 capturas, rutas únicas y enlaces internos existentes',()=>{
   const paths=new Set(manifest.entries.map(e=>e.path));
   assert.equal(paths.size,25);
+  for (const entry of complementEntries) paths.add(entry.path);
   const covered=new Set(manifest.entries.flatMap(e=>e.captures));
   assert.deepEqual([...covered].sort((a,b)=>a-b),Array.from({length:13},(_,i)=>i+1));
   function walk(value){if(!value||typeof value!=='object')return;for(const [key,v]of Object.entries(value)){if(key==='href'&&typeof v==='string'&&v.startsWith('/'))assert(paths.has(v),`Enlace inexistente: ${v}`);walk(v);}}

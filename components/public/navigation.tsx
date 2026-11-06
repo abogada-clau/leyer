@@ -9,19 +9,25 @@ export type NavNode = {
   href: string | null;
   children: NavNode[];
 };
-function Tree({ nodes, depth = 0 }: { nodes: NavNode[]; depth?: number }) {
+function Tree({ nodes, depth = 0, hover = false }: { nodes: NavNode[]; depth?: number; hover?: boolean }) {
   const pathname = usePathname();
   const prefix = useId();
   const [openId, setOpenId] = useState<string | null>(null);
   if (depth > 8) return null;
   return (
-    <ul onPointerLeave={(event) => { if (event.pointerType === "mouse") setOpenId(null); }}>
+    <ul onPointerLeave={(event) => {
+      if (hover && event.pointerType === "mouse" && !event.currentTarget.contains(document.activeElement))
+        setOpenId(null);
+    }}>
       {nodes.map((n) => {
         const open = n.id === openId;
         const panelId = `${prefix}-${n.id}`;
         return (
           <li key={n.id}
-            onPointerEnter={(event) => { if (event.pointerType === "mouse") setOpenId(n.children.length ? n.id : null); }}
+            onPointerEnter={(event) => {
+              if (hover && event.pointerType === "mouse" && !event.currentTarget.parentElement?.contains(document.activeElement))
+                setOpenId(n.children.length ? n.id : null);
+            }}
             onBlur={(event) => { if (!event.currentTarget.contains(event.relatedTarget as Node | null) && open) setOpenId(null); }}
             onKeyDown={(event) => {
               if (event.key === "Escape" && open) {
@@ -59,7 +65,7 @@ export function PublicNavigation({
   return (
     <>
       <nav aria-label="Navegación principal" className="public-desktop-nav">
-        <Tree key={path} nodes={nodes} />
+        <Tree key={path} nodes={nodes} hover />
       </nav>
       <details
         className="public-mobile-nav"

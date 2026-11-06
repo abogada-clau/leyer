@@ -86,8 +86,9 @@ const byKey = new Map([...base.entries, ...entries].map(e => [e.key, e]));
 const menuItem = key => ({ entry: key, label: entries.find(e => e.key === key)?.label || ({ familia: 'Derecho de familia', divorcios: 'Divorcios', alimentos: 'Pensión de alimentos', liquidacion_persona: 'Insolvencia y reemprendimiento', liquidacion_empresa: 'Insolvencia y reemprendimiento' })[key] });
 const primary = structuredClone(base.menus.find(m => m.code === 'primary'));
 primary.items.find(i => i.entry === 'personas').children = [
+  menuItem('liquidacion_persona'),
   { ...menuItem('familia'), children: ['divorcios', 'compensacion', 'alimentos', 'cuidado', 'relacion'].map(menuItem) },
-  ...['laboral_personas', 'liquidacion_persona', 'civil', 'escrituras'].map(menuItem),
+  ...['laboral_personas', 'civil', 'escrituras'].map(menuItem),
 ];
 primary.items.find(i => i.entry === 'empresas').children = ['liquidacion_empresa', 'laboral_empresas', 'corporativo', 'propiedad', 'contratacion', 'preventiva'].map(menuItem);
 const patches = ['personas', 'empresas', 'familia'].map(key => ({ key, blocks: [block('card_grid', {

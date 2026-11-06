@@ -1,5 +1,5 @@
 import { aboutTitle, aboutExcerpt, aboutBlocks, homeStudioIntro } from './about-content.mjs';
-import { peopleSteps } from './people-content.mjs';
+import { companySteps, peopleSteps, studioBenefits } from './people-content.mjs';
 import { editableService } from './service-content.mjs';
 /** Editorial source. Generate the self-contained SQL with scripts/build-albar-seed.mjs. */
 export const captures = [
@@ -61,18 +61,20 @@ export const entries = [
   ],'Empieza por lo que necesitas lograr'),
   split('Conoce a ALBAR','Una estrategia empieza por escuchar tu realidad.',homeStudioIntro,'claudia-perfil'),
   benefits(),block('related_content',{eyebrow:'Información para empezar',heading:'Lecturas que ayudan a ordenar tus preguntas',source:'posts'}),
-  block('testimonials',{eyebrow:'Testimonios',heading:'Experiencias con ALBAR'}),
+  block('testimonials',{eyebrow:'Testimonios',heading:'Reseñas de nuestros clientes'}),
   cta('No necesitas tener todas las respuestas para consultar.','Basta una descripción general de lo que ocurre. El siguiente paso es conocer el contexto y acordar cómo evaluar tu caso.'),
  ],{template_key:'home',strategy:{job:'Cuando enfrento un problema familiar o financiero, quiero identificar una vía y saber quién me acompañará para poder decidir con menor incertidumbre.',attention:'Situación y progreso deseado, antes que la disciplina jurídica.',interest:'Rutas por problemas y explicación del proceso.',desire:'Responsable visible, estrategia fundada, alcance acordado.',action:'Solicitar evaluación del caso.'}}),
  page('about',aboutTitle,aboutExcerpt,aboutBlocks()),
  page('personas','Soluciones legales para personas','Encuentra una orientación según la situación que necesitas resolver.',[
   hero('Personas','Una situación difícil se enfrenta mejor con un camino claro.','Empieza por el cambio que necesitas lograr. Revisaremos tu situación familiar o financiera y las alternativas que podrían corresponderte.'),
-  cards('¿Cuál es tu situación?', [['No puedo seguir pagando mis deudas','Evalúa tu situación antes de iniciar un procedimiento concursal.','liquidacion_persona'],['Quiero poner término a mi matrimonio','Identifica qué alternativa de divorcio puede ajustarse a tus antecedentes.','divorcios'],['Necesito regular o modificar los alimentos','Ordena las necesidades, los aportes y los cambios que conviene acreditar.','alimentos'],['La pensión no se está pagando','Conoce las vías para solicitar el cumplimiento de una pensión fijada.','cobro']]),steps(peopleSteps,'¿Cómo trabajamos?'),cta('Empecemos por tu principal preocupación.','Cuéntanos de forma general qué ocurre y qué necesitas resolver.'),
+  studioBenefits('personas'),
+  cards('¿Cuál es tu situación?', [['No puedo seguir pagando mis deudas','Evalúa tu situación antes de iniciar un procedimiento concursal.','liquidacion_persona'],['Quiero poner término a mi matrimonio','Identifica qué alternativa de divorcio puede ajustarse a tus antecedentes.','divorcios'],['Necesito regular o modificar los alimentos','Ordena las necesidades, los aportes y los cambios que conviene acreditar.','alimentos'],['La pensión no se está pagando','Conoce las vías para solicitar el cumplimiento de una pensión fijada.','cobro']]),{...steps(peopleSteps,'¿Cómo trabajamos?'),variant:'step-cards'},cta('Empecemos por tu principal preocupación.','Cuéntanos de forma general qué ocurre y qué necesitas resolver.'),
  ]),
  page('empresas','Orientación jurídica para decisiones de empresa','Evalúa la situación financiera de tu empresa y los pasos que conviene analizar antes de actuar.',[
   hero('Empresas','Antes de decidir el futuro del negocio, entiende tus alternativas.','Cuando las obligaciones comprometen la continuidad de la empresa, una evaluación de sus antecedentes permite distinguir entre dificultades transitorias y una situación que requiere una salida concursal.'),
+  studioBenefits('empresas'),
   cards('Ordena la decisión que necesitas tomar',[['Evaluar la insolvencia del negocio','Revisa deudas, activos, operación y procesos pendientes.','liquidacion_empresa'],['Comprender qué procedimiento corresponde','Distingue entre persona y empresa deudora y entre las vías que podrían ser aplicables.','liquidacion']]),
-  checklist('Antecedentes para una evaluación inicial',['Actividad de la empresa y situación tributaria.','Relación de obligaciones, acreedores y vencimientos.','Activos, garantías y flujo de ingresos.','Juicios, cobranzas y obligaciones laborales, cuando existan.'],{hidden:true}),steps(baseSteps),cta('Decide con una visión completa de la situación.','Revisemos los antecedentes del negocio antes de elegir una vía.'),
+  checklist('Antecedentes para una evaluación inicial',['Actividad de la empresa y situación tributaria.','Relación de obligaciones, acreedores y vencimientos.','Activos, garantías y flujo de ingresos.','Juicios, cobranzas y obligaciones laborales, cuando existan.'],{hidden:true}),{...steps(companySteps,'Así trabajamos con las empresas'),variant:'step-cards'},cta('Decide con una visión completa de la situación.','Revisemos los antecedentes del negocio antes de elegir una vía.'),
  ]),
  page('familia','Derecho de familia: decisiones con claridad','Orientación para ordenar una separación y las obligaciones de alimentos.',[
   hero('Derecho de familia','Protege lo importante mientras ordenas el siguiente paso.','Una separación o un desacuerdo económico puede traer preguntas sobre tus hijos, tus ingresos y tu futuro. Identifiquemos qué necesitas resolver y qué vías pueden ayudarte.'),
@@ -179,7 +181,7 @@ export const entries = [
  }),
  page('contacto','Solicita una evaluación de tu caso','Un primer contacto para comprender qué necesitas resolver y coordinar el siguiente paso.',[
   rich(['Cuéntanos de manera general qué ocurre y qué necesitas resolver. No es necesario incluir toda la historia ni adjuntar documentos para este primer contacto.','Enviar una consulta no confirma una cita ni crea por sí solo una relación de representación. Las condiciones de la evaluación y de un eventual encargo se acuerdan posteriormente.']),
-  block('cta',{heading:'También puedes escribir por correo.',body:'Si prefieres este canal, comparte una descripción general y un medio de respuesta. No envíes documentos sensibles sin acordar antes cómo hacerlo.',actions:[{label:'Escribir a ALBAR',href:'mailto:contacto@abogadaclaudia.com'}]}),faq(contactFaq),
+  {...block('split_content',{eyebrow:'Nuestro estudio',heading:'Conoce a ALBAR Abogados',body:homeStudioIntro,actions:[action('Conocer el estudio','about')]},'claudia-perfil'),variant:'image-right'},faq(contactFaq),
  ],{template_key:'contact'}),
  page('blog','Información para tomar decisiones','Guías iniciales sobre familia y obligaciones, con enlaces a las áreas de asesoría.',[],{template_key:'blog-index'}),
  page('privacidad','Privacidad y consultas del sitio','Información sobre el tratamiento de datos del formulario de primer contacto.',[
@@ -207,7 +209,7 @@ export const manifest={
  seed_key:'albar-abogados-editorial-v1',reviewed_at:'2026-10-21',site:{name:'Sitio principal ALBAR',domain:'www.albarabogados.cl',default_locale:'es-CL'},
  author:{slug:'claudia-albina-aros',display_name:'Claudia Albiña Aros',professional_title:'Abogada y fundadora de ALBAR Abogados',biography:'Abogada y fundadora de ALBAR Abogados. Su presentación pública describe una práctica centrada en la revisión de antecedentes, la explicación de alternativas y un acompañamiento cercano a personas y empresas.',asset_key:'claudia-perfil'},
  terms:[{key:'familia',name:'Derecho de familia',slug:'derecho-de-familia'},{key:'insolvencia',name:'Insolvencia y reemprendimiento',slug:'insolvencia-y-reemprendimiento'}],
- menus:[{code:'primary',name:'Navegación principal',items:[{label:'Inicio',entry:'home'},{label:'Sobre ALBAR',entry:'about'},{label:'Personas',entry:'personas',children:[{label:'Derecho de familia',entry:'familia'},{label:'Divorcio',entry:'divorcios'},{label:'Pensión de alimentos',entry:'alimentos'},{label:'Insolvencia',entry:'liquidacion_persona'}]},{label:'Empresas',entry:'empresas',children:[{label:'Insolvencia de empresas',entry:'liquidacion_empresa'}]},{label:'Blog',entry:'blog'},{label:'Contacto',entry:'contacto'}]},{code:'footer',name:'Navegación al pie',items:[{label:'Sobre ALBAR',entry:'about'},{label:'Personas',entry:'personas'},{label:'Empresas',entry:'empresas'},{label:'Blog',entry:'blog'},{label:'Contacto',entry:'contacto'},{label:'Privacidad',entry:'privacidad'},{label:'Aviso legal',entry:'aviso'}]}],
+ menus:[{code:'primary',name:'Navegación principal',items:[{label:'Inicio',entry:'home'},{label:'Sobre ALBAR',entry:'about'},{label:'Personas',entry:'personas',children:[{label:'Insolvencia y reemprendimiento',entry:'liquidacion_persona'},{label:'Derecho de familia',entry:'familia',children:[{label:'Divorcio',entry:'divorcios'},{label:'Pensión de alimentos',entry:'alimentos'}]}]},{label:'Empresas',entry:'empresas',children:[{label:'Insolvencia de empresas',entry:'liquidacion_empresa'}]},{label:'Blog',entry:'blog'},{label:'Contacto',entry:'contacto'}]},{code:'footer',name:'Navegación al pie',items:[{label:'Sobre ALBAR',entry:'about'},{label:'Personas',entry:'personas'},{label:'Empresas',entry:'empresas'},{label:'Blog',entry:'blog'},{label:'Contacto',entry:'contacto'},{label:'Privacidad',entry:'privacidad'},{label:'Aviso legal',entry:'aviso'}]}],
  redirects:[{from:'/sobre-mi',entry:'about'},{from:'/conoce-a-claudia',entry:'about'},{from:'/personas/derecho-de-familia/divorcio',entry:'divorcios'}],
  captures,entries,
 };

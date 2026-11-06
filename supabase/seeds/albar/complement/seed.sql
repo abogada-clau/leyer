@@ -5385,6 +5385,10 @@ insert into albar_complement_source values ($ALBAR_COMPLEMENT${
         "entry": "personas",
         "children": [
           {
+            "entry": "liquidacion_persona",
+            "label": "Insolvencia y reemprendimiento"
+          },
+          {
             "entry": "familia",
             "label": "Derecho de familia",
             "children": [
@@ -5413,10 +5417,6 @@ insert into albar_complement_source values ($ALBAR_COMPLEMENT${
           {
             "entry": "laboral_personas",
             "label": "Derecho laboral"
-          },
-          {
-            "entry": "liquidacion_persona",
-            "label": "Insolvencia y reemprendimiento"
           },
           {
             "entry": "civil",

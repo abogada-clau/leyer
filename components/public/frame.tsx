@@ -1,11 +1,12 @@
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, MessageCircle } from "lucide-react";
 import { ThemeSwitcher } from "@/components/theme-switcher";
 import { navigation, publicLocales, sectionAvailable } from "@/lib/public/data";
 import {
   publicHref,
   contentLink,
+  publicContactLinks,
   siteName,
   sitePath,
 } from "@/lib/public/paths";
@@ -25,6 +26,7 @@ export async function PublicFrame({
     c.route?.locales || publicLocales(c.site.id),
     c.site.settings.contact_enabled === true ? sectionAvailable(c, contact) : false,
   ]);
+  const { email, whatsapp } = publicContactLinks(c.site, nav.items);
   function tree(
     items: MenuItem[],
     parent: string | null = null,
@@ -53,27 +55,15 @@ export async function PublicFrame({
     nav.menus.find((m) => m.code === "main");
   const footer = nav.menus.find((m) => m.code === "footer");
   const main = primary
-    ? tree(nav.items.filter((i) => i.menu_id === primary.id))
+    ? tree(nav.items.filter((i) => i.menu_id === primary.id && (!whatsapp || i.external_url !== whatsapp)))
     : [];
   const footerItems = footer
     ? tree(nav.items.filter((i) => i.menu_id === footer.id))
     : [];
   const name = siteName(c.site);
-  const email =
-    typeof c.site.settings.email === "string" &&
-    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(c.site.settings.email)
-      ? c.site.settings.email
-      : null;
-  // Only reuse a WhatsApp destination already published in this site's menu.
-  const whatsapp = nav.items.map((item) => contentLink(c, item.external_url)).find((href) => {
-    if (!href) return false;
-    try {
-      const url = new URL(href);
-      return url.protocol === "https:" && url.hostname === "wa.me" && /^\/\d{8,15}$/.test(url.pathname);
-    } catch { return false; }
-  });
+  const contactHref = contactReady ? publicHref(c, contact) : undefined;
   return (
-    <div className={`public-site${contactReady ? " has-contact-dock" : ""}`}>
+    <div className={`public-site${whatsapp || contactHref ? " has-contact-dock" : ""}`}>
       <a className="public-skip" href="#contenido-principal">
         Saltar al contenido
       </a>
@@ -134,10 +124,15 @@ export async function PublicFrame({
               </nav>
             )}
             <ThemeSwitcher />
-            {contactReady && (
+            {whatsapp ? (
+              <a className="public-header-contact" href={whatsapp} aria-label="Consultar mi caso por WhatsApp">
+                <MessageCircle aria-hidden size={16} />
+                Consultar mi caso
+              </a>
+            ) : contactHref && (
               <Link
                 className="public-header-contact"
-                href={publicHref(c, contact)}
+                href={contactHref}
               >
                 Consultar mi caso
                 <ArrowUpRight aria-hidden size={16} />
@@ -146,7 +141,7 @@ export async function PublicFrame({
           </div>
         </div>
       </header>
-      <PublicExperience contactHref={contactReady ? publicHref(c, contact) : undefined} whatsappHref={whatsapp || undefined}>
+      <PublicExperience contactHref={contactHref} whatsappHref={whatsapp}>
         <main id="contenido-principal" tabIndex={-1} lang={c.locale}>
           {children}
         </main>

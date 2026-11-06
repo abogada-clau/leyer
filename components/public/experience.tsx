@@ -70,10 +70,11 @@ export function PublicExperience({ children, contactHref, whatsappHref }: {
   return (
     <div ref={root} className="public-experience">
       {children}
-      {contactHref && (
+      {(whatsappHref || contactHref) && (
         <nav ref={dock} className="public-contact-dock" aria-label="Contacto rápido">
-          <Link href={contactHref} className="dock-primary">Consultar mi caso <ArrowUpRight size={18} aria-hidden /></Link>
-          {whatsappHref && <a href={whatsappHref} className="dock-whatsapp"><MessageCircle size={19} aria-hidden /> WhatsApp</a>}
+          {whatsappHref
+            ? <a href={whatsappHref} className="dock-primary"><MessageCircle size={19} aria-hidden /> Consultar mi caso por WhatsApp</a>
+            : contactHref && <Link href={contactHref} className="dock-primary">Consultar mi caso <ArrowUpRight size={18} aria-hidden /></Link>}
         </nav>
       )}
     </div>

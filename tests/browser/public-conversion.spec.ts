@@ -60,8 +60,15 @@ test("public conversion: real contact destinations, mobile dock and reduced moti
   await page.screenshot({ path: ".local/albar-conversion-desktop.png" });
   await page.locator(".public-header-contact").focus();
   await expect(page.locator(".public-header-contact")).toBeFocused();
-  await page.keyboard.press("Enter");
-  await expect(page).toHaveURL(base + "/contacto");
+  await expect(page.locator(".public-header-contact")).toHaveAttribute("href", "https://wa.me/56946978661");
+  const mainNav = page.getByRole("navigation", { name: "Navegación principal" });
+  await expect(mainNav.getByRole("link", { name: "WhatsApp", exact: true })).toHaveCount(0);
+  await mainNav.getByRole("link", { name: "Contacto", exact: true }).click();
+  const channels = page.getByRole("navigation", { name: "Vías de contacto" });
+  await expect(channels.getByRole("link")).toHaveCount(3);
+  await expect(channels.getByRole("link", { name: /WhatsApp/ })).toHaveAttribute("href", "https://wa.me/56946978661");
+  await expect(channels.getByRole("link", { name: /Correo electrónico/ })).toHaveAttribute("href", "mailto:contacto@abogadaclaudia.com");
+  await expect(channels.getByRole("link", { name: /Formulario/ })).toHaveAttribute("href", "#consulta");
   await expect(page.getByRole("button", { name: "Enviar consulta", exact: true })).toBeVisible();
 
   for (const width of [820, 390]) {
@@ -72,14 +79,15 @@ test("public conversion: real contact destinations, mobile dock and reduced moti
     const dock = page.locator(".public-site:visible .public-contact-dock");
     await expect(dock).toBeVisible();
     if (width === 390) await page.screenshot({ path: ".local/albar-conversion-mobile.png" });
-    await expect(dock.getByRole("link", { name: "WhatsApp", exact: true })).toHaveAttribute("href", "https://wa.me/56946978661");
+    await expect(dock.getByRole("link")).toHaveCount(1);
+    await expect(dock.getByRole("link", { name: "Consultar mi caso por WhatsApp", exact: true })).toHaveAttribute("href", "https://wa.me/56946978661");
     expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width + 1);
     await page.getByLabel("Abrir menú de navegación").press("Enter");
     await expect(dock).toBeHidden();
     await page.getByLabel("Abrir menú de navegación").press("Escape");
     await expect(dock).toBeVisible();
-    await dock.getByRole("link", { name: "Consultar mi caso", exact: true }).press("Enter");
-    await expect(page).toHaveURL(base + "/contacto");
+    await page.getByLabel("Abrir menú de navegación").press("Enter");
+    await page.getByRole("navigation", { name: "Navegación móvil" }).getByRole("link", { name: "Contacto", exact: true }).click();
     await page.getByLabel("Tu nombre", { exact: true }).focus();
     await expect(dock).toBeHidden();
     await expect(dock).toHaveAttribute("inert", "");
