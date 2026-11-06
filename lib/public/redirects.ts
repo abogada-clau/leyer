@@ -12,7 +12,8 @@ export async function publicRouteRedirect(request: NextRequest) {
     /^\/(sitemap\.xml|robots\.txt|icon\.svg)$/.test(path) ||
     path === "/images/design-system-sample.webp" ||
     path === "/images/albar-logo.webp" ||
-    path === "/images/albar-logo-hd.webp"
+    path === "/images/albar-logo-hd.webp" ||
+    path === "/images/albar-diosa-justicia.webp"
   )
     return null;
   try {
