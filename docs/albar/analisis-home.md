@@ -53,7 +53,7 @@ La revisión de fuentes ayuda a redactar una propuesta prudente; la publicación
 | Deuda y AFP | Se distinguen la investigación de fondos y el mecanismo extraordinario con cotizaciones obligatorias. La intervención judicial, las condiciones y los límites importan; no se ofrece un retiro libre ni recuperación asegurada. [ChileAtiende: pago efectivo de alimentos](https://www.chileatiende.gob.cl/fichas/109566-ley-de-responsabilidad-parental-y-pago-efectivo-de-pensiones-de-alimentos), [Ley 21.484](https://www.bcn.cl/leychile/navegar?idNorma=1181003&tipoVersion=0). |
 | Insolvencia | Se explica que la calificación de persona o empresa deudora no depende solo de ser persona natural. Se consideran vías simplificadas y ordinarias, bienes, garantías, obligaciones excluidas y otras alternativas. No se garantiza conservar bienes ni extinguir toda deuda. [Superir: liquidación simplificada](https://www.superir.gob.cl/preguntas-frecuentes/preguntas-frecuentes-liquidacion-simplificada/), [Superir: liquidación ordinaria](https://www.superir.gob.cl/preguntas-frecuentes/preguntas-frecuentes-liquidacion-ordinaria/), [Ley 20.720](https://www.bcn.cl/leychile/navegar?idNorma=1058072). |
 
-Contacto resuelto: el cliente confirmó +56 9 4697 8661 y Av. Corrientes 1234, piso 5, Quinta Normal, Chile. El seed y la demostración local usan estos datos.
+Actualización de contacto del 7 de noviembre de 2026. El cliente confirmó el WhatsApp de oficina +56 9 2604 4751, el correo contacto@albarabogados.cl y la dirección Victoria Subercaseaux 69, oficina 604, Santiago. Estos datos sustituyen los usados en la revisión inicial.
 
 ## Decisiones pendientes del cliente
 

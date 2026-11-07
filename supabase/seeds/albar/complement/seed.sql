@@ -5500,9 +5500,9 @@ begin
   'relations',coalesce((select jsonb_agg(jsonb_build_object('entry_id',entries->>value,'type','related')) from jsonb_array_elements_text(coalesce(source->'relations','[]'))),'[]'::jsonb));
  -- Safe JSON substitutions, never SQL string interpolation or executable HTML.
  replacements:=jsonb_build_object('{{privacy_controller}}',coalesce(nullif(config->>'privacy_controller',''),'[Responsable pendiente de validación]'),
-  '{{privacy_email}}',coalesce(config->>'privacy_email','contacto@abogadaclaudia.com'),
+  '{{privacy_email}}',coalesce(config->>'privacy_email','contacto@albarabogados.cl'),
   '{{privacy_processors}}',coalesce(nullif(config->>'privacy_processors',''),'[Proveedores, región y encargados pendientes de validación]'),
-  '{{whatsapp}}',coalesce(config->>'whatsapp','56946978661'),
+  '{{whatsapp}}',coalesce(config->>'whatsapp','56926044751'),
   '{{retention_days}}',coalesce(config->>'retention_days','[Plazo pendiente de validación]'));
  for pair in select key,value from jsonb_each_text(replacements) loop
   -- Replacing JSON-encoded strings preserves quotes, newlines and backslashes in config values.

@@ -14,12 +14,12 @@ insert into albar_seed_config values (
   "legal_review_confirmed": false,
   "privacy_review_confirmed": false,
   "privacy_controller": null,
-  "privacy_email": "contacto@abogadaclaudia.com",
+  "privacy_email": "contacto@albarabogados.cl",
   "privacy_processors": null,
   "retention_days": null,
-  "phone": "+56 9 4697 8661",
-  "address": "Av. Corrientes 1234, piso 5, Quinta Normal, Chile",
-  "whatsapp": "56946978661",
+  "phone": "+56 9 2604 4751",
+  "address": "Victoria Subercaseaux 69, oficina 604, Santiago, Región Metropolitana, Chile",
+  "whatsapp": "56926044751",
   "contact_enabled": false,
   "demo": false,
   "assets": {}
@@ -54,9 +54,9 @@ begin
   'relations',coalesce((select jsonb_agg(jsonb_build_object('entry_id',entries->>value,'type','related')) from jsonb_array_elements_text(coalesce(source->'relations','[]'))),'[]'::jsonb));
  -- Safe JSON substitutions, never SQL string interpolation or executable HTML.
  replacements:=jsonb_build_object('{{privacy_controller}}',coalesce(nullif(config->>'privacy_controller',''),'[Responsable pendiente de validación]'),
-  '{{privacy_email}}',coalesce(config->>'privacy_email','contacto@abogadaclaudia.com'),
+  '{{privacy_email}}',coalesce(config->>'privacy_email','contacto@albarabogados.cl'),
   '{{privacy_processors}}',coalesce(nullif(config->>'privacy_processors',''),'[Proveedores, región y encargados pendientes de validación]'),
-  '{{whatsapp}}',coalesce(config->>'whatsapp','56946978661'),
+  '{{whatsapp}}',coalesce(config->>'whatsapp','56926044751'),
   '{{retention_days}}',coalesce(config->>'retention_days','[Plazo pendiente de validación]'));
  for pair in select key,value from jsonb_each_text(replacements) loop
   -- Replacing JSON-encoded strings preserves quotes, newlines and backslashes in config values.
@@ -142,7 +142,7 @@ begin
    raise exception 'El recurso % debe estar optimizado, existir en cms-public y pertenecer a ALBAR',row_menu.key;end if;
  end loop;
  snapshot:=jsonb_strip_nulls(jsonb_build_object('public_name','ALBAR Abogados','description','Asesoría jurídica para personas y empresas, con claridad, estrategia y acompañamiento cercano.',
-  'email','contacto@abogadaclaudia.com','phone',cfg->'phone','address',cfg->'address','demo',coalesce((cfg->>'demo')::boolean,false),
+  'email','contacto@albarabogados.cl','phone',cfg->'phone','address',cfg->'address','demo',coalesce((cfg->>'demo')::boolean,false),
   'contact_enabled',coalesce((cfg->>'contact_enabled')::boolean,false),'contact_on_landings',coalesce((cfg->>'contact_enabled')::boolean,false),
   'privacy_path','/privacidad','contact_path','/contacto','blog_path','/blog','team_path','/equipo','services_path','/servicios'));
  if known then

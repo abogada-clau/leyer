@@ -901,6 +901,9 @@
 .block-split_content.variant-studio-origin.has-media > .block-visual { order: 0; }
 .variant-studio-origin img { width: 100%; border-radius: var(--radius); }
 .variant-studio-origin figcaption { text-align: center; }
+.template-contact .block-split_content.has-media .block-visual > figure > div {
+  aspect-ratio: 3 / 4 !important;
+}
 
 .block-steps.variant-step-cards { display: block; text-align: center; }
 .variant-step-cards .public-steps {

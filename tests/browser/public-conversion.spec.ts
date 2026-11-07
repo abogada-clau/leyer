@@ -60,14 +60,14 @@ test("public conversion: real contact destinations, mobile dock and reduced moti
   await page.screenshot({ path: ".local/albar-conversion-desktop.png" });
   await page.locator(".public-header-contact").focus();
   await expect(page.locator(".public-header-contact")).toBeFocused();
-  await expect(page.locator(".public-header-contact")).toHaveAttribute("href", "https://wa.me/56946978661");
+  await expect(page.locator(".public-header-contact")).toHaveAttribute("href", "https://wa.me/56926044751");
   const mainNav = page.getByRole("navigation", { name: "Navegación principal" });
   await expect(mainNav.getByRole("link", { name: "WhatsApp", exact: true })).toHaveCount(0);
   await mainNav.getByRole("link", { name: "Contacto", exact: true }).click();
   const channels = page.getByRole("navigation", { name: "Vías de contacto" });
   await expect(channels.getByRole("link")).toHaveCount(3);
-  await expect(channels.getByRole("link", { name: /WhatsApp/ })).toHaveAttribute("href", "https://wa.me/56946978661");
-  await expect(channels.getByRole("link", { name: /Correo electrónico/ })).toHaveAttribute("href", "mailto:contacto@abogadaclaudia.com");
+  await expect(channels.getByRole("link", { name: /WhatsApp/ })).toHaveAttribute("href", "https://wa.me/56926044751");
+  await expect(channels.getByRole("link", { name: /Correo electrónico/ })).toHaveAttribute("href", "mailto:contacto@albarabogados.cl");
   await expect(channels.getByRole("link", { name: /Formulario/ })).toHaveAttribute("href", "#consulta");
   await expect(page.getByRole("button", { name: "Enviar consulta", exact: true })).toBeVisible();
 
@@ -80,7 +80,7 @@ test("public conversion: real contact destinations, mobile dock and reduced moti
     await expect(dock).toBeVisible();
     if (width === 390) await page.screenshot({ path: ".local/albar-conversion-mobile.png" });
     await expect(dock.getByRole("link")).toHaveCount(1);
-    await expect(dock.getByRole("link", { name: "Consultar mi caso por WhatsApp", exact: true })).toHaveAttribute("href", "https://wa.me/56946978661");
+    await expect(dock.getByRole("link", { name: "Consultar mi caso por WhatsApp", exact: true })).toHaveAttribute("href", "https://wa.me/56926044751");
     expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width + 1);
     await page.getByLabel("Abrir menú de navegación").press("Enter");
     await expect(dock).toBeHidden();

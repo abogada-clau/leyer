@@ -62,6 +62,7 @@ export async function PublicFrame({
     : [];
   const name = siteName(c.site);
   const contactHref = contactReady ? publicHref(c, contact) : undefined;
+  const address = typeof c.site.settings.address === "string" ? c.site.settings.address.trim() : "";
   return (
     <div className={`public-site${whatsapp || contactHref ? " has-contact-dock" : ""}`}>
       <a className="public-skip" href="#contenido-principal">
@@ -175,8 +176,15 @@ export async function PublicFrame({
             </nav>
             <address>
               {email && <a href={`mailto:${email}`}>{email}</a>}
-              {typeof c.site.settings.address === "string" && (
-                <p>{c.site.settings.address}</p>
+              {address && (
+                <a
+                  href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`${address}. Abrir en Google Maps`}
+                >
+                  {address}
+                </a>
               )}
               {!email && (
                 <p>Los datos de contacto todavía no están disponibles.</p>

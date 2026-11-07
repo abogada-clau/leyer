@@ -34,7 +34,7 @@ el panel y se respetan mediante controles de concurrencia.
 4. El resultado muestra identificadores, 25 contenidos y cero publicaciones. El sitio queda en borrador y los últimos snapshots en revisión. El SQL falla sin datos parciales si el actor o la configuración no son válidos.
 5. Opcionalmente indica `admin_email` de una cuenta Auth activa ya existente para habilitar su acceso administrativo al sitio. Las cuentas se crean mediante Supabase Auth.
 
-Los datos confirmados por el cliente son teléfono y WhatsApp **+56 9 4697 8661** y dirección **Av. Corrientes 1234, piso 5, Quinta Normal, Chile**. El seed los incorpora en `phone`, `address` y `whatsapp`; este último usa solo dígitos con código de país (`56946978661`). El correo público observado es `contacto@abogadaclaudia.com`. No se inventan enlaces sociales.
+Los datos confirmados por el cliente son teléfono y WhatsApp **+56 9 2604 4751** y dirección **Victoria Subercaseaux 69, oficina 604, Santiago, Región Metropolitana, Chile**. El seed los incorpora en `phone`, `address` y `whatsapp`; este último usa solo dígitos con código de país (`56926044751`). El correo confirmado por el cliente es `contacto@albarabogados.cl`. No se inventan enlaces sociales.
 
 El dominio predeterminado es `www.albarabogados.cl`. Esto configura la resolución del sitio en Leyer; no cambia DNS, certificados, hosting ni despliega la aplicación. Revisa el dominio que atenderá el despliegue antes de activar el sitio.
 
