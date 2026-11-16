@@ -1,8 +1,10 @@
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowUpRight, MessageCircle } from "lucide-react";
+import Script from "next/script";
+import { ArrowUpRight, MessageCircle, Phone } from "lucide-react";
 import { ThemeSwitcher } from "@/components/theme-switcher";
 import { navigation, publicLocales, sectionAvailable } from "@/lib/public/data";
+import { googleTagManagerId } from "@/lib/public/google-tag-manager";
 import {
   publicHref,
   contentLink,
@@ -61,10 +63,25 @@ export async function PublicFrame({
     ? tree(nav.items.filter((i) => i.menu_id === footer.id))
     : [];
   const name = siteName(c.site);
+  const googleId = googleTagManagerId(c.site.settings.google_tag_manager_id);
   const contactHref = contactReady ? publicHref(c, contact) : undefined;
   const address = typeof c.site.settings.address === "string" ? c.site.settings.address.trim() : "";
   return (
     <div className={`public-site${whatsapp || contactHref ? " has-contact-dock" : ""}`}>
+      {googleId && (
+        <Script id={`google-tag-manager-${googleId}`} strategy="afterInteractive">
+          {`{
+            window.dataLayer = window.dataLayer || [];
+            window.gtag = function gtag() { window.dataLayer.push(arguments); };
+            window.gtag('js', new Date());
+            window.dataLayer.push({ 'gtm.start': Date.now(), event: 'gtm.js' });
+            const googleTagScript = document.createElement('script');
+            googleTagScript.async = true;
+            googleTagScript.src = ${JSON.stringify(`https://www.googletagmanager.com/gtm.js?id=${googleId}`)};
+            document.head.appendChild(googleTagScript);
+          }`}
+        </Script>
+      )}
       <a className="public-skip" href="#contenido-principal">
         Saltar al contenido
       </a>
@@ -126,9 +143,12 @@ export async function PublicFrame({
             )}
             <ThemeSwitcher />
             {whatsapp ? (
-              <a className="public-header-contact" href={whatsapp} aria-label="Consultar mi caso por WhatsApp">
-                <MessageCircle aria-hidden size={16} />
-                Consultar mi caso
+              <a className="public-header-contact public-header-whatsapp" href={whatsapp} aria-label="Consultar mi caso por WhatsApp">
+                <span className="relative inline-grid place-items-center" aria-hidden>
+                  <MessageCircle size={20} />
+                  <Phone size={8} strokeWidth={2.5} className="absolute" />
+                </span>
+                <span className="public-header-contact-label">Consultar mi caso</span>
               </a>
             ) : contactHref && (
               <Link

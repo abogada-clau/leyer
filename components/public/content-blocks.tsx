@@ -142,7 +142,7 @@ export function ContentBlocks({
                 {heading}
                 {actions}
                 {d.note && <p className="public-action-note"><ContentIcon name={d.note_icon} size={15} />{str(d.note)}</p>}
-                {!serviceLayout && b.type === "hero" && contactHref && !d.note && <p className="public-action-note"><MessageCircle size={15} aria-hidden /> El primer paso es contarnos qué necesitas resolver.</p>}
+                {!homeNavigation && !serviceLayout && b.type === "hero" && contactHref && !d.note && <p className="public-action-note"><MessageCircle size={15} aria-hidden /> El primer paso es contarnos qué necesitas resolver.</p>}
               </div>
               {(serviceLayout ? visual : assets.length > 0) && <div className="block-visual">{serviceLayout ? visual : assets}</div>}
             </>
@@ -287,6 +287,7 @@ export function ContentBlocks({
           <Fragment key={b.key}>
           {index === firstFaq && beforeFaq}
           <section
+            id={homeNavigation && index === firstNavigation ? "areas-de-practica" : undefined}
             data-block={b.type}
             aria-label={str(d.aria_label) || undefined}
             data-tone={str(d.tone) || undefined}

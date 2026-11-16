@@ -16,6 +16,7 @@ estudio, creación de sitios, membresías ni administración de plataforma.
 | `/admin/routes` | Rutas y redirecciones. |
 | `/admin/settings` | Configuración y datos públicos. |
 | `/admin/contacts` | Consultas privadas del formulario público. |
+| `/admin/users` | Generación de enlaces para invitar a nuevas cuentas administradoras. |
 | `/admin/audit` | Registro de cambios. |
 | `/admin/profile` | Nombre, apariencia y contraseña. |
 
@@ -27,9 +28,16 @@ operaciones del servidor verifican ambos valores. Una cuenta autenticada sin
 acceso administrativo solo puede consultar su perfil. Los metadatos de Auth no
 conceden acceso.
 
-Las cuentas se preparan desde Supabase Auth y se habilitan mediante una conexión
-SQL de confianza, según [la guía de base de datos](../supabase/README.md). No hay
-registro público ni formulario para conceder privilegios en la aplicación.
+La primera cuenta se habilita mediante una conexión SQL de confianza. Las cuentas
+administradoras activas pueden ir a **Usuarios**, ingresar el correo de la persona
+y copiar el enlace. La persona invitada debe aceptar el enlace y crear su contraseña.
+Si el enlace vence antes de aceptarlo, se puede generar otro para el mismo correo.
+El servidor usa `SUPABASE_SERVICE_ROLE_KEY` para emitir el enlace y `APP_URL`
+para construir la dirección que se va a compartir.
+
+En **Configuración**, el campo **ID de Google Tag Manager** admite IDs como
+`GTM-WXB9LZVP`. Al vaciar el campo se desactiva la carga de Google Tag Manager en
+el sitio público.
 
 ## Edición y publicación
 

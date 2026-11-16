@@ -52,7 +52,10 @@ const service=(key,title,excerpt,heading,body,options={})=>editableService({
 const page=(key,title,excerpt,blocks,options={})=>({key,kind:options.kind||'page',path:paths[key],parent:options.parent||null,title,excerpt,template_key:options.template_key||'default',terms:options.terms||[],relations:options.relations||[],captures:options.captures||[],strategy:options.strategy||{job:excerpt,attention:title,interest:'Ordenar las preguntas del visitante.',desire:'Entender el siguiente paso.',action:'Solicitar evaluación.'},blocks});
 export const entries = [
  page('home','Asesoría jurídica para decidir con claridad','ALBAR Abogados: orientación y representación para personas y empresas, con una estrategia construida a partir de los hechos de cada caso.',[
-  hero('ALBAR Abogados · Personas y empresas','Cuando una decisión cambia tu vida, necesitas una estrategia diseñada a tu medida.','¿Enfrentas un sobreendeudamiento, una separación, un asunto de alimentos u otro problema legal y no sabes por dónde empezar? En Albar revisamos tu situación, te explicamos tus opciones y definimos contigo los próximos pasos a partir de los antecedentes de tu caso, con un trato cercano y honesto.','claudia-perfil',[action()]),
+  hero('Ley de Quiebras (Ley 20.720)','¿Tus deudas se acumulan y las cobranzas no paran?','Revisemos tu situación y las alternativas que ofrece la Ley 20.720.','claudia-perfil',[
+   {label:'Hablar con una abogada',href:'https://wa.me/{{whatsapp}}',style:'primary',icon:'message-circle'},
+   {label:'Ver otras áreas',href:'#areas-de-practica',style:'text',icon:'none'},
+  ]),
   cards('¿Qué necesitas resolver hoy?',[
    ['Mis deudas superan mi capacidad de pago','Comprende qué alternativas pueden corresponderte y qué efectos tendrían sobre tus bienes y obligaciones.','liquidacion_persona'],
    ['Necesito asegurar o ajustar la pensión de mis hijos','Revisa cómo solicitar, modificar o exigir el cumplimiento de los alimentos según tu situación.','alimentos'],

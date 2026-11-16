@@ -1,6 +1,7 @@
 "use server";
 
 import { reservedPath, publicPathValid } from "@/lib/public/paths";
+import { googleTagManagerId } from "@/lib/public/google-tag-manager";
 import { revalidatePath, revalidateTag } from "next/cache";
 import {
   getIdentity,
@@ -264,6 +265,13 @@ export async function mutate(input: {
         )
           throw new Error("Configuración pública inválida.");
         const publicSettings = settings as Record<string, Json>;
+        const googleId = publicSettings.google_tag_manager_id;
+        if (googleId != null) {
+          const normalized = googleTagManagerId(googleId);
+          if (!normalized && (typeof googleId !== "string" || googleId.trim()))
+            throw new Error("Ingresa un ID válido de Google Tag Manager que empiece con GTM-.");
+          publicSettings.google_tag_manager_id = normalized || "";
+        }
         for (const field of ["public_name", "phone", "address", "description"])
           if (publicSettings[field] != null)
             text(

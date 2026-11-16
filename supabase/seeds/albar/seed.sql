@@ -200,13 +200,21 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
           "schema_version": 1,
           "variant": "image-right",
           "data": {
-            "eyebrow": "ALBAR Abogados · Personas y empresas",
-            "heading": "Cuando una decisión cambia tu vida, necesitas una estrategia diseñada a tu medida.",
-            "body": "¿Enfrentas un sobreendeudamiento, una separación, un asunto de alimentos u otro problema legal y no sabes por dónde empezar? En Albar revisamos tu situación, te explicamos tus opciones y definimos contigo los próximos pasos a partir de los antecedentes de tu caso, con un trato cercano y honesto.",
+            "eyebrow": "Ley de Quiebras (Ley 20.720)",
+            "heading": "¿Tus deudas se acumulan y las cobranzas no paran?",
+            "body": "Revisemos tu situación y las alternativas que ofrece la Ley 20.720.",
             "actions": [
               {
-                "label": "Solicitar evaluación de mi caso",
-                "href": "/contacto"
+                "label": "Hablar con una abogada",
+                "href": "https://wa.me/{{whatsapp}}",
+                "style": "primary",
+                "icon": "message-circle"
+              },
+              {
+                "label": "Ver otras áreas",
+                "href": "#areas-de-practica",
+                "style": "text",
+                "icon": "none"
               }
             ]
           },

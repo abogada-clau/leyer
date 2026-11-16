@@ -7,7 +7,7 @@ export default async function Settings() {
     <>
       <Heading
         title="Configuración"
-        description="Estos datos son públicos. Guarda aquí únicamente la información de contacto y presentación del estudio."
+        description="Edita la información pública del estudio y el ID de Google Tag Manager."
       />
       <div className="space-y-6">
         <SiteSettings site={site} />

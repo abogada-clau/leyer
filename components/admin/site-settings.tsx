@@ -20,6 +20,7 @@ export function SiteSettings({ site }: { site: Site }) {
           phone: site.settings.phone || "",
           address: site.settings.address || "",
           description: site.settings.description || "",
+          google_tag_manager_id: site.settings.google_tag_manager_id || "",
           contact_enabled: site.settings.contact_enabled === true,
           contact_on_landings: site.settings.contact_on_landings === true,
           privacy_path: site.settings.privacy_path || "/privacidad",
@@ -86,6 +87,12 @@ export function SiteSettings({ site }: { site: Site }) {
             label: "Presentación del estudio",
             type: "textarea",
           },
+          {
+            key: "google_tag_manager_id",
+            label: "ID de Google Tag Manager",
+            help: "Para la etiqueta de Google Ads, ingresa el ID del contenedor (GTM-WXB9LZVP). Déjalo vacío para desactivar la carga.",
+            maxLength: 28,
+          },
         ]}
         pending={pending}
         error={result.error}
@@ -97,6 +104,7 @@ export function SiteSettings({ site }: { site: Site }) {
               phone,
               address,
               description,
+              google_tag_manager_id,
               contact_enabled,
               contact_on_landings,
               privacy_path,
@@ -119,6 +127,7 @@ export function SiteSettings({ site }: { site: Site }) {
                   phone,
                   address,
                   description,
+                  google_tag_manager_id,
                   contact_enabled,
                   contact_on_landings,
                   privacy_path,

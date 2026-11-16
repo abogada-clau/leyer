@@ -11,6 +11,7 @@ import {
   Route,
   ShieldCheck,
   UserRound,
+  UsersRound,
   MessagesSquare,
   Quote,
 } from "lucide-react";
@@ -50,6 +51,7 @@ export function AdminFrame({
           { id: "/admin/navigation", label: "Navegación", icon: ListTree },
           { id: "/admin/routes", label: "Rutas y redirecciones", icon: Route },
           { id: "/admin/settings", label: "Configuración", icon: Settings },
+          { id: "/admin/users", label: "Usuarios", icon: UsersRound },
         ]
       : []),
     ...(can("contacts.read")

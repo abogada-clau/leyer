@@ -75,6 +75,8 @@ test("public conversion: real contact destinations, mobile dock and reduced moti
     await page.setViewportSize({ width, height: 844 });
     await page.goto(base || "/");
     await expect(page.locator(".public-experience")).toHaveAttribute("data-enhanced", "true");
+    const headerWhatsApp = page.getByRole("banner").getByRole("link", { name: "Consultar mi caso por WhatsApp" });
+    await expect(headerWhatsApp).toBeInViewport();
     // Next retains previous routes in hidden Activity boundaries.
     const dock = page.locator(".public-site:visible .public-contact-dock");
     await expect(dock).toBeVisible();
@@ -84,6 +86,7 @@ test("public conversion: real contact destinations, mobile dock and reduced moti
     expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width + 1);
     await page.getByLabel("Abrir menú de navegación").press("Enter");
     await expect(dock).toBeHidden();
+    await expect(headerWhatsApp).toBeInViewport();
     await page.getByLabel("Abrir menú de navegación").press("Escape");
     await expect(dock).toBeVisible();
     await page.getByLabel("Abrir menú de navegación").press("Enter");
@@ -91,6 +94,7 @@ test("public conversion: real contact destinations, mobile dock and reduced moti
     await page.getByLabel("Tu nombre", { exact: true }).focus();
     await expect(dock).toBeHidden();
     await expect(dock).toHaveAttribute("inert", "");
+    await expect(page.getByRole("banner").getByRole("link", { name: "Consultar mi caso por WhatsApp" })).toBeInViewport();
     await expect(page.getByLabel("Tu nombre", { exact: true })).toBeFocused();
     await page.goto(base || "/");
     await expect(dock).toBeVisible();

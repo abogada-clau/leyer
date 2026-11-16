@@ -14,7 +14,13 @@ select hasnt_function('public','get_media_upload_context',array['uuid'],'Uploads
 
 insert into auth.users(id,email,raw_user_meta_data) values
  ('10000000-0000-0000-0000-000000000001','single-admin@example.test','{}'),
- ('10000000-0000-0000-0000-000000000002','single-pending@example.test','{"is_admin":true,"role":"super_admin"}');
+ ('10000000-0000-0000-0000-000000000002','single-pending@example.test','{"is_admin":true,"role":"super_admin"}'),
+ ('10000000-0000-0000-0000-000000000003','single-invited@example.test','{}'),
+ ('10000000-0000-0000-0000-000000000004','single-invited-password@example.test','{}');
+update auth.users set invited_at=now(), encrypted_password=''
+where id='10000000-0000-0000-0000-000000000003';
+update auth.users set invited_at=now(), encrypted_password='existing-password-hash'
+where id='10000000-0000-0000-0000-000000000004';
 update public.profiles set is_admin=true where id='10000000-0000-0000-0000-000000000001';
 select is((select is_admin from public.profiles where id='10000000-0000-0000-0000-000000000002'),false,'Forged signup metadata does not grant access');
 select set_config('test.site',(select id::text from public.sites),true);
@@ -25,6 +31,7 @@ select is(public.get_admin_context()->'site','null'::jsonb,'Pending account has 
 select is((select count(*)::integer from public.get_media_upload_context()),0,'Pending account cannot upload');
 select is((select count(*)::integer from public.get_cms_entries(current_setting('test.site')::uuid)),0,'Pending account cannot read drafts');
 select throws_ok($$update public.profiles set is_admin=true where id=auth.uid()$$,'42501',null,'Accounts cannot promote themselves');
+select throws_ok($$select public.grant_invited_admin('10000000-0000-0000-0000-000000000003')$$,'42501',null,'Accounts without access cannot grant invitations');
 select throws_ok($$insert into public.sites(name) values('Unauthorized site')$$,'42501',null,'Accounts cannot create sites');
 
 select set_config('request.jwt.claim.sub','10000000-0000-0000-0000-000000000001',true);
@@ -32,6 +39,10 @@ select is((public.get_admin_context()->>'is_admin')::boolean,true,'Owner has dir
 select ok(public.get_admin_context()->'site'->>'id' is not null,'Owner receives one site object');
 select ok(not(public.get_admin_context() ?| array['organizations','memberships','sites','super_admin']),'Context has no tenant selection data');
 select is((select count(*)::integer from public.get_media_upload_context()),1,'Owner can upload to the only site');
+select lives_ok($$select public.grant_invited_admin('10000000-0000-0000-0000-000000000003')$$,'Owner can grant administrator access to a pending invitation');
+select ok((select is_admin from public.profiles where id='10000000-0000-0000-0000-000000000003'),'Invited profile has admin access');
+select throws_ok($$select public.grant_invited_admin('10000000-0000-0000-0000-000000000002')$$,'23514',null,'Existing non-invited accounts cannot be promoted through invitations');
+select throws_ok($$select public.grant_invited_admin('10000000-0000-0000-0000-000000000004')$$,'23514',null,'Invitations cannot grant access to an account with an existing password');
 insert into public.content_entries(id,site_id,kind,internal_name) values
  ('20000000-0000-0000-0000-000000000001',current_setting('test.site')::uuid,'page','Single client verification');
 select set_config('test.revision', public.save_content_revision('20000000-0000-0000-0000-000000000001',null,
@@ -46,6 +57,7 @@ select is(public.get_public_site()->>'id',current_setting('test.site'),'Anonymou
 select is(public.get_public_snapshot(current_setting('test.revision')::uuid)->>'title','Single client','Published snapshot remains readable');
 select throws_ok($$select public.get_admin_context()$$,'42501',null,'Admin context is private');
 select throws_ok($$select public.get_media_upload_context()$$,'42501',null,'Media upload context is private');
+select throws_ok($$select public.grant_invited_admin('10000000-0000-0000-0000-000000000003')$$,'42501',null,'Invitation grants are private');
 reset role;
 update public.profiles set status='suspended' where id='10000000-0000-0000-0000-000000000001';
 set local role authenticated;

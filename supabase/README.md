@@ -39,9 +39,10 @@ from auth.users u
 where u.id = p.id and lower(u.email) = lower('correo-de-la-propietaria@example.com');
 ```
 
-La aplicación solo permite editar el nombre y las preferencias del perfil; no
-puede conceder `is_admin` ni cambiar `status`. Los metadatos del registro no
-habilitan permisos. Para revocar acceso, cambiar `is_admin=false` o suspender la
+Las cuentas administradoras activas pueden emitir invitaciones desde **Usuarios**.
+La base habilita el perfil de una cuenta pendiente creada por Supabase Auth para
+la invitación. Los metadatos del registro no habilitan permisos. Para revocar
+acceso, cambiar `is_admin=false` o suspender la
 cuenta con `status='suspended'`; las operaciones consultan esos valores incluso
 con un token que siga vigente. En producción deshabilitar el registro público
 en Supabase Auth. `supabase/config.toml` ya lo deshabilita en local.
@@ -61,6 +62,11 @@ Las lecturas internas usan `get_cms_entries`, `get_cms_revisions`,
 `get_cms_listing`, `get_cms_snapshot` y `get_cms_media`; las públicas usan
 `published_content`, `get_public_site()` y `get_public_snapshot`. Todas verifican
 el acceso o el estado de publicación correspondiente.
+
+Para actualizar el hero de un sitio ALBAR ya publicado, aplica
+[el parche del home](patches/albar-home-20261116.sql) con el UUID de la cuenta
+administradora que aprueba el cambio. El parche publica una revisión nueva y
+conserva la anterior.
 
 Las cargas nuevas usan `site_id/asset_id/nombre.webp`, o `.pdf`. Los archivos
 históricos conservan su ruta física. Las imágenes se optimizan en el servidor y
