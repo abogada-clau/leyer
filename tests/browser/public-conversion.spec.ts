@@ -69,7 +69,7 @@ test("public conversion: real contact destinations, mobile dock and reduced moti
   await expect(channels.getByRole("link", { name: /WhatsApp/ })).toHaveAttribute("href", "https://wa.me/56926044751");
   await expect(channels.getByRole("link", { name: /Correo electrónico/ })).toHaveAttribute("href", "mailto:contacto@albarabogados.cl");
   await expect(channels.getByRole("link", { name: /Formulario/ })).toHaveAttribute("href", "#consulta");
-  await expect(page.getByRole("button", { name: "Enviar consulta", exact: true })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Continuar por WhatsApp", exact: true })).toBeVisible();
 
   for (const width of [820, 390]) {
     await page.setViewportSize({ width, height: 844 });
@@ -108,7 +108,34 @@ test("public conversion: real contact destinations, mobile dock and reduced moti
   await expect(page.locator(".public-service-item").first()).toBeVisible();
   expect(await page.locator(".public-experience").evaluate(node => node.getAnimations({ subtree: true }).filter(animation => animation.playState === "running").length)).toBe(0);
   await page.goto(base + "/personas/derecho-de-familia/divorcios");
-  await page.getByRole("button", { name: "Enviar consulta", exact: true }).scrollIntoViewIfNeeded();
+  await page.getByRole("button", { name: "Continuar por WhatsApp", exact: true }).scrollIntoViewIfNeeded();
   await expect(page.getByRole("navigation", { name: "Contacto rápido", exact: true })).toBeHidden();
   expect(errors).toEqual([]);
+});
+
+test("contact and service forms prepare a WhatsApp message after saving the consultation", async ({ page }) => {
+  test.skip(base == null, "Requiere el seed local de ALBAR.");
+  await page.route("**/api/contact", route => route.fulfill({ status: 201, json: { id: "test-receipt" } }));
+  await page.route("https://wa.me/**", route => route.fulfill({ status: 200, body: "WhatsApp test" }));
+  for (const path of ["/contacto", "/personas/derecho-de-familia/divorcios/mutuo-acuerdo"]) {
+    await page.goto(base + path);
+    const form = page.locator("[data-contact-form]");
+    if (path === "/contacto") {
+      await form.getByLabel("Motivo de la consulta").fill("Consulta de prueba");
+    } else {
+      await expect(page.locator(".block-hero").locator("[data-contact-form]")).toHaveCount(1);
+      await expect(form.getByLabel("Motivo de la consulta")).toHaveCount(0);
+    }
+    await form.getByLabel("Tu nombre", { exact: true }).fill("Nombre de prueba");
+    await form.getByLabel("Correo electrónico", { exact: true }).fill("persona@example.test");
+    await form.getByLabel("¿En qué podemos ayudarte?", { exact: true }).fill("Quisiera orientación sobre mi situación.");
+    await form.getByRole("checkbox").check();
+    await form.getByRole("button", { name: "Continuar por WhatsApp", exact: true }).click();
+    await expect(page).toHaveURL(/^https:\/\/wa\.me\/56926044751\?text=/);
+    const text = new URL(page.url()).searchParams.get("text");
+    expect(text).toContain("Nombre de prueba");
+    expect(text).toContain("persona@example.test");
+    expect(text).toContain("Quisiera orientación sobre mi situación.");
+    expect(text).toContain(path === "/contacto" ? "Consulta de prueba" : "Divorcio de mutuo acuerdo");
+  }
 });

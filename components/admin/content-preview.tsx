@@ -13,6 +13,7 @@ export function ContentPreview({
   authors,
   publishedEntries = [],
   testimonialItems = [],
+  contactOnLandings = false,
 }: {
   snapshot: Snapshot;
   assets: Asset[];
@@ -20,6 +21,7 @@ export function ContentPreview({
   authors: Row[];
   publishedEntries?: PublicEntry[];
   testimonialItems?: Testimonial[];
+  contactOnLandings?: boolean;
 }) {
   const asset = (id: string | null) => assets.find((a) => a.id === id);
   const cover = asset(snapshot.cover_asset_id);
@@ -77,6 +79,12 @@ export function ContentPreview({
           blocks={snapshot.blocks}
           firstHeroAsTitle={heroTitle}
           serviceLayout={serviceLayout}
+          heroContact={serviceLayout && heroTitle && contactOnLandings ? (
+            <section className="contact-hero-card" id="consulta">
+              <h2 className="font-editorial">Cuéntanos tu situación</h2>
+              <Alert title="Formulario de consulta">El envío se habilita en el sitio público.</Alert>
+            </section>
+          ) : undefined}
           homeNavigation={snapshot.template_key === "home" && snapshot.template_version === 1}
           preview
           testimonialItems={testimonialItems}

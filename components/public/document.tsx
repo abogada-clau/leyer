@@ -1,10 +1,11 @@
 import Link from "next/link";
 import { MediaImage } from "@/components/ui/media-image";
 import { ContentBlocks } from "./content-blocks";
+import { ContactSection } from "./contact-section";
 import { EntryCards } from "./entry-cards";
 import { Team } from "./team";
-import { publicHref, contentLink, sitePath } from "@/lib/public/paths";
-import { authorData, listEntries, sectionAvailable, relatedEntries, publicTestimonials } from "@/lib/public/data";
+import { publicHref, contentLink, sitePath, publicContactLinks } from "@/lib/public/paths";
+import { authorData, listEntries, navigation, sectionAvailable, relatedEntries, publicTestimonials } from "@/lib/public/data";
 import type { ReactNode } from "react";
 import type { PublicContext, RenderData } from "@/lib/public/types";
 export async function PublicDocumentView({
@@ -47,7 +48,9 @@ export async function PublicDocumentView({
     (doc.kind === "post" && !doc.blocks.some(block => block.type === "related_content"));
   const contactPath = sitePath(c.site, "contact_path", "/contacto");
   const homeNavigation = knownTemplate && doc.template_key === "home";
-  const [posts, services, team, liveRelated, contactReady, overview, testimonialItems] = await Promise.all([
+  const serviceFormsEnabled = serviceLayout && c.site.settings.contact_enabled === true &&
+    c.site.settings.contact_on_landings === true;
+  const [posts, services, team, liveRelated, contactReady, overview, testimonialItems, serviceNav] = await Promise.all([
     sources.has("posts") ? listEntries(c, { kind: "post" }) : null,
     sources.has("services") ? listEntries(c, { kind: "landing" }) : null,
     sources.has("team") ? authorData(c) : null,
@@ -58,11 +61,21 @@ export async function PublicDocumentView({
       { path: "/empresas", label: "Todas las áreas para empresas" },
     ].map(async item => await sectionAvailable(c, item.path) ? { href: publicHref(c, item.path), label: item.label } : null)) : [],
     doc.blocks.some(b => b.type === "testimonials" && b.data.hidden !== true) ? publicTestimonials(c.site.id) : [],
+    serviceFormsEnabled && heroTitle ? navigation(c.site.id, c.locale) : null,
   ]);
   const asset = (id: string) => data.assets.find((a) => a.id === id);
   const cover = asset(doc.cover_asset_id || "");
   const contactHref = contactReady ? publicHref(c, contactPath) : undefined;
   const overviewLinks = overview.flatMap(item => item ? [item] : []);
+  const heroWhatsApp = serviceNav ? publicContactLinks(c.site, serviceNav.items).whatsapp : undefined;
+  const serviceContact = serviceFormsEnabled ? (
+      <ContactSection
+        context={c}
+        entryId={doc.id}
+        subject={doc.title.trim().length >= 2 ? doc.title : "Consulta sobre este servicio"}
+        compact={heroTitle}
+      />
+    ) : undefined;
   return (
     <article
       className={`public-document template-${knownTemplate ? doc.template_key : "default"}`}
@@ -142,6 +155,8 @@ export async function PublicDocumentView({
         contactHref={contactHref}
         homeNavigation={homeNavigation}
         serviceLayout={serviceLayout}
+        heroContact={heroTitle ? serviceContact : undefined}
+        heroWhatsApp={heroWhatsApp}
         overviewLinks={overviewLinks}
         link={(href) => contentLink(c, href)}
         image={(id, alt, focal) => {
@@ -205,6 +220,7 @@ export async function PublicDocumentView({
           )
         }
       />
+      {!heroTitle && serviceContact}
       {doc.kind === "post" &&
         !doc.blocks.some((b) => b.type === "related_content") &&
         liveRelated.length > 0 && (

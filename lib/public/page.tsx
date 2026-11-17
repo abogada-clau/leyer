@@ -187,28 +187,17 @@ export async function publicPage(path: string, search: Search = {}) {
       ) : entry.template_version === 1 && entry.template_key === "team" ? (
         <Team context={c} authors={await authorData(c)} />
       ) : null;
-    const contact =
-      (entry.template_version === 1 || (entry.template_key === "service-landing" && entry.template_version === 2)) &&
-      (entry.template_key === "contact" ||
-        (entry.template_key === "service-landing" &&
-          c.site.settings.contact_on_landings === true));
+    const contact = entry.template_version === 1 && entry.template_key === "contact";
     body = (
       <>
         {c.path !== "/" && crumb(c, entry.title)}
-        <PublicDocumentView data={snapshot} context={c} beforeBlocks={contact && entry.template_key === "contact" ? (
+        <PublicDocumentView data={snapshot} context={c} beforeBlocks={contact ? (
           <>
             <ContactChannels context={c} />
             <ContactSection context={c} entryId={entry.id} />
           </>
         ) : undefined} />
         {extras}
-        {contact && entry.template_key !== "contact" && (
-          <ContactSection
-            context={c}
-            entryId={entry.id}
-            subject={entry.kind === "landing" ? entry.title : ""}
-          />
-        )}
       </>
     );
   } else if (c.path === sitePath(c.site, "blog_path", "/articulos"))

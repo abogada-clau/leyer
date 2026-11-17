@@ -46,6 +46,11 @@ verifica consentimiento, vencimiento, repetición y límites de envío. Las
 consultas se guardan de forma privada en `contact_submissions` y se gestionan en
 `/admin/contacts`. La clave del servicio nunca se expone al navegador.
 
+En las landings habilitadas, el formulario aparece junto al mensaje y la imagen
+de apertura. El título del servicio se usa como motivo de la consulta. Después
+de guardar, el formulario abre el WhatsApp configurado en el menú público con
+el mensaje preparado para que el visitante lo envíe.
+
 ## Publicación y caché
 
 El sitio consulta el estado público vigente antes de usar un snapshot cacheado.

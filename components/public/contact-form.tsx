@@ -1,7 +1,7 @@
 "use client";
 import { useId, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { ArrowUpRight, Check } from "lucide-react";
+import { ArrowUpRight, Check, MessageCircle } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
@@ -11,17 +11,29 @@ import { Alert } from "@/components/ui/alert";
 import {
   validateContact,
   contactLimits,
+  contactWhatsAppUrl,
 } from "@/lib/public/contact-validation";
+
+const contactFields = {
+  name: { label: "Tu nombre", type: "text", autoComplete: "name" },
+  email: { label: "Correo electrónico", type: "email", autoComplete: "email" },
+  phone: { label: "Teléfono · opcional", type: "tel", autoComplete: "tel" },
+  subject: { label: "Motivo de la consulta", type: "text", autoComplete: "off" },
+};
 export function ContactForm({
   token,
   privacyHref,
   privacyVersion,
   subject = "",
+  whatsappHref,
+  compact = false,
 }: {
   token: string;
   privacyHref: string;
   privacyVersion: string;
   subject?: string;
+  whatsappHref?: string;
+  compact?: boolean;
 }) {
   const id = useId();
   const form = useRef<HTMLFormElement>(null);
@@ -33,26 +45,32 @@ export function ContactForm({
   const [error, setError] = useState("");
   const [refresh, setRefresh] = useState(false);
   const [receipt, setReceipt] = useState("");
+  const [messageHref, setMessageHref] = useState("");
+  const visibleFields = compact ? ["name", "phone", "email"] as const : ["name", "email", "phone", "subject"] as const;
   if (receipt)
     return (
       <div className="contact-received" role="status">
         <span>
           <Check aria-hidden />
         </span>
-        <h2 className="font-editorial text-4xl">Consulta recibida</h2>
-        <p>
-          El estudio ya puede revisarla. La referencia de tu consulta es{" "}
-          {receipt.slice(-8)}.
-        </p>
-        <p className="text-sm text-muted-foreground">
-          No se ha enviado una confirmación por correo.
-        </p>
+        <h3 className="font-editorial">{messageHref ? "Tu mensaje está listo" : "Consulta recibida"}</h3>
+        {messageHref ? (
+          <>
+            <p>Envía el mensaje en WhatsApp para iniciar la conversación.</p>
+            <Button asChild variant="terracotta" className="mt-4">
+              <a href={messageHref}><MessageCircle aria-hidden /> Abrir WhatsApp</a>
+            </Button>
+          </>
+        ) : (
+          <p>El estudio ya puede revisarla. La referencia de tu consulta es {receipt.slice(-8)}.</p>
+        )}
       </div>
     );
   return (
     <form
       ref={form}
-      className="public-contact-form"
+      className={`public-contact-form${compact ? " contact-form-compact" : ""}`}
+      method="post"
       noValidate
       onSubmit={async (e) => {
         e.preventDefault();
@@ -82,7 +100,14 @@ export function ContactForm({
             setFields(body.fields || {});
             setError(body.error || "No se pudo completar el envío.");
             setRefresh(Boolean(body.refresh));
-          } else setReceipt(body.id);
+          } else {
+            setReceipt(body.id);
+            if (whatsappHref) {
+              const href = contactWhatsAppUrl(whatsappHref, checked.value);
+              setMessageHref(href);
+              window.location.assign(href);
+            }
+          }
         } catch {
           setError(
             "No se pudo conectar. Tu texto sigue aquí; vuelve a intentar.",
@@ -92,51 +117,42 @@ export function ContactForm({
         }
       }}
     >
-      <fieldset disabled={pending} className="grid gap-6 sm:grid-cols-2">
+      <fieldset disabled={pending} className="contact-form-fields">
         <legend className="sr-only">Cuéntanos cómo podemos orientarte</legend>
-        {[
-          ["name", "Tu nombre", "text"],
-          ["email", "Correo electrónico", "email"],
-          ["phone", "Teléfono · opcional", "tel"],
-          ["subject", "Motivo de la consulta", "text"],
-        ].map(([key, label, type]) => (
-          <div className="public-field" key={key}>
-            <Label htmlFor={`${id}-${key}`}>{label}</Label>
-            <Input
-              id={`${id}-${key}`}
-              name={key}
-              type={type}
-              autoComplete={
-                key === "name"
-                  ? "name"
-                  : key === "email"
-                    ? "email"
-                    : key === "phone"
-                      ? "tel"
-                      : "off"
-              }
-              maxLength={contactLimits[key as keyof typeof contactLimits]}
-              defaultValue={key === "subject" ? subject : ""}
-              required={key !== "phone"}
-              aria-invalid={Boolean(fields[key])}
-              aria-describedby={fields[key] ? `${id}-${key}-error` : undefined}
-            />
-            {fields[key] && (
-              <p id={`${id}-${key}-error`} className="text-sm text-destructive">
-                {fields[key]}
-              </p>
-            )}
-          </div>
-        ))}
-        <div className="public-field sm:col-span-2">
+        {compact && <input name="subject" type="hidden" value={subject.slice(0, contactLimits.subject)} />}
+        {visibleFields.map((key) => {
+          const { label, type, autoComplete } = contactFields[key];
+          return (
+            <div className="public-field" data-field={key} key={key}>
+              <Label htmlFor={`${id}-${key}`}>{label}</Label>
+              <Input
+                id={`${id}-${key}`}
+                name={key}
+                type={type}
+                autoComplete={autoComplete}
+                maxLength={contactLimits[key]}
+                defaultValue={key === "subject" ? subject : ""}
+                required={key !== "phone"}
+                aria-invalid={Boolean(fields[key])}
+                aria-describedby={fields[key] ? `${id}-${key}-error` : undefined}
+              />
+              {fields[key] && (
+                <p id={`${id}-${key}-error`} className="text-sm text-destructive">
+                  {fields[key]}
+                </p>
+              )}
+            </div>
+          );
+        })}
+        <div className="public-field contact-form-wide">
           <Label htmlFor={`${id}-message`}>¿En qué podemos ayudarte?</Label>
           <Textarea
             id={`${id}-message`}
             name="message"
             required
             minLength={10}
-            maxLength={5000}
-            rows={6}
+            maxLength={contactLimits.message}
+            rows={compact ? 3 : 6}
             aria-invalid={Boolean(fields.message)}
             aria-describedby={`${id}-message-help${fields.message ? ` ${id}-message-error` : ""}`}
           />
@@ -162,7 +178,7 @@ export function ContactForm({
             />
           </label>
         </div>
-        <div className="sm:col-span-2">
+        <div className="contact-form-wide">
           <div className="flex items-start gap-3">
             <Checkbox
               id={`${id}-consent`}
@@ -199,13 +215,15 @@ export function ContactForm({
             </p>
           )}
         </div>
-        <div className="sm:col-span-2 flex flex-wrap items-center gap-5">
-          <Button type="submit" size="lg" disabled={pending}>
-            {pending ? "Enviando consulta…" : "Enviar consulta"}
-            <ArrowUpRight aria-hidden />
+        <div className="contact-form-wide contact-form-submit">
+          <Button type="submit" size="lg" variant={whatsappHref ? "terracotta" : "default"} disabled={pending}>
+            {pending ? "Preparando consulta…" : whatsappHref ? "Continuar por WhatsApp" : "Enviar consulta"}
+            {whatsappHref ? <MessageCircle aria-hidden /> : <ArrowUpRight aria-hidden />}
           </Button>
           <span className="text-xs text-muted-foreground">
-            El envío no crea una relación de representación.
+            {whatsappHref
+              ? "Se abrirá WhatsApp con tu consulta lista para enviar."
+              : "El envío no crea una relación de representación."}
           </span>
         </div>
       </fieldset>

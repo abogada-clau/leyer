@@ -36,7 +36,7 @@ export function PublicExperience({ children, contactHref, whatsappHref }: {
     }, { threshold: .08 });
     container.querySelectorAll(".public-block:not(.block-hero) > .block-heading, .public-service-item, .public-steps li, .block-cta").forEach((element) => reveal.observe(element));
 
-    const form = container.querySelector(".public-contact-section");
+    const form = container.querySelector("[data-contact-form]");
     let formVisible = false;
     const updateDock = () => {
       if (!dock.current) return;

@@ -52,6 +52,8 @@ export function ContentBlocks({
   homeNavigation = false,
   overviewLinks = [],
   serviceLayout = false,
+  heroContact,
+  heroWhatsApp,
   beforeFaq,
   testimonialItems = [],
 }: {
@@ -65,6 +67,8 @@ export function ContentBlocks({
   homeNavigation?: boolean;
   overviewLinks?: { href: string; label: string }[];
   serviceLayout?: boolean;
+  heroContact?: ReactNode;
+  heroWhatsApp?: string;
   beforeFaq?: ReactNode;
   testimonialItems?: Testimonial[];
 }) {
@@ -90,6 +94,7 @@ export function ContentBlocks({
         const benefits = serviceLayout && b.type === "card_grid" && b.variant === "benefits";
         const H =
           index === 0 && b.type === "hero" && firstHeroAsTitle ? "h1" : "h2";
+        const inlineContact = H === "h1" && serviceLayout ? heroContact : undefined;
         const assets = b.assets.filter(a => !a.slot.startsWith("item-")).map((a) => (
           <figure key={a.slot}>
             {image(a.asset_id, a.alt_text, a.focal_point)}
@@ -104,10 +109,19 @@ export function ContentBlocks({
             </figure>,
           );
         const visual = d.visual === "none" ? null : d.visual === "brand" || d.visual === "requirements" ? <ServiceVisual variant={d.visual} /> : assets.length ? assets : null;
-        const actions = Array.isArray(d.actions) ? (
+        const actionItems = Array.isArray(d.actions) ? d.actions.map(record) : [];
+        const directWhatsApp = inlineContact && heroWhatsApp &&
+          !actionItems.some(action => link(action.href)?.startsWith("https://wa.me/")) ? heroWhatsApp : undefined;
+        const actions = actionItems.length > 0 || directWhatsApp ? (
           <div className="public-actions">
-            {d.actions.map((v, i) => {
-              const a = record(v);
+            {directWhatsApp && (
+              <Button asChild size="lg" variant="outline">
+                <a href={directWhatsApp} data-action-style="secondary">
+                  <MessageCircle aria-hidden /> Hablar por WhatsApp
+                </a>
+              </Button>
+            )}
+            {actionItems.map((a, i) => {
               const href = link(a.href);
               return href ? (
                 <Button
@@ -116,7 +130,10 @@ export function ContentBlocks({
                   size="lg"
                   variant={a.style === "text" ? "ghost" : a.style === "secondary" ? "outline" : a.style === "primary" ? "default" : i ? "ghost" : "default"}
                 >
-                  <a href={href} data-action-style={str(a.style) || (i ? "text" : "primary")}>
+                  <a
+                    href={inlineContact && href === contactHref ? "#consulta" : href}
+                    data-action-style={str(a.style) || (i ? "text" : "primary")}
+                  >
                     {a.icon && a.icon !== "none" && <ContentIcon name={a.icon} />}
                     {str(a.label)}
                     {!serviceLayout && !a.icon && <ArrowUpRight aria-hidden />}
@@ -145,6 +162,7 @@ export function ContentBlocks({
                 {!homeNavigation && !serviceLayout && b.type === "hero" && contactHref && !d.note && <p className="public-action-note"><MessageCircle size={15} aria-hidden /> El primer paso es contarnos qué necesitas resolver.</p>}
               </div>
               {(serviceLayout ? visual : assets.length > 0) && <div className="block-visual">{serviceLayout ? visual : assets}</div>}
+              {inlineContact}
             </>
           );
         else if (b.type === "card_grid")
@@ -292,6 +310,7 @@ export function ContentBlocks({
             aria-label={str(d.aria_label) || undefined}
             data-tone={str(d.tone) || undefined}
             data-service-intro={serviceLayout && index === introIndex ? "true" : undefined}
+            data-hero-contact={inlineContact ? "true" : undefined}
             data-layout={b.type === "card_grid" ? (benefits ? "benefits" : decisions ? "decisions" : items.some(item => link(item.href)) ? "navigation" : "features") : undefined}
             className={`public-block block-${b.type} variant-${Object.hasOwn(blockVariants, b.variant) ? b.variant : "default"} ${(serviceLayout ? visual : assets.length) ? "has-media" : ""} ${benefits ? "service-benefits" : ""}`}
           >

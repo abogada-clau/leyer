@@ -12,7 +12,7 @@ export async function ContactChannels({ context: c }: { context: PublicContext }
   const channels = [
     { title: "WhatsApp", href: whatsapp, detail: "Inicia una conversación", Icon: MessageCircle },
     { title: "Correo electrónico", href: email && `mailto:${email}`, detail: email, Icon: Mail },
-    { title: "Formulario", href: "#consulta", detail: "Envía tu consulta desde esta página", Icon: FileText },
+    { title: "Formulario", href: "#consulta", detail: "Completa los datos de tu consulta", Icon: FileText },
   ];
   return (
     <nav className="public-contact-channels" aria-label="Vías de contacto">
@@ -32,17 +32,50 @@ export async function ContactSection({
   entryId = null,
   subject = "",
   preview = false,
+  compact = false,
 }: {
   context: PublicContext;
   entryId?: string | null;
   subject?: string;
   preview?: boolean;
+  compact?: boolean;
 }) {
   if (c.site.settings.contact_enabled !== true) return null;
   const privacyPath = sitePath(c.site, "privacy_path", "/privacidad");
-  const privacy = await publicEntry(c, privacyPath);
+  const [privacy, { items }] = await Promise.all([
+    publicEntry(c, privacyPath),
+    navigation(c.site.id, c.locale),
+  ]);
+  const { whatsapp } = publicContactLinks(c.site, items);
+  const form = !privacy || !formConfigured(c) ? (
+    <Alert title="El formulario todavía no está disponible">
+      Puedes utilizar los datos de contacto publicados al pie de la página.
+    </Alert>
+  ) : preview ? (
+    <Alert title="Vista previa del formulario">
+      El envío se habilita en la página pública con una política de privacidad publicada.
+    </Alert>
+  ) : (
+    <ContactForm
+      key={`${c.site.id}-${c.locale}-${c.path}`}
+      token={issueFormProof(c, privacy.revision_id, entryId)}
+      privacyHref={publicHref(c, privacyPath)}
+      privacyVersion={privacy.revision_id}
+      subject={subject}
+      whatsappHref={whatsapp}
+      compact={compact}
+    />
+  );
+
+  if (compact) return (
+    <section className="contact-hero-card" id="consulta" tabIndex={-1} data-contact-form>
+      <h2 className="font-editorial">Cuéntanos tu situación</h2>
+      {form}
+    </section>
+  );
+
   return (
-    <section className="public-contact-section" id="consulta" tabIndex={-1}>
+    <section className="public-contact-section" id="consulta" tabIndex={-1} data-contact-form>
       <div className="contact-intro">
         <p className="public-eyebrow">El primer paso es conversar</p>
         <h2 className="font-editorial">Cuéntanos qué necesitas.</h2>
@@ -51,27 +84,7 @@ export async function ContactSection({
           pueda orientarte sobre el siguiente paso.
         </p>
       </div>
-      <div>
-        {!privacy || !formConfigured(c) ? (
-          <Alert title="El formulario todavía no está disponible">
-            Puedes utilizar los datos de contacto publicados al pie de la
-            página.
-          </Alert>
-        ) : preview ? (
-          <Alert title="Vista previa del formulario">
-            El envío se habilita en la página pública con una política de
-            privacidad publicada.
-          </Alert>
-        ) : (
-          <ContactForm
-            key={`${c.site.id}-${c.locale}-${c.path}`}
-            token={issueFormProof(c, privacy.revision_id, entryId)}
-            privacyHref={publicHref(c, privacyPath)}
-            privacyVersion={privacy.revision_id}
-            subject={subject}
-          />
-        )}
-      </div>
+      <div>{form}</div>
     </section>
   );
 }

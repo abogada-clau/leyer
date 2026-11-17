@@ -57,6 +57,19 @@ export function validateContact(input: unknown): {
   return { value: Object.keys(errors).length ? undefined : value, errors };
 }
 
+export function contactWhatsAppUrl(href: string, input: ContactInput) {
+  const url = new URL(href);
+  const lines = [
+    "Hola, ALBAR Abogados. Quisiera consultar por un caso.",
+    `Motivo: ${input.subject}`,
+    `Nombre: ${input.name}`,
+    `Correo: ${input.email}`,
+  ];
+  if (input.phone) lines.push(`Teléfono: ${input.phone}`);
+  url.searchParams.set("text", [...lines, "", input.message].join("\n"));
+  return url.href;
+}
+
 export const contactStatuses: Record<string, string> = {
   new: "Nueva",
   in_progress: "En seguimiento",

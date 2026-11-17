@@ -16,6 +16,7 @@ test("service detail: reference structure, responsive reading, working FAQs and 
     const article = page.locator(".template-service-landing:visible");
     await expect(article.getByRole("heading", { level: 1 })).toHaveText("Divorcio de mutuo acuerdo");
     await expect(article.locator(".block-hero .block-visual img")).toBeVisible();
+    await expect(article.locator(".block-hero .contact-hero-card").getByRole("button", { name: "Continuar por WhatsApp" })).toBeVisible();
     await expect(article.locator(".service-benefit")).toHaveCount(4);
     await expect(article.locator(".service-requirements li")).toHaveCount(5);
     await expect(article.locator(".public-steps li")).toHaveCount(4);
@@ -58,6 +59,7 @@ test("service composition also applies to existing rich text and business servic
     await expect(article.getByRole("heading", { level: 1 })).toHaveCount(1);
     await expect(article.locator(".service-benefits")).toBeVisible();
     await expect(article.locator(".block-cta").last()).toBeVisible();
+    await expect(article.locator(".block-hero .contact-hero-card")).toHaveCount(1);
     expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(391);
   }
 });

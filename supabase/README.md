@@ -64,7 +64,7 @@ Las lecturas internas usan `get_cms_entries`, `get_cms_revisions`,
 el acceso o el estado de publicación correspondiente.
 
 Para actualizar el hero de un sitio ALBAR ya publicado, aplica
-[el parche del home](patches/albar-home-20261116.sql) con el UUID de la cuenta
+[el parche del home de servicios](patches/albar-home-servicios-20261116.sql) con el UUID de la cuenta
 administradora que aprueba el cambio. El parche publica una revisión nueva y
 conserva la anterior.
 

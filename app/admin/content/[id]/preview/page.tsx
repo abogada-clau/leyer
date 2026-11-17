@@ -58,6 +58,7 @@ export default async function Preview({
         </Button>
       </Alert>
       <ContentPreview
+        contactOnLandings={site.settings.contact_enabled === true && site.settings.contact_on_landings === true}
         testimonialItems={(checked(testimonials) || []) as Testimonial[]}
         publishedEntries={(checked(publicEntries) || []) as PublicEntry[]}
         snapshot={snapshot as Snapshot}
