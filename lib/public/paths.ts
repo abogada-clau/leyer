@@ -29,7 +29,7 @@ export function publicHref(
   );
 }
 export function contentLink(
-  context: Pick<PublicContext, "locale" | "site">,
+  context: PublicContext,
   value: unknown,
 ): string | null {
   if (typeof value !== "string" || /[\s\\\u0000-\u001f]/.test(value))
@@ -42,11 +42,16 @@ export function contentLink(
   }
   try {
     const url = new URL(value);
-    return ["https:", "mailto:", "tel:"].includes(url.protocol) &&
-      !url.username &&
-      !url.password
-      ? value
-      : null;
+    if (!["https:", "mailto:", "tel:"].includes(url.protocol) || url.username || url.password)
+      return null;
+    if (url.protocol !== "https:" || url.port || url.searchParams.get("text")?.trim())
+      return value;
+    const isPhoneChat = (url.hostname === "wa.me" && /^\/\d{8,15}\/?$/.test(url.pathname)) ||
+      (url.hostname === "api.whatsapp.com" && /^\/send\/?$/.test(url.pathname) &&
+        /^\+?\d{8,15}$/.test(url.searchParams.get("phone") || ""));
+    if (!isPhoneChat) return value;
+    url.searchParams.set("text", whatsAppMessage(context));
+    return url.href;
   } catch {
     return null;
   }
@@ -56,6 +61,27 @@ export function siteName(site: PublicSite) {
     site.settings.public_name.trim()
     ? site.settings.public_name
     : site.name;
+}
+
+function whatsAppMessage({ path, route, site }: PublicContext) {
+  const name = siteName(site);
+  const page = route?.entry;
+  if (path === "/" || page?.template_key === "home")
+    return `Hola, visité el sitio de ${name} y quisiera orientación sobre mi caso.`;
+  if (path === sitePath(site, "contact_path", "/contacto") || page?.template_key === "contact")
+    return `Hola, quisiera coordinar una consulta con ${name}.`;
+  if (path === "/personas")
+    return "Hola, quisiera recibir orientación sobre una consulta legal personal.";
+  if (path === "/empresas")
+    return "Hola, quisiera recibir asesoría legal para mi empresa.";
+  if (path === sitePath(site, "services_path", "/servicios"))
+    return "Hola, estuve revisando sus servicios y quisiera ayuda para elegir la asesoría adecuada.";
+
+  const title = (page?.title || route?.term?.name || route?.author?.display_name)?.replace(/\s+/g, " ").trim();
+  if (title && page?.kind === "post")
+    return `Hola, leí «${title}» en su sitio y quisiera hacer una consulta.`;
+  if (title) return `Hola, quisiera recibir orientación sobre «${title}».`;
+  return `Hola, quisiera hacer una consulta a ${name}.`;
 }
 
 export function isWhatsAppLink(href: string | null) {

@@ -67,7 +67,9 @@ export async function PublicDocumentView({
   const cover = asset(doc.cover_asset_id || "");
   const contactHref = contactReady ? publicHref(c, contactPath) : undefined;
   const overviewLinks = overview.flatMap(item => item ? [item] : []);
-  const heroWhatsApp = serviceNav ? publicContactLinks(c.site, serviceNav.items).whatsapp : undefined;
+  const heroWhatsApp = serviceNav
+    ? contentLink(c, publicContactLinks(c.site, serviceNav.items).whatsapp) ?? undefined
+    : undefined;
   const serviceContact = serviceFormsEnabled ? (
       <ContactSection
         context={c}

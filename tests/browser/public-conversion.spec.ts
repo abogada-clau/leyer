@@ -1,9 +1,16 @@
-import { test, expect } from "@playwright/test";
+import { test, expect, type Locator } from "@playwright/test";
 import { existsSync, readFileSync } from "node:fs";
 
 const fixtureFile = ".local/albar-fixtures.json";
 const albar = existsSync(fixtureFile) ? JSON.parse(readFileSync(fixtureFile, "utf8")) : null;
 const base = albar?.basePath;
+const homeMessage = "Hola, visité el sitio de ALBAR Abogados y quisiera orientación sobre mi caso.";
+const contactMessage = "Hola, quisiera coordinar una consulta con ALBAR Abogados.";
+
+async function expectWhatsAppMessage(link: Locator, message: string) {
+  await expect(link).toHaveAttribute("href", /^https:\/\/wa\.me\/56926044751\?text=/);
+  expect(new URL((await link.getAttribute("href"))!).searchParams.get("text")).toBe(message);
+}
 
 test("home decisions: four clear destinations, complete area links and keyboard navigation", async ({ page }) => {
   test.skip(base == null, "Requiere el seed local de ALBAR.");
@@ -60,14 +67,15 @@ test("public conversion: real contact destinations, mobile dock and reduced moti
   await page.screenshot({ path: ".local/albar-conversion-desktop.png" });
   await page.locator(".public-header-contact").focus();
   await expect(page.locator(".public-header-contact")).toBeFocused();
-  await expect(page.locator(".public-header-contact")).toHaveAttribute("href", "https://wa.me/56926044751");
+  await expectWhatsAppMessage(page.locator(".public-header-contact"), homeMessage);
   await expect(page.locator(".public-header-contact")).toHaveCSS("background-color", "rgb(37, 211, 102)");
   const mainNav = page.getByRole("navigation", { name: "Navegación principal" });
   await expect(mainNav.getByRole("link", { name: "WhatsApp", exact: true })).toHaveCount(0);
   await mainNav.getByRole("link", { name: "Contacto", exact: true }).click();
   const channels = page.getByRole("navigation", { name: "Vías de contacto" });
   await expect(channels.getByRole("link")).toHaveCount(3);
-  await expect(channels.getByRole("link", { name: /WhatsApp/ })).toHaveAttribute("href", "https://wa.me/56926044751");
+  await expectWhatsAppMessage(channels.getByRole("link", { name: /WhatsApp/ }), contactMessage);
+  await expectWhatsAppMessage(page.locator(".public-site:visible .public-header-contact"), contactMessage);
   await expect(channels.getByRole("link", { name: /WhatsApp/ })).toHaveCSS("background-color", "rgb(37, 211, 102)");
   await expect(channels.getByRole("link", { name: /Correo electrónico/ })).toHaveAttribute("href", "mailto:contacto@albarabogados.cl");
   await expect(channels.getByRole("link", { name: /Formulario/ })).toHaveAttribute("href", "#consulta");
@@ -84,7 +92,7 @@ test("public conversion: real contact destinations, mobile dock and reduced moti
     await expect(dock).toBeVisible();
     if (width === 390) await page.screenshot({ path: ".local/albar-conversion-mobile.png" });
     await expect(dock.getByRole("link")).toHaveCount(1);
-    await expect(dock.getByRole("link", { name: "Consultar mi caso por WhatsApp", exact: true })).toHaveAttribute("href", "https://wa.me/56926044751");
+    await expectWhatsAppMessage(dock.getByRole("link", { name: "Consultar mi caso por WhatsApp", exact: true }), homeMessage);
     await expect(dock.getByRole("link")).toHaveCSS("background-color", "rgb(37, 211, 102)");
     expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width + 1);
     await page.getByLabel("Abrir menú de navegación").press("Enter");

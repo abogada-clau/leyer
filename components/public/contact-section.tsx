@@ -2,22 +2,23 @@ import { Alert } from "@/components/ui/alert";
 import { ArrowUpRight, FileText, Mail, MessageCircle } from "lucide-react";
 import { navigation, publicEntry } from "@/lib/public/data";
 import { formConfigured, issueFormProof } from "@/lib/public/contact-security";
-import { publicContactLinks, publicHref, sitePath } from "@/lib/public/paths";
+import { contentLink, publicContactLinks, publicHref, sitePath } from "@/lib/public/paths";
 import { ContactForm } from "./contact-form";
 import type { PublicContext } from "@/lib/public/types";
 
 export async function ContactChannels({ context: c }: { context: PublicContext }) {
   const { items } = await navigation(c.site.id, c.locale);
   const { email, whatsapp } = publicContactLinks(c.site, items);
+  const whatsappHref = contentLink(c, whatsapp);
   const channels = [
-    { title: "WhatsApp", href: whatsapp, detail: "Inicia una conversación", Icon: MessageCircle },
+    { title: "WhatsApp", href: whatsappHref, detail: "Inicia una conversación", Icon: MessageCircle },
     { title: "Correo electrónico", href: email && `mailto:${email}`, detail: email, Icon: Mail },
     { title: "Formulario", href: "#consulta", detail: "Completa los datos de tu consulta", Icon: FileText },
   ];
   return (
     <nav className="public-contact-channels" aria-label="Vías de contacto">
       {channels.map(({ title, href, detail, Icon }) => href && (
-        <a key={title} href={href} data-whatsapp-action={href === whatsapp || undefined}>
+        <a key={title} href={href} data-whatsapp-action={href === whatsappHref || undefined}>
           <Icon size={22} aria-hidden />
           <span><strong>{title}</strong><small>{detail}</small></span>
           <ArrowUpRight size={17} aria-hidden />

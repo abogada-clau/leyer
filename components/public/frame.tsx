@@ -29,6 +29,7 @@ export async function PublicFrame({
     c.site.settings.contact_enabled === true ? sectionAvailable(c, contact) : false,
   ]);
   const { email, whatsapp } = publicContactLinks(c.site, nav.items);
+  const whatsappHref = contentLink(c, whatsapp) ?? undefined;
   function tree(
     items: MenuItem[],
     parent: string | null = null,
@@ -142,8 +143,8 @@ export async function PublicFrame({
               </nav>
             )}
             <ThemeSwitcher />
-            {whatsapp ? (
-              <a className="public-header-contact public-header-whatsapp" href={whatsapp} aria-label="Consultar mi caso por WhatsApp" data-whatsapp-action>
+            {whatsappHref ? (
+              <a className="public-header-contact public-header-whatsapp" href={whatsappHref} aria-label="Consultar mi caso por WhatsApp" data-whatsapp-action>
                 <span className="relative inline-grid place-items-center" aria-hidden>
                   <MessageCircle size={20} />
                   <Phone size={8} strokeWidth={2.5} className="absolute" />
@@ -162,7 +163,7 @@ export async function PublicFrame({
           </div>
         </div>
       </header>
-      <PublicExperience contactHref={contactHref} whatsappHref={whatsapp}>
+      <PublicExperience contactHref={contactHref} whatsappHref={whatsappHref}>
         <main id="contenido-principal" tabIndex={-1} lang={c.locale}>
           {children}
         </main>

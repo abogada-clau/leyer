@@ -34,7 +34,13 @@ test("service detail: reference structure, responsive reading, working FAQs and 
     await expect(article.locator(".block-faq details").first()).toHaveAttribute("open", "");
     await expect(article.locator(".block-faq details").first().locator("p")).toBeVisible();
     await expect(article.locator(".block-cta .public-actions a").first()).toHaveAttribute("href", base + "/contacto");
-    await expect(article.getByRole("link", { name: "Escríbenos por WhatsApp" })).toHaveAttribute("href", "https://wa.me/56926044751");
+    const whatsAppActions = article.locator("a[data-whatsapp-action]");
+    expect(await whatsAppActions.count()).toBeGreaterThan(1);
+    for (const link of await whatsAppActions.all()) {
+      await expect(link).toHaveAttribute("href", /^https:\/\/wa\.me\/56926044751\?text=/);
+      expect(new URL((await link.getAttribute("href"))!).searchParams.get("text"))
+        .toBe("Hola, quisiera recibir orientación sobre «Divorcio de mutuo acuerdo».");
+    }
     expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width + 1);
     await question.evaluate(node => (node as HTMLElement).blur());
     await page.evaluate(async () => { await document.fonts.ready; window.scrollTo(0, 0); });
