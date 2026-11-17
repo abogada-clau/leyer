@@ -17,6 +17,28 @@ test("removed client routes return 404", async ({ page }) => {
   }
 });
 
+test("public route resolution ignores client-supplied context", async ({ request }) => {
+  const payload = Buffer.from(JSON.stringify({ requestPath: "/ruta-que-no-existe", issuedAt: Date.now() })).toString("base64url");
+  const response = await request.get("/ruta-que-no-existe", {
+    headers: { "x-albar-public-route": `${payload}.${"a".repeat(43)}` },
+  });
+  expect(response.status()).toBe(404);
+  expect(response.headers()["x-albar-public-route"]).toBeUndefined();
+});
+
+test("the public theme selector keeps the system, dark and light options", async ({ page }) => {
+  await page.emulateMedia({ colorScheme: "light" });
+  await page.goto("/");
+  const select = page.getByRole("combobox", { name: "Cambiar tema" });
+  await expect(select).toBeEnabled();
+  await select.selectOption("dark");
+  await expect(page.locator("html")).toHaveClass(/dark/);
+  await select.selectOption("light");
+  await expect(page.locator("html")).toHaveClass(/light/);
+  await select.selectOption("system");
+  await expect(page.locator("html")).toHaveClass(/light/);
+});
+
 test("access, design previews and missing pages display only the ALBAR brand", async ({ page }) => {
   const pages = [
     ["/auth/login", "ALBAR Abogados"],

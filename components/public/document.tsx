@@ -7,8 +7,9 @@ import { ContactSection } from "./contact-section";
 import { EntryCards } from "./entry-cards";
 import { Team } from "./team";
 import { publicHref, contentLink } from "@/lib/public/paths";
+import { documentLayout } from "@/lib/public/document-layout";
 import { authorData, listEntries, sectionAvailable, relatedEntries, publicTestimonials } from "@/lib/public/data";
-import type { PublicContext, PublicEntry, RenderData } from "@/lib/public/types";
+import type { PublicAsset, PublicContext, PublicEntry, RenderData } from "@/lib/public/types";
 export async function PublicDocumentView({
   data,
   context: c,
@@ -27,25 +28,9 @@ export async function PublicDocumentView({
   beforeBlocks?: ReactNode;
 }) {
   const doc = data.document;
-  const knownTemplate =
-    [
-      "default",
-      "home",
-      "service-landing",
-      "article",
-      "contact",
-      "team",
-      "blog-index",
-      "services-index",
-      "legal",
-    ].includes(doc.template_key) && (doc.template_version === 1 || (doc.template_key === "service-landing" && doc.template_version === 2));
-  const serviceLayout = knownTemplate && doc.template_key === "service-landing";
-  const firstBlock = doc.blocks.find(block => block.data.hidden !== true);
-  const heroTitle =
-    knownTemplate &&
-    ["home", "service-landing", "default"].includes(doc.template_key) &&
-    firstBlock?.type === "hero" && firstBlock.schema_version === 1;
-  const heroAssetIds = new Set(heroTitle ? firstBlock.assets.map(asset => asset.asset_id) : []);
+  const { knownTemplate, serviceLayout, hero } = documentLayout(doc);
+  const heroTitle = Boolean(hero);
+  const heroAssetIds = new Set(hero?.assets.map(asset => asset.asset_id));
   const homeNavigation = knownTemplate && doc.template_key === "home";
   const serviceFormsEnabled = serviceLayout && serviceForm;
   const [overview, testimonialItems] = await Promise.all([
@@ -55,8 +40,8 @@ export async function PublicDocumentView({
     ].map(async item => await sectionAvailable(c, item.path) ? { href: publicHref(c, item.path), label: item.label } : null)) : [],
     doc.blocks.some(b => b.type === "testimonials" && b.data.hidden !== true) ? publicTestimonials(c.site.id) : [],
   ]);
-  const asset = (id: string) => data.assets.find((a) => a.id === id);
-  const cover = asset(doc.cover_asset_id || "");
+  const assets = new Map(data.assets.map(asset => [asset.id, asset]));
+  const cover = assets.get(doc.cover_asset_id || "");
   const overviewLinks = overview.flatMap(item => item ? [item] : []);
   const heroWhatsApp = serviceFormsEnabled ? contentLink(c, whatsapp) ?? undefined : undefined;
   const relationIds = doc.relations.map(relation => relation.entry_id);
@@ -154,7 +139,7 @@ export async function PublicDocumentView({
         overviewLinks={overviewLinks}
         link={(href) => contentLink(c, href)}
         image={(id, alt, focal) => {
-          const a = asset(id);
+          const a = assets.get(id);
           if (!a) return null;
           if (a.mime_type === "application/pdf")
             return (
@@ -205,24 +190,25 @@ export async function PublicDocumentView({
         }}
         related={(b) => (
           <Suspense fallback={null}>
-            <PublishedRelated context={c} source={b.data.source} relationIds={relationIds} />
+            <PublishedRelated context={c} source={b.data.source} relationIds={relationIds} assets={assets} />
           </Suspense>
         )}
       />
       {!heroTitle && serviceContact}
       {doc.kind === "post" && relationIds.length > 0 && !doc.blocks.some((b) => b.type === "related_content") && (
         <Suspense fallback={null}>
-          <PublishedRelated context={c} relationIds={relationIds} footer />
+          <PublishedRelated context={c} relationIds={relationIds} assets={assets} footer />
         </Suspense>
       )}
     </article>
   );
 }
 
-async function PublishedRelated({ context, source, relationIds, footer }: {
+async function PublishedRelated({ context, source, relationIds, assets, footer }: {
   context: PublicContext;
   source?: unknown;
   relationIds: string[];
+  assets: ReadonlyMap<string, PublicAsset>;
   footer?: boolean;
 }) {
   if (source === "team") {
@@ -233,11 +219,11 @@ async function PublishedRelated({ context, source, relationIds, footer }: {
   }
   const kind = source === "posts" ? "post" : source === "services" ? "landing" : null;
   const entries = await publishedRelatedEntries(context, kind, relationIds);
-  if (!footer) return <EntryCards context={context} entries={entries} />;
+  if (!footer) return <EntryCards context={context} entries={entries} knownAssets={assets} />;
   return entries.length > 0 && (
     <section className="public-related-footer">
       <h2 className="font-editorial">Sigue leyendo</h2>
-      <EntryCards context={context} entries={entries} />
+      <EntryCards context={context} entries={entries} knownAssets={assets} />
     </section>
   );
 }

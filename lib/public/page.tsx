@@ -58,20 +58,9 @@ export async function publicMetadata(path: string): Promise<Metadata> {
   );
 
   const image = entry?.cover_asset_id
-    ? result(
-        await publicClient()
-          .from("media_assets")
-          .select("storage_path,width,height,alt_text")
-          .eq("id", entry.cover_asset_id)
-          .eq("site_id", c.site.id)
-          .eq("bucket_id", "cms-public")
-          .maybeSingle(),
-      )
+    ? (await snapshotData(c.site.id, entry.id, entry.revision_id))?.assets.find(asset => asset.id === entry.cover_asset_id)
     : null;
-  const src = image
-    ? publicClient().storage.from("cms-public").getPublicUrl(image.storage_path)
-        .data.publicUrl
-    : null;
+  const src = image?.src;
   // An optional CMS canonical stays inside this site and language, including the local prefix.
   let customCanonical = canonical;
   if (
@@ -153,11 +142,11 @@ function crumb(c: PublicContext, label: string) {
   const parents = c.route?.ancestors || [];
   return (
     <nav className="public-breadcrumbs" aria-label="Ruta de navegación">
-      <Link href={publicHref(c, "/")}>Inicio</Link>
+      <Link href={publicHref(c, "/")} prefetch={false}>Inicio</Link>
       {parents.map((p) => (
         <span key={p.id}>
           <span aria-hidden>/ </span>
-          <Link href={publicHref(c, p.path)}>{p.title}</Link>
+          <Link href={publicHref(c, p.path)} prefetch={false}>{p.title}</Link>
         </span>
       ))}
       <span aria-hidden>/</span>

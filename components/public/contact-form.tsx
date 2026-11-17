@@ -5,7 +5,6 @@ import { ArrowUpRight, Check, MessageCircle } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import { Alert } from "@/components/ui/alert";
 import {
@@ -180,12 +179,14 @@ export function ContactForm({
         </div>
         <div className="contact-form-wide">
           <div className="flex items-start gap-3">
-            <Checkbox
+            <input
+              type="checkbox"
+              className="size-4 shrink-0 accent-primary focus-visible:ring-2 focus-visible:ring-ring"
               id={`${id}-consent`}
               name="consent"
               checked={consent}
-              onCheckedChange={(v) =>
-                setConsentFor(v === true ? privacyVersion : null)
+              onChange={event =>
+                setConsentFor(event.currentTarget.checked ? privacyVersion : null)
               }
               aria-invalid={Boolean(fields.consent)}
               aria-describedby={

@@ -2,6 +2,7 @@ import "server-only";
 import { cacheLife, cacheTag } from "next/cache";
 import { cache } from "react";
 import { publicClient, result } from "./db";
+import { documentLayout } from "./document-layout";
 import type { Testimonial } from "@/lib/content/testimonials";
 
 import type {
@@ -81,49 +82,27 @@ export async function snapshotData(
     document.cover_asset_id,
     ...document.blocks.flatMap((b) => b.assets.map((a) => a.asset_id)),
   ].filter(Boolean) as string[];
-  const authors = document.authors.length
-    ? (result(
-        await db
-          .from("authors")
-          .select("*")
-          .eq("site_id", siteId)
-          .in("id", document.authors),
-      ) as PublicAuthor[])
-    : [];
-  assetIds.push(
-    ...(authors.map((a) => a.avatar_asset_id).filter(Boolean) as string[]),
-  );
-  const [media, terms, taxonomies] = await Promise.all([
-    assetIds.length
-      ? db
-          .from("media_assets")
-          .select(
-            "id,site_id,bucket_id,storage_path,mime_type,byte_size,width,height,alt_text,credits",
-          )
-          .eq("site_id", siteId)
-          .eq("bucket_id", "cms-public")
-          .in("id", [...new Set(assetIds)])
-      : Promise.resolve({ data: [], error: null }),
-    document.terms.length
+  const usesHeader = !documentLayout(document).hero;
+  const [assets, authors, terms, taxonomies] = await Promise.all([
+    publicAssets(siteId, assetIds),
+    usesHeader && document.kind === "post" && document.authors.length
+      ? db.from("authors").select("*").eq("site_id", siteId).in("id", document.authors)
+      : { data: [], error: null },
+    usesHeader && document.terms.length
       ? db
           .from("terms")
           .select("id,taxonomy_id,name,slug,parent_id")
           .eq("site_id", siteId)
           .in("id", document.terms)
-      : Promise.resolve({ data: [], error: null }),
-    document.terms.length
+      : { data: [], error: null },
+    usesHeader && document.terms.length
       ? db.from("taxonomies").select("id,code,name").eq("site_id", siteId)
-      : Promise.resolve({ data: [], error: null }),
+      : { data: [], error: null },
   ]);
-  const assets = (result(media) || []).map((a) => ({
-    ...a,
-    src: db.storage.from("cms-public").getPublicUrl(a.storage_path).data
-      .publicUrl,
-  })) as PublicAsset[];
   return {
     document,
     assets,
-    authors: authors.sort(
+    authors: ((result(authors) || []) as PublicAuthor[]).sort(
       (a, b) => document.authors.indexOf(a.id) - document.authors.indexOf(b.id),
     ),
     terms: (result(terms) || []) as PublicTerm[],
@@ -149,38 +128,27 @@ export async function navigation(siteId: string, locale: string) {
   cacheLife("hours");
   cacheTag(`cms-site:${siteId}`);
   const db = publicClient();
-  const menus = (result(
+  const groups = (result(
     await db
       .from("menus")
-      .select("id,code,name,locale")
+      .select("id,code,name,locale,items:menu_items!menu_items_menu_id_site_id_fkey(id,menu_id,parent_id,label,position,entry_id,external_url)")
       .eq("site_id", siteId)
       .eq("locale", locale)
       .eq("is_public", true),
-  ) || []) as Menu[];
-  const items = menus.length
-    ? ((result(
-        await db
-          .from("menu_items")
-          .select("id,menu_id,parent_id,label,position,entry_id,external_url")
-          .eq("site_id", siteId)
-          .in(
-            "menu_id",
-            menus.map((m) => m.id),
-          )
-          .order("position")
-          .order("id"),
-      ) || []) as MenuItem[])
-    : [];
-  const ids = items.map((i) => i.entry_id).filter(Boolean) as string[];
+  ) || []) as (Menu & { items: MenuItem[] })[];
+  const menus = groups.map(({ id, code, name, locale }) => ({ id, code, name, locale }));
+  const items = groups.flatMap(group => group.items)
+    .sort((a, b) => a.position - b.position || a.id.localeCompare(b.id));
+  const ids = [...new Set(items.flatMap(item => item.entry_id ? [item.entry_id] : []))];
   const entries = ids.length
     ? ((result(
         await db
           .from("published_content")
-          .select("*")
+          .select("id,path")
           .eq("site_id", siteId)
           .eq("locale", locale)
           .in("id", ids),
-      ) || []) as PublicEntry[])
+      ) || []))
     : [];
   return { menus, items, entries };
 }

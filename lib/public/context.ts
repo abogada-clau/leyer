@@ -4,6 +4,7 @@ import { connection } from "next/server";
 import { cache } from "react";
 import { publicClient, result } from "./db";
 import { publicPathValid, publicHref } from "./paths";
+import { publicRouteHeader, readPublicRoute } from "./route-context";
 import type { PublicContext, PublicSite, PublicRouteData } from "./types";
 export function hostName(raw: string) {
   try {
@@ -22,7 +23,7 @@ export async function resolveContext(
   rawHost: string,
   requestPath: string,
   protocol = "https:",
-  mode: "site" | "route" | "page" = "site",
+  mode: "site" | "page" = "site",
 ): Promise<PublicContext | null> {
   const host = hostName(rawHost);
   // URL pathnames arrive percent-encoded; decode UTF-8 once, never encoded separators.
@@ -49,7 +50,7 @@ export async function resolveContext(
     : result(await publicClient().rpc("get_public_page", {
         p_path: path,
         p_locale: requestedLocale,
-        p_details: mode === "page",
+        p_details: true,
       }));
   const site: PublicSite | null = mode === "site"
     ? result(await publicClient().rpc("get_public_site"))
@@ -76,7 +77,9 @@ export async function resolveContext(
 export const requestContext = cache(async (requestPath: string) => {
   await connection();
   const h = await headers();
-  return resolveContext(h.get("host") || "", requestPath, "https:", "page");
+  const host = h.get("host") || "";
+  return readPublicRoute(host, requestPath, h.get(publicRouteHeader)) ||
+    resolveContext(host, requestPath, "https:", "page");
 });
 export function canonicalUrl(
   c: PublicContext,

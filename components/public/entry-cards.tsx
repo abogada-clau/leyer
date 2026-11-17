@@ -3,29 +3,30 @@ import { ArrowUpRight } from "lucide-react";
 import { MediaImage } from "@/components/ui/media-image";
 import { publicAssets } from "@/lib/public/data";
 import { publicHref } from "@/lib/public/paths";
-import type { PublicContext, PublicEntry } from "@/lib/public/types";
+import type { PublicAsset, PublicContext, PublicEntry } from "@/lib/public/types";
 export async function EntryCards({
   entries,
   context: c,
+  knownAssets,
 }: {
   entries: PublicEntry[];
   context: PublicContext;
+  knownAssets?: ReadonlyMap<string, PublicAsset>;
 }) {
-  const assets = await publicAssets(
-    c.site.id,
-    entries.map((e) => e.cover_asset_id).filter(Boolean) as string[],
-  );
+  const missing = entries.flatMap(({ cover_asset_id: id }) => id && !knownAssets?.has(id) ? [id] : []);
+  const assets = new Map((await publicAssets(c.site.id, missing)).map(asset => [asset.id, asset]));
   return (
     <div className="public-entry-grid" data-count={entries.length}>
       {entries.map((e) => {
-        const a = assets.find((a) => a.id === e.cover_asset_id);
+        const id = e.cover_asset_id;
+        const a = id ? knownAssets?.get(id) ?? assets.get(id) : undefined;
         return (
           <article
             key={e.id}
             className={`public-entry-card ${a ? "has-cover" : ""}`}
           >
             {a && a.mime_type.startsWith("image/") && (
-              <Link href={publicHref(c, e.path)} tabIndex={-1} aria-hidden>
+              <Link href={publicHref(c, e.path)} prefetch={false} tabIndex={-1} aria-hidden>
                 <MediaImage
                   src={a.src}
                   alt={a.alt_text}
@@ -43,7 +44,7 @@ export async function EntryCards({
                     : "El estudio"}
               </p>
               <h3 className="font-editorial">
-                <Link href={publicHref(c, e.path)}>
+                <Link href={publicHref(c, e.path)} prefetch={false}>
                   {e.title}
                   <ArrowUpRight aria-hidden size={18} />
                 </Link>

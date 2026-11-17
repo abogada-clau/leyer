@@ -3,8 +3,9 @@ import { resolveContext } from "./context";
 import { publicEntry, publicRedirect, sectionAvailable } from "./data";
 import { publicHref, sitePath } from "./paths";
 import { publicMissing } from "./missing";
+import { publicRouteHeader, signPublicRoute } from "./route-context";
 /** Resolve status before rendering, so a streamed metadata boundary cannot turn a 404 into HTTP 200. */
-export async function publicRouteRedirect(request: NextRequest) {
+export async function preparePublicRoute(request: NextRequest) {
   const path = request.nextUrl.pathname;
   if (path === "/site-unavailable") return publicMissing();
   if (
@@ -17,7 +18,8 @@ export async function publicRouteRedirect(request: NextRequest) {
   )
     return null;
   try {
-    const c = await resolveContext(request.headers.get("host") || "", path, "https:", "route");
+    const host = request.headers.get("host") || "";
+    const c = await resolveContext(host, path, "https:", "page");
     if (!c) return publicMissing(c);
     const redirect = await publicRedirect(c);
     if (redirect) {
@@ -31,7 +33,13 @@ export async function publicRouteRedirect(request: NextRequest) {
       url.search = request.nextUrl.search;
       return NextResponse.redirect(url, { status: 308 });
     }
-    if (await publicEntry(c)) return null;
+    // Share the live lookup with the renderer after checking the status and canonical path.
+    const headers = new Headers(request.headers);
+    headers.delete(publicRouteHeader);
+    const signedRoute = signPublicRoute(host, c);
+    if (signedRoute) headers.set(publicRouteHeader, signedRoute);
+    const next = () => NextResponse.next({ request: { headers } });
+    if (await publicEntry(c)) return next();
     if (!(await sectionAvailable(c))) return publicMissing(c);
     if (
       [
@@ -40,18 +48,18 @@ export async function publicRouteRedirect(request: NextRequest) {
         sitePath(c.site, "team_path", "/equipo"),
       ].includes(c.path)
     )
-      return null;
+      return next();
     if (
       c.path === sitePath(c.site, "contact_path", "/contacto") &&
       c.site.settings.contact_enabled === true
     )
-      return null;
+      return next();
     const parts = c.path.split("/");
     if (parts[1] === "autores" && parts.length === 3) {
-      return c.route?.author ? null : publicMissing(c);
+      return c.route?.author ? next() : publicMissing(c);
     }
     if (parts[1] === "taxonomias" && parts.length === 4) {
-      return c.route?.term ? null : publicMissing(c);
+      return c.route?.term ? next() : publicMissing(c);
     }
     return publicMissing(c);
   } catch {

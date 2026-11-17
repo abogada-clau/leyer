@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import Script from "next/script";
 import { ArrowUpRight, MessageCircle, Phone } from "lucide-react";
-import { ThemeSwitcher } from "@/components/theme-switcher";
+import logo from "@/public/images/albar-logo-hd.webp";
 import { publicLocales, type navigation } from "@/lib/public/data";
 import { googleTagManagerId } from "@/lib/public/google-tag-manager";
 import {
@@ -13,6 +13,7 @@ import {
 } from "@/lib/public/paths";
 import { PublicNavigation, type NavNode } from "./navigation";
 import { PublicExperience } from "./experience";
+import { PublicThemeSwitcher } from "./theme-switcher";
 import type { PublicContext, MenuItem } from "@/lib/public/types";
 export async function PublicFrame({
   context: c,
@@ -92,16 +93,15 @@ export async function PublicFrame({
         <div className="public-container public-header-inner">
           <Link
             href={publicHref(c, "/")}
+            prefetch={false}
             aria-label={`${name} · Inicio`}
             className="public-wordmark"
           >
             <Image
-              src="/images/albar-logo-hd.webp"
+              src={logo}
               alt={name}
-              width={2133}
-              height={451}
+              sizes="(max-width: 600px) min(176px, 38vw), (min-width: 941px) and (max-width: 1100px) 160px, 200px"
               className="public-logo"
-              unoptimized
               loading="eager"
             />
           </Link>
@@ -139,7 +139,7 @@ export async function PublicFrame({
                 ))}
               </nav>
             )}
-            <ThemeSwitcher />
+            <PublicThemeSwitcher />
             {whatsappHref ? (
               <a className="public-header-contact public-header-whatsapp" href={whatsappHref} aria-label="Consultar mi caso por WhatsApp" data-whatsapp-action>
                 <span className="relative inline-grid place-items-center" aria-hidden>
@@ -171,16 +171,15 @@ export async function PublicFrame({
             <div>
               <Link
                 href={publicHref(c, "/")}
+                prefetch={false}
                 aria-label={`${name} · Inicio`}
                 className="public-wordmark"
               >
                 <Image
-                  src="/images/albar-logo-hd.webp"
+                  src={logo}
                   alt={name}
-                  width={2133}
-                  height={451}
+                  sizes="200px"
                   className="public-logo"
-                  unoptimized
                 />
               </Link>
               {typeof c.site.settings.description === "string" && (
@@ -227,7 +226,7 @@ function FooterTree({ nodes }: { nodes: NavNode[] }) {
       {nodes.map((n) => (
         <li key={n.id}>
           {n.href ? (
-            <Link href={n.href}>{n.label}</Link>
+            <Link href={n.href} prefetch={false}>{n.label}</Link>
           ) : (
             <span>{n.label}</span>
           )}

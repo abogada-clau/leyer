@@ -34,7 +34,14 @@ export function PublicExperience({ children, contactHref, whatsappHref }: {
         animation.onfinish = () => animations.delete(animation);
       }
     }, { threshold: .08 });
-    container.querySelectorAll(".public-block:not(.block-hero) > .block-heading, .public-service-item, .public-steps li, .block-cta").forEach((element) => reveal.observe(element));
+    let observedReveals = false;
+    const observeReveals = () => {
+      if (motion.matches || observedReveals) return;
+      observedReveals = true;
+      container.querySelectorAll(".public-block:not(.block-hero) > .block-heading, .public-service-item, .public-steps li, .block-cta").forEach(element => reveal.observe(element));
+    };
+    const idle = window.requestIdleCallback?.(observeReveals, { timeout: 1000 });
+    const timer = idle === undefined ? window.setTimeout(observeReveals, 250) : undefined;
 
     const form = container.querySelector("[data-contact-form]");
     let formVisible = false;
@@ -54,14 +61,19 @@ export function PublicExperience({ children, contactHref, whatsappHref }: {
     updateDock();
     container.addEventListener("focusin", updateDock);
     container.addEventListener("focusout", updateDock);
-    const stopMotion = () => { if (motion.matches) animations.forEach((animation) => animation.cancel()); };
-    motion.addEventListener("change", stopMotion);
+    const updateMotion = () => {
+      if (motion.matches) animations.forEach(animation => animation.cancel());
+      else observeReveals();
+    };
+    motion.addEventListener("change", updateMotion);
     return () => {
       delete container.dataset.enhanced;
+      if (idle !== undefined) window.cancelIdleCallback(idle);
+      if (timer !== undefined) window.clearTimeout(timer);
       reveal.disconnect();
       contactObserver.disconnect();
       animations.forEach((animation) => animation.cancel());
-      motion.removeEventListener("change", stopMotion);
+      motion.removeEventListener("change", updateMotion);
       container.removeEventListener("focusin", updateDock);
       container.removeEventListener("focusout", updateDock);
     };
