@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
-import { MediaImage } from "@/components/ui/media-image";
+import { PublicMediaImage } from "./media-image";
 import { publicAssets } from "@/lib/public/data";
 import { publicHref } from "@/lib/public/paths";
 import type { PublicAsset, PublicContext, PublicEntry } from "@/lib/public/types";
@@ -15,6 +15,9 @@ export async function EntryCards({
 }) {
   const missing = entries.flatMap(({ cover_asset_id: id }) => id && !knownAssets?.has(id) ? [id] : []);
   const assets = new Map((await publicAssets(c.site.id, missing)).map(asset => [asset.id, asset]));
+  const sizes = entries.length === 1
+    ? "(max-width: 600px) calc(100vw - 40px), 720px"
+    : `(max-width: 600px) calc(100vw - 40px), (max-width: 820px) calc((100vw - 84px) / 2), ${entries.length === 2 ? 570 : 374}px`;
   return (
     <div className="public-entry-grid" data-count={entries.length}>
       {entries.map((e) => {
@@ -27,9 +30,9 @@ export async function EntryCards({
           >
             {a && a.mime_type.startsWith("image/") && (
               <Link href={publicHref(c, e.path)} prefetch={false} tabIndex={-1} aria-hidden>
-                <MediaImage
-                  src={a.src}
-                  alt={a.alt_text}
+                <PublicMediaImage
+                  asset={a}
+                  sizes={sizes}
                   width={a.width || 1200}
                   height={a.height || 800}
                 />

@@ -1,7 +1,6 @@
 import Link from "next/link";
-import { getImageProps } from "next/image";
 import { cache, Suspense, type ReactNode } from "react";
-import { MediaImage } from "@/components/ui/media-image";
+import { PublicMediaImage } from "./media-image";
 import { ContentBlocks } from "./content-blocks";
 import { ContactSection } from "./contact-section";
 import { EntryCards } from "./entry-cards";
@@ -33,6 +32,11 @@ export async function PublicDocumentView({
   const heroAssetIds = new Set(hero?.assets.map(asset => asset.asset_id));
   const homeNavigation = knownTemplate && doc.template_key === "home";
   const serviceFormsEnabled = serviceLayout && serviceForm;
+  const heroSizes = serviceLayout
+    ? serviceFormsEnabled
+      ? "(max-width: 740px) min(460px, calc(100vw - 88px)), (max-width: 980px) 360px, 320px"
+      : "(max-width: 740px) calc(100vw - 88px), 560px"
+    : `(max-width: 600px) calc(100vw - 40px), (max-width: 820px) calc(100vw - 64px), ${hero?.variant === "centered" ? 750 : 390}px`;
   const [overview, testimonialItems] = await Promise.all([
     homeNavigation ? Promise.all([
       { path: "/personas", label: "Todas las áreas para personas" },
@@ -116,10 +120,8 @@ export async function PublicDocumentView({
             </ul>
           )}
           {cover && cover.mime_type.startsWith("image/") && (
-            <MediaImage
-              src={cover.src}
-              alt={cover.alt_text}
-              width={cover.width || 1600}
+            <PublicMediaImage
+              asset={cover}
               height={cover.height || 900}
               loading="eager"
             />
@@ -157,23 +159,11 @@ export async function PublicDocumentView({
               ? focal
               : null;
           const hero = heroAssetIds.has(id);
-          const width = a.width || 1600;
-          const height = a.height || 1000;
-          const sizes = serviceFormsEnabled
-            ? "(max-width: 740px) min(460px, calc(100vw - 88px)), (max-width: 980px) 360px, 320px"
-            : "(max-width: 740px) calc(100vw - 88px), 560px";
-          const responsive = serviceLayout && hero && a.src.startsWith("https://") &&
-            /^image\/(webp|jpeg|png|avif)$/.test(a.mime_type)
-            ? getImageProps({ src: a.src, alt: alt || a.alt_text, width, height, sizes }).props
-            : null;
           return (
-            <MediaImage
-              src={a.src}
-              srcSet={responsive?.srcSet}
-              sizes={responsive?.sizes}
+            <PublicMediaImage
+              asset={a}
+              sizes={hero ? heroSizes : undefined}
               alt={alt || a.alt_text}
-              width={width}
-              height={height}
               imageClassName="public-block-image"
               loading={hero ? "eager" : "lazy"}
               fetchPriority={hero ? "high" : undefined}
