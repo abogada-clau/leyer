@@ -21,10 +21,14 @@ test("server reads, responsive navigation, catalogs and settings", async ({
   const errors: string[] = [];
   page.on("pageerror", (e) => errors.push(e.message));
   await login(page);
+  await expect(page).toHaveTitle("Administración · ALBAR Abogados");
+  await expect(page.getByRole("img", { name: "ALBAR Abogados", exact: true })).toBeVisible();
+  await expect(page.locator(".admin-sidebar")).not.toContainText(/\bleyer\b/i);
   for (const [route, title] of [
     ["content", "Contenidos"],
     ["media", "Biblioteca"],
     ["settings", "Configuración"],
+    ["users", "Usuarios"],
     ["catalogs", "Autores y taxonomías"],
     ["navigation", "Navegación"],
     ["routes", "Rutas y redirecciones"],

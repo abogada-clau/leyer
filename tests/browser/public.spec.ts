@@ -17,6 +17,21 @@ test("removed client routes return 404", async ({ page }) => {
   }
 });
 
+test("access, design previews and missing pages display only the ALBAR brand", async ({ page }) => {
+  const pages = [
+    ["/auth/login", "ALBAR Abogados"],
+    ["/auth/invite", "Invitación al panel · ALBAR Abogados"],
+    ["/design-system", "Sistema de diseño · ALBAR Abogados"],
+    ["/site-unavailable", "Página no disponible · ALBAR Abogados"],
+  ];
+  for (const [path, title] of pages) {
+    await page.goto(path);
+    await expect(page).toHaveTitle(title);
+    await expect(page.locator("body")).not.toContainText(/\bleyer\b/i);
+    await expect(page.locator('[aria-label*="leyer" i], [alt*="leyer" i], [title*="leyer" i]')).toHaveCount(0);
+  }
+});
+
 test("home hero is prioritized and visible before React hydration", async ({ browser, baseURL }) => {
   const context = await browser.newContext({ baseURL });
   try {

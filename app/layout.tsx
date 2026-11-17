@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Google_Sans } from "next/font/google";
 import { ThemeProvider } from "next-themes";
+import { brandName } from "@/lib/brand";
 import "./globals.css";
 import "./design-system.css";
 import "./public-site.css";
@@ -11,9 +12,8 @@ const defaultUrl = process.env.VERCEL_URL
 
 export const metadata: Metadata = {
   metadataBase: new URL(defaultUrl),
-  title: { default: "Leyer — Claridad por diseño", template: "%s · Leyer" },
-  description:
-    "Una base común para la presencia digital y la gestión de tu estudio jurídico.",
+  title: { default: brandName, template: `%s · ${brandName}` },
+  description: "Asesoría y representación legal para personas y empresas.",
 };
 
 const googleSans = Google_Sans({

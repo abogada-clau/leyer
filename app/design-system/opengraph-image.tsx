@@ -1,7 +1,8 @@
 import { ImageResponse } from "next/og";
+import { brandName } from "@/lib/brand";
 
 export const alt =
-  "Leyer — Claridad, por diseño. Sistema visual para estudios jurídicos.";
+  `Sistema de diseño de ${brandName}`;
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -27,7 +28,7 @@ export default function OpenGraphImage() {
             alignItems: "center",
           }}
         >
-          <span style={{ fontSize: 47, letterSpacing: -3 }}>leyer.</span>
+          <span style={{ fontSize: 38, letterSpacing: -1 }}>{brandName}</span>
           <span style={{ fontSize: 14, letterSpacing: 4, color: "#CAD8CD" }}>
             SISTEMA DE DISEÑO
           </span>

@@ -231,7 +231,7 @@ export function DesignSystemPreview() {
           >
             {menuOpen ? <X /> : <Menu />}
           </Button>
-          <a href="#overview" aria-label="Leyer, inicio del sistema de diseño">
+          <a href="#overview" aria-label="ALBAR Abogados, inicio del sistema de diseño">
             <Brand />
           </a>
           <span className="ds-brand-divider" />
@@ -271,7 +271,7 @@ export function DesignSystemPreview() {
         aria-label="Navegación del sistema de diseño"
       >
         <div className="ds-sidebar-top">
-          <span className="ds-sidebar-caption">LA BIBLIOTECA DE LEYER</span>
+          <span className="ds-sidebar-caption">BIBLIOTECA DE COMPONENTES</span>
           <p>
             Todo empieza con
             <br />
@@ -324,7 +324,7 @@ export function DesignSystemPreview() {
       </aside>
       <main id="main-content" className="ds-main">
         <div className="ds-breadcrumb">
-          <span>Leyer</span>
+          <span>ALBAR</span>
           <ChevronRight size={12} />
           <span>Sistema de diseño</span>
           <ChevronRight size={12} />
@@ -373,12 +373,12 @@ export function DesignSystemPreview() {
           </div>
           <div
             className="ds-brand-specimen"
-            aria-label="Muestra de la identidad de Leyer"
+            aria-label="Muestra de la identidad de ALBAR"
           >
             <div className="ds-specimen-cross top-left" />
             <div className="ds-specimen-cross bottom-right" />
             <div className="ds-brand-specimen-top">
-              <span>LEYER / VISUAL LANGUAGE</span>
+              <span>ALBAR / IDENTIDAD VISUAL</span>
               <span>01—26</span>
             </div>
             <span className="ds-big-aa">

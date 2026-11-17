@@ -181,7 +181,7 @@ export function ContentEditor({
     );
     const a = document.createElement("a");
     a.href = url;
-    a.download = `leyer-${entry.id}.json`;
+    a.download = `albar-${entry.id}.json`;
     a.click();
     URL.revokeObjectURL(url);
   }

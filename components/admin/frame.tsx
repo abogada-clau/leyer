@@ -19,6 +19,7 @@ import { AdminShell } from "@/components/patterns/admin-shell";
 import { Button } from "@/components/ui/button";
 import { ThemeSwitcher } from "@/components/theme-switcher";
 import { createClient } from "@/lib/supabase/client";
+import { brandName } from "@/lib/brand";
 import type { AdminContext } from "@/lib/admin/types";
 
 export function AdminFrame({
@@ -68,7 +69,7 @@ export function AdminFrame({
   return (
     <AdminShell
       production
-      siteName={site?.name || "ALBAR Abogados"}
+      siteName={site?.name || brandName}
       user={context.profile.display_name || "Mi cuenta"}
       navigation={navigation}
       activeSection={active}

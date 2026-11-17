@@ -1,38 +1,17 @@
+import Image from "next/image";
+import { brandName } from "@/lib/brand";
 import { cn } from "@/lib/utils";
 
-export function Brand({
-  className,
-  compact = false,
-}: {
-  className?: string;
-  compact?: boolean;
-}) {
+export function Brand() {
   return (
-    <span className={cn("leyer-brand", className)} aria-label="Leyer">
-      <svg
-        viewBox="0 0 30 34"
-        fill="none"
-        aria-hidden="true"
-        className="leyer-brand-mark"
-      >
-        <path
-          d="M15 2v28M6 31h18M5 10l10-5 10 5M5 10 1 21h8L5 10Zm20 0-4 11h8l-4-11Z"
-          stroke="currentColor"
-          strokeWidth="1.35"
-          strokeLinejoin="round"
-        />
-        <path
-          d="M1 21c0 2 2 3 4 3s4-1 4-3m12 0c0 2 2 3 4 3s4-1 4-3"
-          stroke="currentColor"
-          strokeWidth="1.35"
-        />
-      </svg>
-      {!compact && (
-        <span className="font-editorial text-[36px] leading-none tracking-[-.055em]">
-          leyer<span className="text-terracotta">.</span>
-        </span>
-      )}
-    </span>
+    <Image
+      className="albar-brand"
+      src="/images/albar-logo-hd.webp"
+      alt={brandName}
+      width={2133}
+      height={451}
+      unoptimized
+    />
   );
 }
 
@@ -48,7 +27,7 @@ export function LegalIllustration({ className }: { className?: string }) {
     >
       <defs>
         <pattern
-          id="leyer-grain"
+          id="legal-grain"
           width="6"
           height="6"
           patternUnits="userSpaceOnUse"
@@ -57,7 +36,7 @@ export function LegalIllustration({ className }: { className?: string }) {
         </pattern>
       </defs>
       <rect width="340" height="340" rx="4" fill="hsl(var(--brand-sand))" />
-      <rect width="340" height="340" fill="url(#leyer-grain)" />
+      <rect width="340" height="340" fill="url(#legal-grain)" />
       <path
         d="M75 290V140a95 95 0 0 1 190 0v150"
         fill="hsl(var(--brand-pine))"

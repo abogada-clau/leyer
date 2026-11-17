@@ -1,13 +1,14 @@
 /* Shared visual patterns and the public design-system gallery. */
-.leyer-brand {
-  display: inline-flex;
-  align-items: center;
-  gap: 9px;
-  color: inherit;
+.albar-brand {
+  display: block;
+  width: 166px;
+  max-width: 100%;
+  height: auto;
 }
-.leyer-brand-mark {
-  width: 25px;
-  height: 31px;
+.dark .albar-brand {
+  background: hsl(var(--brand-ivory));
+  padding: 5px 8px;
+  border-radius: var(--radius);
 }
 .eyebrow {
   display: flex;
@@ -861,13 +862,7 @@
   padding: 25px 0;
   gap: 15px;
 }
-.ds-footer .leyer-brand-mark {
-  width: 18px;
-  height: 24px;
-}
-.ds-footer .leyer-brand > span {
-  font-size: 29px;
-}
+.ds-footer .albar-brand { width: 128px; }
 .ds-footer > p {
   font-size: 10px;
   color: hsl(var(--muted-foreground));
@@ -999,24 +994,7 @@
   padding: 20px 32px;
   border-bottom: 1px solid hsl(var(--border));
 }
-.marketing-navbar > button:first-child {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-}
-.marketing-navbar > button:first-child > span:last-child {
-  font-size: 5px;
-  letter-spacing: 0.24em;
-  margin-left: 31px;
-  margin-top: 3px;
-}
-.marketing-navbar .leyer-brand-mark {
-  width: 19px;
-  height: 25px;
-}
-.marketing-navbar .leyer-brand > span {
-  font-size: 28px;
-}
+.marketing-navbar .albar-brand { width: 118px; }
 .marketing-navbar nav {
   display: flex;
   gap: 22px;
@@ -1115,13 +1093,7 @@
   justify-content: space-between;
   padding: 20px 32px;
 }
-.marketing-footer .leyer-brand > span {
-  font-size: 27px;
-}
-.marketing-footer .leyer-brand-mark {
-  width: 17px;
-  height: 22px;
-}
+.marketing-footer .albar-brand { width: 112px; }
 .marketing-footer > span {
   font-size: 8px;
   color: hsl(var(--muted-foreground));
@@ -1311,15 +1283,9 @@
   border-right: 1px solid hsl(var(--border));
   padding: 24px 12px 18px;
 }
-.admin-sidebar > .leyer-brand {
+.admin-sidebar > .albar-brand {
   margin: 0 10px;
-}
-.admin-sidebar .leyer-brand > span {
-  font-size: 30px;
-}
-.admin-sidebar .leyer-brand-mark {
-  width: 21px;
-  height: 28px;
+  max-width: calc(100% - 20px);
 }
 .admin-org {
   display: flex;
@@ -1858,6 +1824,9 @@
   .ds-topbar-brand {
     gap: 9px;
   }
+  .ds-topbar-brand .albar-brand {
+    width: clamp(88px, 29vw, 120px);
+  }
   .ds-brand-divider {
     margin-inline: 6px;
   }
@@ -2148,7 +2117,7 @@
     border-right: 0;
     border-bottom: 1px solid hsl(var(--border));
   }
-  .admin-sidebar > .leyer-brand,
+  .admin-sidebar > .albar-brand,
   .admin-org,
   .admin-nav-label,
   .admin-sidebar-bottom {

@@ -4,7 +4,7 @@ import { DesignSystemPreview } from "@/components/design-system/preview";
 export const metadata: Metadata = {
   title: "Sistema de diseño",
   description:
-    "Colores, tipografías y componentes compartidos para los sitios, contenidos y la administración de Leyer.",
+    "Colores, tipografías y componentes del sitio y del panel de ALBAR Abogados.",
 };
 
 export default function DesignSystemPage() {

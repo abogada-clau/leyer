@@ -35,7 +35,7 @@ export function AdminShell({
       <aside
         className="admin-sidebar"
         aria-label={
-          production ? "Administración de Leyer" : "Administración de ejemplo"
+          production ? `Administración de ${siteName}` : "Administración de ejemplo"
         }
       >
         <Brand />
@@ -77,7 +77,7 @@ export function AdminShell({
         </nav>
         <div className="admin-sidebar-bottom">
           {production ? (
-            "Administración · Leyer"
+            "Panel de administración"
           ) : (
             <>
               <span className="ds-online-dot" />

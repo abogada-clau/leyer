@@ -10,6 +10,7 @@
   height: 100dvh;
   overflow: auto;
 }
+.admin-production .admin-sidebar > .albar-brand { width: 190px; }
 .admin-production .admin-sidebar nav a {
   display: flex;
   align-items: center;
@@ -224,8 +225,8 @@
     padding: 16px;
     overflow: visible;
   }
-  .admin-production .admin-sidebar > .leyer-brand {
-    display: inline-flex;
+  .admin-production .admin-sidebar > .albar-brand {
+    display: block;
   }
   .admin-production   .admin-production .admin-sidebar nav {
     display: flex;

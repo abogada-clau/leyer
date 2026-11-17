@@ -151,7 +151,7 @@ export function ContextPreviews({
             <ShieldCheck size={11} />
             {world === "site"
               ? `estudio.ejemplo/${sitePage === "home" ? "" : sitePage === "landing" ? "personas/familia" : "blog"}`
-              : "leyer.ejemplo/admin"}
+              : "estudio.ejemplo/admin"}
           </p>
           <span>PREVIEW</span>
         </div>
@@ -204,7 +204,6 @@ function MarketingPreview({
           aria-label="Ir a la home del ejemplo"
         >
           <Brand />
-          <span>ESTUDIO JURÍDICO</span>
         </button>
         <nav aria-label="Sitio público de ejemplo">
           <button
@@ -417,7 +416,7 @@ function MarketingPreview({
                 >
                   <span className={`article-art ${className}`}>
                     <Icon size={60} strokeWidth={0.8} />
-                    <span>LEYER / JOURNAL</span>
+                    <span>ALBAR / ARTÍCULOS</span>
                   </span>
                   <span className="article-card-copy">
                     <small>
@@ -444,7 +443,7 @@ function MarketingPreview({
       </div>
       <div className="marketing-footer">
         <Brand />
-        <span>Estudio de ejemplo · Diseñado con Leyer</span>
+        <span>Sitio de ejemplo</span>
       </div>
       <Dialog
         open={consultation}
