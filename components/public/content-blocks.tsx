@@ -12,6 +12,7 @@ import { blockVariants } from "@/lib/content/block-options";
 import type { Block, Json } from "@/lib/admin/types";
 import type { Testimonial } from "@/lib/content/testimonials";
 import { Testimonials } from "./testimonials";
+import { isWhatsAppLink } from "@/lib/public/paths";
 const studioIcons = { "file-check": ShieldCheck, "heart-handshake": Award, "message-circle": MessageCircleMore };
 export const supportedBlocks = new Set([
   "hero",
@@ -111,12 +112,12 @@ export function ContentBlocks({
         const visual = d.visual === "none" ? null : d.visual === "brand" || d.visual === "requirements" ? <ServiceVisual variant={d.visual} /> : assets.length ? assets : null;
         const actionItems = Array.isArray(d.actions) ? d.actions.map(record) : [];
         const directWhatsApp = inlineContact && heroWhatsApp &&
-          !actionItems.some(action => link(action.href)?.startsWith("https://wa.me/")) ? heroWhatsApp : undefined;
+          !actionItems.some(action => isWhatsAppLink(link(action.href))) ? heroWhatsApp : undefined;
         const actions = actionItems.length > 0 || directWhatsApp ? (
           <div className="public-actions">
             {directWhatsApp && (
               <Button asChild size="lg" variant="outline">
-                <a href={directWhatsApp} data-action-style="secondary">
+                <a href={directWhatsApp} data-action-style="secondary" data-whatsapp-action>
                   <MessageCircle aria-hidden /> Hablar por WhatsApp
                 </a>
               </Button>
@@ -133,6 +134,7 @@ export function ContentBlocks({
                   <a
                     href={inlineContact && href === contactHref ? "#consulta" : href}
                     data-action-style={str(a.style) || (i ? "text" : "primary")}
+                    data-whatsapp-action={isWhatsAppLink(href) || undefined}
                   >
                     {a.icon && a.icon !== "none" && <ContentIcon name={a.icon} />}
                     {str(a.label)}

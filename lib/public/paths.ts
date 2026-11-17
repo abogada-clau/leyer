@@ -58,6 +58,10 @@ export function siteName(site: PublicSite) {
     : site.name;
 }
 
+export function isWhatsAppLink(href: string | null) {
+  return href !== null && /^https:\/\/(?:wa\.me|api\.whatsapp\.com|wa\.link)\/[^/\s]+/i.test(href);
+}
+
 export function publicContactLinks(site: PublicSite, items: MenuItem[]) {
   const email = typeof site.settings.email === "string" && /^[^\s@?#]+@[^\s@?#]+\.[^\s@?#]+$/.test(site.settings.email)
     ? site.settings.email : undefined;

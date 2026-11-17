@@ -73,7 +73,7 @@ export function PublicExperience({ children, contactHref, whatsappHref }: {
       {(whatsappHref || contactHref) && (
         <nav ref={dock} className="public-contact-dock" aria-label="Contacto rápido">
           {whatsappHref
-            ? <a href={whatsappHref} className="dock-primary"><MessageCircle size={19} aria-hidden /> Consultar mi caso por WhatsApp</a>
+            ? <a href={whatsappHref} className="dock-primary" data-whatsapp-action><MessageCircle size={19} aria-hidden /> Consultar mi caso por WhatsApp</a>
             : contactHref && <Link href={contactHref} className="dock-primary">Consultar mi caso <ArrowUpRight size={18} aria-hidden /></Link>}
         </nav>
       )}

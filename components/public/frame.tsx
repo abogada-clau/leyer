@@ -143,7 +143,7 @@ export async function PublicFrame({
             )}
             <ThemeSwitcher />
             {whatsapp ? (
-              <a className="public-header-contact public-header-whatsapp" href={whatsapp} aria-label="Consultar mi caso por WhatsApp">
+              <a className="public-header-contact public-header-whatsapp" href={whatsapp} aria-label="Consultar mi caso por WhatsApp" data-whatsapp-action>
                 <span className="relative inline-grid place-items-center" aria-hidden>
                   <MessageCircle size={20} />
                   <Phone size={8} strokeWidth={2.5} className="absolute" />

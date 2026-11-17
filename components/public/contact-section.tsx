@@ -17,7 +17,7 @@ export async function ContactChannels({ context: c }: { context: PublicContext }
   return (
     <nav className="public-contact-channels" aria-label="Vías de contacto">
       {channels.map(({ title, href, detail, Icon }) => href && (
-        <a key={title} href={href}>
+        <a key={title} href={href} data-whatsapp-action={href === whatsapp || undefined}>
           <Icon size={22} aria-hidden />
           <span><strong>{title}</strong><small>{detail}</small></span>
           <ArrowUpRight size={17} aria-hidden />

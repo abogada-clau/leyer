@@ -17,6 +17,7 @@ test("service detail: reference structure, responsive reading, working FAQs and 
     await expect(article.getByRole("heading", { level: 1 })).toHaveText("Divorcio de mutuo acuerdo");
     await expect(article.locator(".block-hero .block-visual img")).toBeVisible();
     await expect(article.locator(".block-hero .contact-hero-card").getByRole("button", { name: "Continuar por WhatsApp" })).toBeVisible();
+    await expect(article.locator(".block-hero .contact-hero-card").getByRole("button", { name: "Continuar por WhatsApp" })).toHaveCSS("background-color", "rgb(37, 211, 102)");
     await expect(article.locator(".service-benefit")).toHaveCount(4);
     await expect(article.locator(".service-requirements li")).toHaveCount(5);
     await expect(article.locator(".public-steps li")).toHaveCount(4);

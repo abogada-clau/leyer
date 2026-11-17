@@ -57,8 +57,8 @@ export function ContactForm({
         {messageHref ? (
           <>
             <p>Envía el mensaje en WhatsApp para iniciar la conversación.</p>
-            <Button asChild variant="terracotta" className="mt-4">
-              <a href={messageHref}><MessageCircle aria-hidden /> Abrir WhatsApp</a>
+            <Button asChild className="mt-4">
+              <a href={messageHref} data-whatsapp-action><MessageCircle aria-hidden /> Abrir WhatsApp</a>
             </Button>
           </>
         ) : (
@@ -216,7 +216,7 @@ export function ContactForm({
           )}
         </div>
         <div className="contact-form-wide contact-form-submit">
-          <Button type="submit" size="lg" variant={whatsappHref ? "terracotta" : "default"} disabled={pending}>
+          <Button type="submit" size="lg" data-whatsapp-action={whatsappHref ? true : undefined} disabled={pending}>
             {pending ? "Preparando consulta…" : whatsappHref ? "Continuar por WhatsApp" : "Enviar consulta"}
             {whatsappHref ? <MessageCircle aria-hidden /> : <ArrowUpRight aria-hidden />}
           </Button>
