@@ -24,6 +24,7 @@ test("server reads, responsive navigation, catalogs and settings", async ({
   await expect(page).toHaveTitle("Administración · ALBAR Abogados");
   await expect(page.getByRole("img", { name: "ALBAR Abogados", exact: true })).toBeVisible();
   await expect(page.locator(".admin-sidebar")).not.toContainText(/\bleyer\b/i);
+  await expect(page.locator(".admin-sidebar").getByText("Administración", { exact: true })).toHaveCount(0);
   for (const [route, title] of [
     ["content", "Contenidos"],
     ["media", "Biblioteca"],

@@ -39,15 +39,6 @@ export function AdminShell({
         }
       >
         <Brand />
-        {(
-          <div className="admin-org">
-            <span>E</span>
-            <div>
-              <strong>{siteName}</strong>
-              <small>Administración</small>
-            </div>
-          </div>
-        )}
         <p className="admin-nav-label">TU ESTUDIO</p>
         <nav>
           {navigation.map(({ id, label, icon: Icon, href }) =>
