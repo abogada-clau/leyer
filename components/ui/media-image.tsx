@@ -53,6 +53,8 @@ export function ImagePlaceholder({
 
 export type MediaImageProps = {
   src?: string;
+  srcSet?: string;
+  sizes?: string;
   alt: string;
   width?: number;
   height?: number;
@@ -72,6 +74,8 @@ export function MediaImage(props: MediaImageProps) {
 
 function ImageContent({
   src,
+  srcSet,
+  sizes,
   alt,
   width = 1600,
   height = 900,
@@ -85,10 +89,13 @@ function ImageContent({
 }: MediaImageProps) {
   const [state, setState] = useState<"loading" | "ready" | "error">("loading");
   const [attempt, setAttempt] = useState(0);
+  const [useOriginal, setUseOriginal] = useState(false);
   const imageRef = useCallback((node: HTMLImageElement | null) => {
     // A cached image can finish before hydration attaches its load listener.
-    if (node?.complete && node.naturalWidth > 0) setState("ready");
-  }, []);
+    if (!node?.complete) return;
+    if (node.naturalWidth > 0) setState("ready");
+    else if (node.currentSrc && srcSet && !useOriginal) setUseOriginal(true);
+  }, [srcSet, useOriginal]);
   return (
     <div
       className={cn(
@@ -114,11 +121,13 @@ function ImageContent({
         </div>
       )}
       {src && state !== "error" && (
-        // Already optimized WebP, blob previews and signed URLs must not be recompressed by next/image.
+        // The original URL also supports blob previews and URLs without a responsive variant.
         // eslint-disable-next-line @next/next/no-img-element
         <img
           ref={imageRef}
           key={attempt}
+          sizes={useOriginal ? undefined : sizes}
+          srcSet={useOriginal ? undefined : srcSet}
           src={src}
           alt={alt}
           width={width}
@@ -133,7 +142,11 @@ function ImageContent({
             imageClassName,
           )}
           onLoad={() => setState("ready")}
-          onError={() => setState("error")}
+          onError={() => {
+            if (srcSet && !useOriginal) {
+              setUseOriginal(true);
+            } else setState("error");
+          }}
         />
       )}
     </div>

@@ -3,31 +3,29 @@ import Image from "next/image";
 import Script from "next/script";
 import { ArrowUpRight, MessageCircle, Phone } from "lucide-react";
 import { ThemeSwitcher } from "@/components/theme-switcher";
-import { navigation, publicLocales, sectionAvailable } from "@/lib/public/data";
+import { publicLocales, type navigation } from "@/lib/public/data";
 import { googleTagManagerId } from "@/lib/public/google-tag-manager";
 import {
   publicHref,
   contentLink,
   publicContactLinks,
   siteName,
-  sitePath,
 } from "@/lib/public/paths";
 import { PublicNavigation, type NavNode } from "./navigation";
 import { PublicExperience } from "./experience";
 import type { PublicContext, MenuItem } from "@/lib/public/types";
 export async function PublicFrame({
   context: c,
+  nav,
+  contactHref,
   children,
 }: {
   context: PublicContext;
+  nav: Awaited<ReturnType<typeof navigation>>;
+  contactHref?: string;
   children: React.ReactNode;
 }) {
-  const contact = sitePath(c.site, "contact_path", "/contacto");
-  const [nav, locales, contactReady] = await Promise.all([
-    navigation(c.site.id, c.locale),
-    c.route?.locales || publicLocales(c.site.id),
-    c.site.settings.contact_enabled === true ? sectionAvailable(c, contact) : false,
-  ]);
+  const locales = c.route?.locales || await publicLocales(c.site.id);
   const { email, whatsapp } = publicContactLinks(c.site, nav.items);
   const whatsappHref = contentLink(c, whatsapp) ?? undefined;
   function tree(
@@ -65,7 +63,6 @@ export async function PublicFrame({
     : [];
   const name = siteName(c.site);
   const googleId = googleTagManagerId(c.site.settings.google_tag_manager_id);
-  const contactHref = contactReady ? publicHref(c, contact) : undefined;
   const address = typeof c.site.settings.address === "string" ? c.site.settings.address.trim() : "";
   return (
     <div className={`public-site${whatsapp || contactHref ? " has-contact-dock" : ""}`}>

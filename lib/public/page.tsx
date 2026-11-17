@@ -11,9 +11,10 @@ import {
   authorData,
   sectionAvailable,
   publicAssets,
+  navigation,
 } from "./data";
 import { publicClient, result } from "./db";
-import { sitePath, publicHref, siteName, publicPathValid } from "./paths";
+import { sitePath, publicHref, siteName, publicPathValid, publicContactLinks } from "./paths";
 import { PublicFrame } from "@/components/public/frame";
 import { PublicDocumentView } from "@/components/public/document";
 import { PublicListing } from "@/components/public/listing";
@@ -172,11 +173,28 @@ export async function publicPage(path: string, search: Search = {}) {
   if (redirectRule) permanentRedirect(publicHref(c, redirectRule.path));
   // 301 vs 308 are preserved by Proxy before streaming (see lib/public/redirects.ts).
   if (!entry && !(await sectionAvailable(c))) notFound();
+  const contactPath = sitePath(c.site, "contact_path", "/contacto");
+  const contactEnabled = c.site.settings.contact_enabled === true;
+  const contactPage = entry
+    ? entry.template_key === "contact" && entry.template_version === 1
+    : c.path === contactPath;
+  const serviceForm = contactEnabled && entry?.template_key === "service-landing" &&
+    (entry.template_version === 1 || entry.template_version === 2) &&
+    c.site.settings.contact_on_landings === true;
+  const [snapshot, nav, contactReady, privacy] = await Promise.all([
+    entry ? snapshotData(c.site.id, entry.id, entry.revision_id) : null,
+    navigation(c.site.id, c.locale),
+    contactEnabled ? sectionAvailable(c, contactPath) : false,
+    (contactEnabled && contactPage) || serviceForm
+      ? publicEntry(c, sitePath(c.site, "privacy_path", "/privacidad"))
+      : null,
+  ]);
+  const { email: contactEmail, whatsapp } = publicContactLinks(c.site, nav.items);
+  const contactHref = contactReady ? publicHref(c, contactPath) : undefined;
+
   let body: React.ReactNode;
   let title = entry?.title || c.route?.author?.display_name || c.route?.term?.name || virtualTitle(c);
-
   if (entry) {
-    const snapshot = await snapshotData(c.site.id, entry.id, entry.revision_id);
     if (!snapshot) notFound();
     const extras =
       entry.template_version === 1 && entry.template_key === "blog-index" ? (
@@ -187,16 +205,23 @@ export async function publicPage(path: string, search: Search = {}) {
       ) : entry.template_version === 1 && entry.template_key === "team" ? (
         <Team context={c} authors={await authorData(c)} />
       ) : null;
-    const contact = entry.template_version === 1 && entry.template_key === "contact";
     body = (
       <>
         {c.path !== "/" && crumb(c, entry.title)}
-        <PublicDocumentView data={snapshot} context={c} beforeBlocks={contact ? (
-          <>
-            <ContactChannels context={c} />
-            <ContactSection context={c} entryId={entry.id} />
-          </>
-        ) : undefined} />
+        <PublicDocumentView
+          data={snapshot}
+          context={c}
+          contactHref={contactHref}
+          whatsapp={whatsapp}
+          privacy={privacy}
+          serviceForm={serviceForm}
+          beforeBlocks={contactPage ? (
+            <>
+              <ContactChannels context={c} email={contactEmail} whatsapp={whatsapp} />
+              <ContactSection context={c} entryId={entry.id} privacy={privacy} whatsapp={whatsapp} />
+            </>
+          ) : undefined}
+        />
         {extras}
       </>
     );
@@ -229,14 +254,13 @@ export async function publicPage(path: string, search: Search = {}) {
       </>
     );
   } else if (
-    c.path === sitePath(c.site, "contact_path", "/contacto") &&
-    c.site.settings.contact_enabled === true
+    contactPage && contactEnabled
   )
     body = (
       <>
         <PublicHeading title={title} eyebrow="Estamos para escucharte" />
-        <ContactChannels context={c} />
-        <ContactSection context={c} />
+        <ContactChannels context={c} email={contactEmail} whatsapp={whatsapp} />
+        <ContactSection context={c} privacy={privacy} whatsapp={whatsapp} />
       </>
     );
   else if (c.path.startsWith("/autores/") && c.path.split("/").length === 3) {
@@ -315,7 +339,7 @@ export async function publicPage(path: string, search: Search = {}) {
       mainEntityOfPage: canonicalUrl(c),
     });
   return (
-    <PublicFrame context={c}>
+    <PublicFrame context={c} nav={nav} contactHref={contactHref}>
       <div className="public-container">{body}</div>
       {jsonLd.map((item, i) => (
         <script

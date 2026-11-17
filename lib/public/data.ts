@@ -68,7 +68,7 @@ export async function snapshotData(
   entryId: string,
   revisionId: string,
 ): Promise<RenderData | null> {
-  "use cache";
+  "use cache: remote";
   cacheLife("hours");
   cacheTag(`cms-site:${siteId}`, `cms-entry:${entryId}`);
   const db = publicClient();
@@ -145,7 +145,7 @@ export async function relatedEntries(c: PublicContext, ids: string[]) {
   return ids.flatMap(id => byId.has(id) ? [byId.get(id)!] : []);
 }
 export async function navigation(siteId: string, locale: string) {
-  "use cache";
+  "use cache: remote";
   cacheLife("hours");
   cacheTag(`cms-site:${siteId}`);
   const db = publicClient();

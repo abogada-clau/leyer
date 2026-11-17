@@ -1,14 +1,15 @@
 import { Alert } from "@/components/ui/alert";
 import { ArrowUpRight, FileText, Mail, MessageCircle } from "lucide-react";
-import { navigation, publicEntry } from "@/lib/public/data";
 import { formConfigured, issueFormProof } from "@/lib/public/contact-security";
-import { contentLink, publicContactLinks, publicHref, sitePath } from "@/lib/public/paths";
+import { contentLink, publicHref, sitePath } from "@/lib/public/paths";
 import { ContactForm } from "./contact-form";
-import type { PublicContext } from "@/lib/public/types";
+import type { PublicContext, PublicEntry } from "@/lib/public/types";
 
-export async function ContactChannels({ context: c }: { context: PublicContext }) {
-  const { items } = await navigation(c.site.id, c.locale);
-  const { email, whatsapp } = publicContactLinks(c.site, items);
+export function ContactChannels({ context: c, email, whatsapp }: {
+  context: PublicContext;
+  email?: string;
+  whatsapp?: string;
+}) {
   const whatsappHref = contentLink(c, whatsapp);
   const channels = [
     { title: "WhatsApp", href: whatsappHref, detail: "Inicia una conversación", Icon: MessageCircle },
@@ -28,33 +29,26 @@ export async function ContactChannels({ context: c }: { context: PublicContext }
   );
 }
 
-export async function ContactSection({
+export function ContactSection({
   context: c,
+  privacy,
+  whatsapp,
   entryId = null,
   subject = "",
-  preview = false,
   compact = false,
 }: {
   context: PublicContext;
+  privacy: PublicEntry | null;
+  whatsapp?: string;
   entryId?: string | null;
   subject?: string;
-  preview?: boolean;
   compact?: boolean;
 }) {
   if (c.site.settings.contact_enabled !== true) return null;
   const privacyPath = sitePath(c.site, "privacy_path", "/privacidad");
-  const [privacy, { items }] = await Promise.all([
-    publicEntry(c, privacyPath),
-    navigation(c.site.id, c.locale),
-  ]);
-  const { whatsapp } = publicContactLinks(c.site, items);
   const form = !privacy || !formConfigured(c) ? (
     <Alert title="El formulario todavía no está disponible">
       Puedes utilizar los datos de contacto publicados al pie de la página.
-    </Alert>
-  ) : preview ? (
-    <Alert title="Vista previa del formulario">
-      El envío se habilita en la página pública con una política de privacidad publicada.
     </Alert>
   ) : (
     <ContactForm
