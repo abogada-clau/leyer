@@ -200,19 +200,19 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
           "schema_version": 1,
           "variant": "image-right",
           "data": {
-            "eyebrow": "Servicios legales",
-            "heading": "Asesoría legal para personas y empresas",
-            "body": "Divorcios, pensión de alimentos, deudas, asuntos laborales y asesoría empresarial. Encuentra el servicio que corresponde a tu situación.",
+            "eyebrow": "Ley de Quiebras (Ley 20.720)",
+            "heading": "¿Tus deudas se acumulan y las cobranzas no paran?",
+            "body": "Revisemos tu situación y las alternativas que ofrece la Ley 20.720.",
             "actions": [
               {
-                "label": "Explorar servicios",
-                "href": "#areas-de-practica",
+                "label": "Hablar con una abogada",
+                "href": "https://wa.me/56926044751",
                 "style": "primary",
-                "icon": "arrow-right"
+                "icon": "message-circle"
               },
               {
-                "label": "Consultar mi caso",
-                "href": "/contacto",
+                "label": "Ver otras áreas",
+                "href": "#areas-de-practica",
                 "style": "text",
                 "icon": "none"
               }

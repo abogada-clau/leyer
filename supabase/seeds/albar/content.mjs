@@ -52,9 +52,9 @@ const service=(key,title,excerpt,heading,body,options={})=>editableService({
 const page=(key,title,excerpt,blocks,options={})=>({key,kind:options.kind||'page',path:paths[key],parent:options.parent||null,title,excerpt,template_key:options.template_key||'default',terms:options.terms||[],relations:options.relations||[],captures:options.captures||[],strategy:options.strategy||{job:excerpt,attention:title,interest:'Ordenar las preguntas del visitante.',desire:'Entender el siguiente paso.',action:'Solicitar evaluación.'},blocks});
 export const entries = [
  page('home','Asesoría jurídica para decidir con claridad','ALBAR Abogados: orientación y representación para personas y empresas, con una estrategia construida a partir de los hechos de cada caso.',[
-  hero('Servicios legales','Asesoría legal para personas y empresas','Divorcios, pensión de alimentos, deudas, asuntos laborales y asesoría empresarial. Encuentra el servicio que corresponde a tu situación.','claudia-perfil',[
-   {label:'Explorar servicios',href:'#areas-de-practica',style:'primary',icon:'arrow-right'},
-   {label:'Consultar mi caso',href:paths.contacto,style:'text',icon:'none'},
+  hero('Ley de Quiebras (Ley 20.720)','¿Tus deudas se acumulan y las cobranzas no paran?','Revisemos tu situación y las alternativas que ofrece la Ley 20.720.','claudia-perfil',[
+   {label:'Hablar con una abogada',href:'https://wa.me/56926044751',style:'primary',icon:'message-circle'},
+   {label:'Ver otras áreas',href:'#areas-de-practica',style:'text',icon:'none'},
   ]),
   cards('¿Qué necesitas resolver hoy?',[
    ['Mis deudas superan mi capacidad de pago','Comprende qué alternativas pueden corresponderte y qué efectos tendrían sobre tus bienes y obligaciones.','liquidacion_persona'],
