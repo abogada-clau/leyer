@@ -202,7 +202,7 @@ insert into albar_seed_source values ($ALBAR_PAYLOAD${
           "data": {
             "eyebrow": "Ley de Quiebras (Ley 20.720)",
             "heading": "¿Tus deudas se acumulan y las cobranzas no paran?",
-            "body": "Revisemos tu situación y las alternativas que ofrece la Ley 20.720.",
+            "body": "Durante 2026, más de 30 procedimientos de liquidación voluntaria que hemos tramitado ya cuentan con resolución de liquidación bajo la Ley 20.720. Cuéntanos tu situación: revisaremos tu caso y te explicaremos las alternativas disponibles.",
             "actions": [
               {
                 "label": "Hablar con una abogada",
