@@ -4,12 +4,14 @@ test.beforeEach(async ({ baseURL }) => {
   test.skip(!baseURL || !["localhost", "127.0.0.1"].includes(new URL(baseURL).hostname), "Las pruebas de recuperación usan sesiones locales de prueba.");
 });
 
-test("password recovery requests the password callback on the current origin", async ({ page, baseURL }) => {
+test("password recovery requests a link usable on another browser", async ({ page, baseURL }) => {
   let requestedRedirect: string | null = null;
   let requestedEmail: string | undefined;
+  let codeChallenge: string | null | undefined;
   await page.route("**/auth/v1/recover**", async route => {
     requestedRedirect = new URL(route.request().url()).searchParams.get("redirect_to");
     requestedEmail = route.request().postDataJSON().email;
+    codeChallenge = route.request().postDataJSON().code_challenge;
     await route.fulfill({ status: 200, json: {} });
   });
   await page.goto("/auth/forgot-password");
@@ -17,7 +19,8 @@ test("password recovery requests the password callback on the current origin", a
   await page.getByRole("button", { name: "Solicitar recuperación", exact: true }).click();
   await expect(page.getByText("Solicitud de recuperación aceptada", { exact: true })).toBeVisible();
   expect(requestedEmail).toBe("recovery@example.test");
-  expect(requestedRedirect).toBe(`${baseURL}/auth/callback?next=/auth/update-password`);
+  expect(requestedRedirect).toBe(`${baseURL}/auth/update-password`);
+  expect(codeChallenge).toBeNull();
 });
 
 test("a missing recovery session keeps password updates disabled", async ({ page }) => {
