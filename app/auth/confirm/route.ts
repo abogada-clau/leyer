@@ -7,7 +7,8 @@ export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const token_hash = searchParams.get("token_hash");
   const type = searchParams.get("type") as EmailOtpType | null;
-  const requestedNext = searchParams.get("next") ?? "/admin";
+  const requestedNext = searchParams.get("next") ??
+    (type === "recovery" ? "/auth/update-password" : "/admin");
   const next =
     requestedNext.startsWith("/") &&
     !requestedNext.startsWith("//") &&
@@ -27,7 +28,7 @@ export async function GET(request: NextRequest) {
       redirect(next);
     } else {
       // redirect the user to an error page with some instructions
-      redirect(`/auth/error?error=${error?.message}`);
+      redirect(`/auth/error?error=${encodeURIComponent(error.message)}`);
     }
   }
 

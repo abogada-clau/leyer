@@ -25,15 +25,17 @@ export function UpdatePasswordForm({
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const [checkingLink, setCheckingLink] = useState(true);
+  const [canChangePassword, setCanChangePassword] = useState(false);
   useEffect(() => {
     let active = true;
     async function acceptLink() {
       const hash = new URLSearchParams(window.location.hash.slice(1));
       const accessToken = hash.get("access_token");
       const refreshToken = hash.get("refresh_token");
+      const params = new URLSearchParams(window.location.search);
       try {
-        if (hash.get("error_description"))
-          throw new Error(hash.get("error_description")!);
+        if (hash.has("error") || hash.has("error_description") || params.has("error"))
+          throw new Error("El enlace de recuperación no es válido o ha vencido. Solicita uno nuevo.");
         if (accessToken && refreshToken) {
           // Auth admin invitations use implicit callback tokens by default, while
           // the SSR client uses PKCE. Install the verified session explicitly.
@@ -49,13 +51,16 @@ export function UpdatePasswordForm({
             window.location.pathname + window.location.search,
           );
         }
-        const params = new URLSearchParams(window.location.search);
         if (params.has("code")) {
           window.location.replace(
             `/auth/callback?code=${encodeURIComponent(params.get("code")!)}&next=/auth/update-password`,
           );
           return;
         }
+        const { data, error } = await createClient().auth.getUser();
+        if (error || !data.user)
+          throw new Error("Abre el enlace de recuperación de tu correo o solicita uno nuevo para cambiar la contraseña.");
+        if (active) setCanChangePassword(true);
       } catch (e) {
         if (active)
           setError(
@@ -77,6 +82,7 @@ export function UpdatePasswordForm({
     e: React.SubmitEvent<HTMLFormElement>,
   ) => {
     e.preventDefault();
+    if (!canChangePassword || isLoading) return;
     const supabase = createClient();
     setIsLoading(true);
     setError(null);
@@ -136,7 +142,7 @@ export function UpdatePasswordForm({
               <Button
                 type="submit"
                 className="w-full"
-                disabled={isLoading || checkingLink}
+                disabled={isLoading || checkingLink || !canChangePassword}
               >
                 {checkingLink
                   ? "Comprobando enlace…"
